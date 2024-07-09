@@ -1,0 +1,47 @@
+[
+    {
+      "name": "John Hossain",
+      "role": "CEO & Founder",
+      "image": "https://ecomall-be87.kxcdn.com/ecomall/wp-content/uploads/2021/04/team-1.jpg",
+      "social": {
+        "facebook": "https://www.facebook.com/johnhossain",
+        "twitter": "https://www.twitter.com/johnhossain",
+        "instagram": "https://www.instagram.com/johnhossain",
+        "pinterest": "https://www.pinterest.com/johnhossain"
+      }
+    },
+    {
+      "name": "Jane Doe",
+      "role": "Chief Marketing Officer",
+      "image": "https://ecomall-be87.kxcdn.com/ecomall/wp-content/uploads/2021/04/team-2.jpg",
+      "social": {
+        "facebook": "https://www.facebook.com/janedoe",
+        "twitter": "https://www.twitter.com/janedoe",
+        "instagram": "https://www.instagram.com/janedoe",
+        "pinterest": "https://www.pinterest.com/janedoe"
+      }
+    },
+    {
+      "name": "Michael Smith",
+      "role": "Chief Technology Officer",
+      "image": "https://ecomall-be87.kxcdn.com/ecomall/wp-content/uploads/2021/04/team-3.jpg",
+      "social": {
+        "facebook": "https://www.facebook.com/michaelsmith",
+        "twitter": "https://www.twitter.com/michaelsmith",
+        "instagram": "https://www.instagram.com/michaelsmith",
+        "pinterest": "https://www.pinterest.com/michaelsmith"
+      }
+    },
+    {
+      "name": "Emily Davis",
+      "role": "Chief Financial Officer",
+      "image": "https://ecomall-be87.kxcdn.com/ecomall/wp-content/uploads/2021/04/team-4.jpg",
+      "social": {
+        "facebook": "https://www.facebook.com/emilydavis",
+        "twitter": "https://www.twitter.com/emilydavis",
+        "instagram": "https://www.instagram.com/emilydavis",
+        "pinterest": "https://www.pinterest.com/emilydavis"
+      }
+    }
+  ]
+  
