@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import React from "react";
 import { FaHeart } from "react-icons/fa";
 import Cart from "@/pages/Cart/Cart";
+import Wishlist from "@/pages/Wishlist/Wishlist";
 
 const Navbar = () => {
   const productsCategories = [
@@ -100,8 +101,8 @@ const Navbar = () => {
           
           <Cart></Cart>
         </Link>
-        <Link to="/wishlist" className="text-gray-700 hover:text-gray-900">
-          <FaHeart size={20} />
+        <Link to="" className="text-gray-700 hover:text-gray-900">
+         <Wishlist/>
         </Link>
       </div>
     </header>
