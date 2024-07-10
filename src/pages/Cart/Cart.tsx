@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaCircleMinus, FaCirclePlus, FaX } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const [items, setItems] = useState([
@@ -20,7 +21,7 @@ const Cart = () => {
     { id: 3, name: "Camping Stove", price: 29.99, quantity: 1 },
   ]);
 
-  const updateQuantity = (id, adjustment) => {
+  const updateQuantity = (id: number, adjustment:number) => {
     setItems(items.map(item => 
       item.id === id 
         ? { ...item, quantity: Math.max(1, item.quantity + adjustment) }
@@ -97,7 +98,9 @@ const Cart = () => {
           </div>
         </div>
         <DrawerFooter className="p-4">
+          <Link to="/checkout">
           <Button className="w-full">Proceed to Checkout</Button>
+          </Link>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

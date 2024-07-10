@@ -97,12 +97,11 @@ const Navbar = () => {
         </NavigationMenuList>
       </NavigationMenu>
       <div className="flex items-center space-x-4">
-        <Link to="" className="text-gray-700 hover:text-gray-900">
-          
-          <Cart></Cart>
+        <Link to="" className="text-primary hover:text-gray-900 ">
+          <Cart />
         </Link>
-        <Link to="" className="text-gray-700 hover:text-gray-900">
-         <Wishlist/>
+        <Link to="" className="text-primary hover:text-gray-900">
+          <Wishlist />
         </Link>
       </div>
     </header>

@@ -1,5 +1,5 @@
 import Quotes_Slider from "@/components/Quotes_Slider/Quotes_Slider";
-import Team_Member_Card from "@/components/Team_Member_Card";
+import Team_Member_Card from "@/components/cards/Team_Member_Card";
 import Count_Up from "@/lib/Count_Up";
 import { useEffect, useState } from "react";
 

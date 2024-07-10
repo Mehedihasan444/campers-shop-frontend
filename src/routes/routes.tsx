@@ -1,5 +1,6 @@
 import App from "@/App";
 import About from "@/pages/About/About";
+import Checkout from "@/pages/Checkout/Checkout";
 import Home from "@/pages/Home/Home";
 import Products from "@/pages/Products/Products";
 import ProductsDetails from "@/pages/Products/ProductsDetails";
@@ -18,7 +19,7 @@ const routes = createBrowserRouter([{
             element: <Products/>
         },
         {
-            path: "products/:id",
+            path: "product-detail/:id",
             element: <ProductsDetails/>
         },
         {
@@ -26,7 +27,9 @@ const routes = createBrowserRouter([{
             element: <About/>
         },
     ]
-  }, {
-}])
+  },   {
+    path: "/checkout",
+    element: <Checkout/>
+},])
 
 export default routes;

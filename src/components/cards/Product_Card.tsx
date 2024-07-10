@@ -1,91 +1,26 @@
-import { useEffect, useRef, useState } from "react";
 import { LuPackage } from "react-icons/lu";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import RatingStar from "@/lib/RatingStar";
-// import { toast } from "react-toastify";
+import { TProduct } from "@/interface/TProduct";
 
 
 
-const Product_Card = ({ product }:Record<string,unknown>) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const intervalIdRef = useRef(null);
-const navigate =useNavigate()
-  useEffect(() => {
-    // return () => {
-    //   clearInterval(intervalIdRef.current); // Clean up interval on component unmount
-    // };
-  }, []);
-
-  const handleMouseEnter = () => {
-    // clearInterval(intervalIdRef.current); // Clear any existing interval
-    // intervalIdRef.current = setInterval(() => {
-    //   setCurrentImageIndex(
-    //     (prevIndex) => (prevIndex + 1) % product?.images.length
-    //   );
-    // }, 1000); // Change image every second (1000 milliseconds)
-  };
-
-  const handleMouseLeave = () => {
-    // clearInterval(intervalIdRef.current);
-    // setCurrentImageIndex(0); // Reset to the first image when mouse leaves
-  };
-
-  const handleWishlist = async () => {
-    // if (user) {
-    //    const res = await axiosPublic.post(`/wishlist`, {
-    //   ...product,
-    //   email: user?.email,
-    // });
-    // if (res.data.insertedId) {
-    //   console.log(res.data);
-    //   toast.success(`${product?.name} has been added to the wishlist.`);
-    //   DataFetch();
-    // } else if (res.data.message) {
-    //   toast.error(`${product?.name} ${res.data.message} in the wishlist`);
-    // }
-    // }else{
-    //   navigate('/system-access/signIn')
-    // }
-   
-  };
-  const handleCart = async () => {
-
-// if (user) {
-//    const res = await axiosPublic.post(`/cart`, {
-//       ...product,
-//       email: user?.email,
-//     });
-//     if (res.data.insertedId) {
-//       console.log(res.data);
-//       toast.success(`${product?.name} has been added to the cart.`);
-//       DataFetch();
-//     } else if (res.data.message) {
-//       toast.error(`${product?.name} ${res.data.message} in the cart`);
-//     }
-// }
-// else{
-//   navigate('/system-access/signIn')
-// }
-
-   
-  };
+const Product_Card = ({ product }:TProduct) => {
+  const handleWishlist = async () => {};
+  const handleCart = async () => {};
 
   return (
     <div
-      className="bg-white rounded-lg overflow-hidden transform transition-transform duration-300 ease-in-out hover:scale-105"
+      className="bg-white rounded-lg overflow-hidden "
       style={{ boxShadow: "rgba(0, 0, 0, 0.2) 0px 1px 3px 0px" }}
     >
       <div className="relative group ">
-        <div
-          className="w-full h-40  flex justify-center items-center   bg-cover bg-center transition-transform duration-300 transform group-hover:scale-105"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
+        <div className="w-full h-40  flex justify-center items-center   bg-cover bg-center ">
           <img
-            className="w-44 h-44 object-contain"
-            src={product?.images[currentImageIndex]}
+            className="w-44 h-44 object-contain transform transition-transform duration-300 ease-in-out hover:scale-105"
+            src={product?.image}
             alt=""
           />
         </div>
@@ -95,13 +30,13 @@ const navigate =useNavigate()
         <div className="absolute top-2 right-2 space-y-3">
           <div
             onClick={() => handleWishlist()}
-            className="cursor-pointer hover:text-red-500 hover:shadow-md  bg-slate-100 hover:bg-slate-200 p-2 rounded-full text-xl"
+            className="cursor-pointer hover:text-primary hover:shadow-md  bg-slate-100 hover:bg-slate-200 p-2 rounded-full text-xl"
           >
             <IoMdHeartEmpty />
           </div>
           <div
             onClick={() => handleCart()}
-            className="cursor-pointer hover:text-red-500 hover:shadow-md  bg-slate-100 hover:bg-slate-200 p-2 rounded-full text-xl"
+            className="cursor-pointer hover:text-primary hover:shadow-md  bg-slate-100 hover:bg-slate-200 p-2 rounded-full text-xl"
           >
             <IoCartOutline />
           </div>
