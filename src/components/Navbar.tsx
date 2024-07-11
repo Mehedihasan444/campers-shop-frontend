@@ -10,7 +10,7 @@ import {
 } from "./ui/navigation-menu";
 import { Link } from "react-router-dom";
 import React from "react";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaSearch } from "react-icons/fa";
 import Cart from "@/pages/Cart/Cart";
 import Wishlist from "@/pages/Wishlist/Wishlist";
 
@@ -97,6 +97,10 @@ const Navbar = () => {
         </NavigationMenuList>
       </NavigationMenu>
       <div className="flex items-center space-x-4">
+      <div className="relative ">
+        <input type="text" placeholder="Search here..." className="w-80 px-3 py-2 rounded-2xl border-2 border-primary"/>
+        <FaSearch className="cursor-pointer text-primary text-xl absolute top-3 right-3 "/>
+      </div>
         <Link to="" className="text-primary hover:text-gray-900 ">
           <Cart />
         </Link>
