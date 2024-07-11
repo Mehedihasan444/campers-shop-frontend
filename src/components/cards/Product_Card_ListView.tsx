@@ -3,19 +3,13 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import RatingStar from "@/lib/RatingStar";
+import { useAddWishlistProductMutation } from "@/redux/api/api";
+import { useAppDispatch } from "@/redux/hook";
+import { addProduct } from "@/redux/features/cartSlice";
 
-
-const Product_Card_ListView = ({ product }:Record<string,unknown>) => {
-
-
-  // wishlist function
-  const handleWishlist = async () => {
-   
-  };
-  // adding products to cart collection on-click
-  const handleCart = async () => {
-   
-  };
+const Product_Card_ListView = ({ product }) => {
+  const [addWishlistProduct] = useAddWishlistProductMutation();
+  const dispatch = useAppDispatch();
 
   return (
     <div
@@ -23,25 +17,18 @@ const Product_Card_ListView = ({ product }:Record<string,unknown>) => {
       style={{ boxShadow: "rgba(0, 0, 0, 0.2) 0px 1px 3px 0px" }}
     >
       <div className="md:relative group flex-1">
-        <div
-          className="w-full md:h-[280px] flex justify-center items-center    bg-cover bg-center transition-transform duration-300 transform group-hover:scale-105"
-        
-        >
-          <img
-            className=" md:h-[280px]"
-            src={product?.images}
-            alt=""
-          />
+        <div className="w-full md:h-[280px] flex justify-center items-center    bg-cover bg-center transition-transform duration-300 transform group-hover:scale-105">
+          <img className=" md:h-[280px]" src={product?.image} alt="" />
         </div>
         <div className="md:absolute top-2 right-2 space-y-3">
           <div
-            onClick={() => handleWishlist()}
+            onClick={() => addWishlistProduct(product._id)}
             className="cursor-pointer hover:text-red-500 hover:shadow-md  bg-slate-100 hover:bg-slate-200 p-2 rounded-full text-2xl"
           >
             <IoMdHeartEmpty />
           </div>
           <div
-            onClick={() => handleCart()}
+            onClick={() => dispatch(addProduct(product))}
             className="cursor-pointer hover:text-red-500 hover:shadow-md  bg-slate-100 hover:bg-slate-200 p-2 rounded-full text-2xl"
           >
             <IoCartOutline />
@@ -60,12 +47,18 @@ const Product_Card_ListView = ({ product }:Record<string,unknown>) => {
             </div>
           </div>
           <div className="mb-2">
-            <span className="text-gray-300 line-through">
-              ${product?.price}
-            </span>
-            <span className="ml-2 text-red-500">
-              ${product?.discount_price}
-            </span>
+            {product?.discount_price ? (
+              <>
+                <span className="text-gray-300 line-through">
+                  ${product?.price}
+                </span>
+                <span className=" text-green-700">
+                  ${product?.discount_price}
+                </span>
+              </>
+            ) : (
+              <span className=" text-green-700">${product?.price}</span>
+            )}
           </div>
           <p
             className={`flex items-center gap-2 ${

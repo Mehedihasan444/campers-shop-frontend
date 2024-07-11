@@ -10,11 +10,8 @@ import Product_Card from "@/components/cards/Product_Card";
 const Products = () => {
   const [viewType, setViewType] = useState("grid");
   const [queries, setQueries] = useState({
-    searchTerm: '',
     limit: 10,
     page: 1,
-    sortBy: '',
-    filter: '',
   });
 
   const { data = { data: [], count: 0 }, isLoading } = useGetProductsQuery(queries);

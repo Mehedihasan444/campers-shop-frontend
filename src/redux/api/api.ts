@@ -1,16 +1,17 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { toast } from "sonner";
 
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/v1",
   }),
-  tagTypes: ["product"],
+  tagTypes: ["product","wishlist"],
 
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: ({ searchTerm = "", limit = 10, page = 1, sortBy = "", filter = "" }) => {
-        const params = new URLSearchParams({ searchTerm, limit, page, sortBy, filter });
+      query: (queries) => {
+        const params = new URLSearchParams({ ...queries });
         return {
           url: `/products?${params.toString()}`,
           method: "GET",
@@ -48,6 +49,32 @@ export const baseApi = createApi({
       }),
       invalidatesTags: ["product"],
     }),
+    // Add more endpoints here...
+    getWishlistProducts: builder.query({
+      query: () => ({
+          url: "/wishlist",
+          method: "GET",
+        })
+      ,
+      providesTags: ["wishlist"],
+    }),
+    addWishlistProduct: builder.mutation({
+      query: (productId) => {
+        toast.success("Product added successfully in the cart");
+        return {
+        url: `/wishlist`,
+        method: "POST",
+        body:  {product:productId} ,
+      }},
+      invalidatesTags: ["wishlist"],
+    }),
+    deleteWishlistProduct: builder.mutation({
+      query: (id) => ({
+        url: `/wishlist/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["wishlist"],
+    }),
   }),
 });
 
@@ -57,4 +84,7 @@ export const {
   useGetProductQuery,
   useDeleteProductMutation,
   useUpdateProductMutation,
+  useAddWishlistProductMutation,
+  useDeleteWishlistProductMutation,
+  useGetWishlistProductsQuery
 } = baseApi;

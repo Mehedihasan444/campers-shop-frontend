@@ -3,13 +3,17 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import RatingStar from "@/lib/RatingStar";
-import { TProduct } from "@/interface/TProduct";
+import { useAddWishlistProductMutation } from "@/redux/api/api";
+import { useAppDispatch } from "@/redux/hook";
+import { addProduct } from "@/redux/features/cartSlice";
 
 
 
-const Product_Card = ({ product }:TProduct) => {
-  const handleWishlist = async () => {};
-  const handleCart = async () => {};
+const Product_Card = ({ product }) => {
+  const [addWishlistProduct]=useAddWishlistProductMutation()
+  const dispatch = useAppDispatch();
+
+ 
 
   return (
     <div
@@ -29,13 +33,13 @@ const Product_Card = ({ product }:TProduct) => {
         </div> */}
         <div className="absolute top-2 right-2 space-y-3">
           <div
-            onClick={() => handleWishlist()}
+            onClick={() => addWishlistProduct(product._id)}
             className="cursor-pointer hover:text-primary hover:shadow-md  bg-slate-100 hover:bg-slate-200 p-2 rounded-full text-xl"
           >
             <IoMdHeartEmpty />
           </div>
           <div
-            onClick={() => handleCart()}
+            onClick={() => dispatch(addProduct(product))}
             className="cursor-pointer hover:text-primary hover:shadow-md  bg-slate-100 hover:bg-slate-200 p-2 rounded-full text-xl"
           >
             <IoCartOutline />
@@ -54,12 +58,20 @@ const Product_Card = ({ product }:TProduct) => {
             </div>
           </div>
           <div className="mb-2">
-            <span className="text-gray-300 line-through">
+            {
+              product?.discount_price?<>
+              <span className="text-gray-300 line-through">
               ${product?.price}
             </span>
-            <span className="ml-2 text-red-500">
+            <span className="ml-2 text-green-700">
               ${product?.discount_price}
             </span>
+              </>:<span className="ml-2 text-green-700">
+              ${product?.price}
+            </span>
+            }
+            
+            
           </div>
           <p
             className={`flex items-center gap-2 ${
