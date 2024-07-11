@@ -6,23 +6,20 @@ import { useGetProductsQuery } from "@/redux/api/api";
 import Product_Card_ListView from "@/components/cards/Product_Card_ListView";
 import { TProduct } from "@/interface/TProduct";
 import Product_Card from "@/components/cards/Product_Card";
+import { Button } from "@/components/ui/button";
 
 const Products = () => {
   const [viewType, setViewType] = useState("grid");
-  const [queries, setQueries] = useState({
-    limit: 10,
-    page: 1,
-  });
+  const [queries, setQueries] = useState({ page: 1, limit: 10 });
+  const { data = {}, isLoading } = useGetProductsQuery(queries);
+  const { data: products } = data;
+  const [count, setCount] = useState(products?.length ||0);
 
-  const { data = { data: [], count: 0 }, isLoading } = useGetProductsQuery(queries);
-  const { data: products, count } = data;
-
-  const [currentPage, setCurrentPage] = useState(queries.page);
-  const [itemsPerPage, setItemsPerPage] = useState(queries.limit);
+  const [currentPage, setCurrentPage] = useState(queries.page || 1);
+  const [itemsPerPage, setItemsPerPage] = useState(queries.limit || 10);
   const [numberOfPages, setNumberOfPages] = useState(1);
 
   useEffect(() => {
-
     if (count > 0) {
       const numOfPages = Math.ceil(count / itemsPerPage);
       setNumberOfPages(numOfPages);
@@ -72,7 +69,7 @@ const Products = () => {
         <div className="flex justify-between items-center md:gap-10">
           <div className="flex justify-between items-center gap-5 mb-4 flex-1">
             <h2 className="text-lg font-semibold">
-              Products Found: {count}
+              Products Found: {products?.length || 0}
             </h2>
           </div>
           <div className="flex justify-between items-center gap-5 flex-1">
@@ -80,8 +77,8 @@ const Products = () => {
               <h3 className="text-sm font-semibold mb-2">Sort By:</h3>
               <div>
                 <select
-                  value={queries.sortBy}
-                  onChange={(e) => setQueries({ ...queries, sortBy: e.target.value })}
+                  value={queries.sort}
+                  onChange={(e) => setQueries({ ...queries, sort: e.target.value })}
                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                 >
                   <option value="" disabled selected>
@@ -89,7 +86,7 @@ const Products = () => {
                   </option>
                   <option value="desc">High To Low</option>
                   <option value="asc">Low To High</option>
-                  <option value="rating">Rating</option>
+                  {/* <option value="rating">Rating</option> */}
                 </select>
               </div>
             </div>
@@ -128,31 +125,31 @@ const Products = () => {
         </div>
         <div className="flex justify-center sm:justify-end items-center pr-5">
           <div className="py-10 text-center">
-            <button
-              className="btn btn-accent mr-3 text-white"
+            <Button
+              className=" mr-3 text-green-300"
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
             >
               «
-            </button>
-            {pages.map((page) => (
-              <button
-                className={`mr-2 btn btn-accent ${currentPage === page + 1 ? "btn-disabled" : "text-white"}`}
+            </Button>
+            {pages?.map((page) => (
+              <Button
+                className={`mr-2  ${currentPage === page + 1 ? "btn-disabled" : "text-green-500"}`}
                 key={page}
                 onClick={() => handlePageClick(page)}
               >
                 {page + 1}
-              </button>
+              </Button>
             ))}
-            <button
-              className="btn btn-accent text-white"
+            <Button
+              className=" text-green-300"
               onClick={handleNextPage}
               disabled={currentPage === numberOfPages}
             >
               »
-            </button>
+            </Button>
             <select
-              value={queries.limit}
+              value={itemsPerPage}
               onChange={handleItemsPerPage}
               className="rounded-md ml-2 select input-bordered"
             >

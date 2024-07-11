@@ -1,0 +1,21 @@
+
+ .image-gallery-slide{
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+  }
+  .custom-image-gallery .image-gallery-slide img {
+    object-fit: contain; /* Ensure the images fit within the specified dimensions */
+    height: 100%; /* Ensure the image takes up the full height */
+    width: auto; /* Maintain aspect ratio */
+  }
+  
+  .image-gallery-thumbnail-image{
+    width: 30px !important;
+    height: auto !important;
+  }
+  .image-gallery-thumbnail {
+    width: auto !important;
+  }
+  

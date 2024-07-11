@@ -6,12 +6,20 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/v1",
   }),
-  tagTypes: ["product","wishlist"],
+  tagTypes: ["product", "wishlist"],
 
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: (queries) => {
-        const params = new URLSearchParams({ ...queries });
+        const cleanedQueries = Object.entries(queries).reduce((acc, [key, value]) => {
+          if (value !== '') {
+            acc[key] = value;
+          }
+          return acc;
+        }, {});
+    
+        const params = new URLSearchParams(cleanedQueries);
+    
         return {
           url: `/products?${params.toString()}`,
           method: "GET",
@@ -19,6 +27,7 @@ export const baseApi = createApi({
       },
       providesTags: ["product"],
     }),
+    
     getProduct: builder.query({
       query: (id) => ({
         url: `/products/${id}`,
@@ -52,20 +61,20 @@ export const baseApi = createApi({
     // Add more endpoints here...
     getWishlistProducts: builder.query({
       query: () => ({
-          url: "/wishlist",
-          method: "GET",
-        })
-      ,
+        url: "/wishlist",
+        method: "GET",
+      }),
       providesTags: ["wishlist"],
     }),
     addWishlistProduct: builder.mutation({
       query: (productId) => {
         toast.success("Product added successfully in the cart");
         return {
-        url: `/wishlist`,
-        method: "POST",
-        body:  {product:productId} ,
-      }},
+          url: `/wishlist`,
+          method: "POST",
+          body: { product: productId },
+        };
+      },
       invalidatesTags: ["wishlist"],
     }),
     deleteWishlistProduct: builder.mutation({
@@ -86,5 +95,5 @@ export const {
   useUpdateProductMutation,
   useAddWishlistProductMutation,
   useDeleteWishlistProductMutation,
-  useGetWishlistProductsQuery
+  useGetWishlistProductsQuery,
 } = baseApi;

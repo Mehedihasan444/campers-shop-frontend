@@ -1,5 +1,5 @@
-import { useGetProductsQuery } from "@/redux/api/api";
 import PriceSlider from "./PriceSlider";
+import { useEffect, useState } from "react";
 
 interface TQueries {
   searchTerm?: string;
@@ -17,12 +17,17 @@ interface TProps {
 }
 
 const ProductsPageSideBer = ({ queries, setQueries }: TProps) => {
-  const { data = {} } = useGetProductsQuery(queries);
-  const { data: products = [] } = data;
+  const [items, setItems] = useState([]);
 
+  useEffect(() => {
+    fetch("http://localhost:5000/api/v1/products")
+      .then((response) => response.json())
+      .then((data) => setItems(data?.data));
+  }, []);
+  
   // Get unique categories and brands
-  const categories = Array.from(new Set(products.map(product => product.category)));
-  const brands = Array.from(new Set(products.map(product => product.brand)));
+  const categories = Array.from(new Set(items?.map((product) => product?.category)));
+  const brands = Array.from(new Set(items?.map((product) => product?.brand)));
 
   return (
     <>
@@ -31,12 +36,12 @@ const ProductsPageSideBer = ({ queries, setQueries }: TProps) => {
       <div className="mb-4">
         <h3 className="text-sm font-semibold mb-2">Category</h3>
         <select
-          value={queries.category || ''}
+          value={queries.category || ""}
           onChange={(e) => setQueries({ ...queries, category: e.target.value })}
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
         >
           <option value="">All Categories</option>
-          {categories.map((category) => (
+          {categories?.map((category) => (
             <option value={category} key={category}>
               {category}
             </option>
@@ -48,12 +53,12 @@ const ProductsPageSideBer = ({ queries, setQueries }: TProps) => {
       <div className="mb-4">
         <h3 className="text-sm font-semibold mb-2">Brand</h3>
         <select
-          value={queries.brand || ''}
+          value={queries.brand || ""}
           onChange={(e) => setQueries({ ...queries, brand: e.target.value })}
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
         >
           <option value="">All Brands</option>
-          {brands.map((brand) => (
+          {brands?.map((brand) => (
             <option value={brand} key={brand}>
               {brand}
             </option>
