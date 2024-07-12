@@ -2,6 +2,7 @@ import Quotes_Slider from "@/components/Quotes_Slider/Quotes_Slider";
 import Team_Member_Card from "@/components/cards/Team_Member_Card";
 import Count_Up from "@/lib/Count_Up";
 import { useEffect, useState } from "react";
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 const About = () => {
   const [data, setData] = useState([]);
@@ -105,6 +106,47 @@ const About = () => {
 
       <div className="my-20 max-w-7xl mx-auto bg-slate-400 p-5">
         <Quotes_Slider />
+      </div>
+
+      <div className="max-w-7xl mx-auto my-20 p-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="flex items-center ">
+          <div className="">
+        <h2 className="text-4xl font-bold mb-5  md:text-left">Contact Information</h2>
+            <p className="text-lg"><strong>Phone:</strong> (123) 456-7890</p>
+            <p className="text-lg"><strong>Email:</strong> info@campersshop.com</p>
+            <p className="text-lg"><strong>Address:</strong> 123 Camping Lane, Adventure City, CA 12345</p>
+          </div>
+          </div>
+          <div className="flex justify-center md:justify-end">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509688!2d144.95373631590433!3d-37.816279742021734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577a2b2b92f1e0b!2s123+Camping+Lane%2C+Adventure+City%2C+CA+12345!5e0!3m2!1sen!2sus!4v1620204388547!5m2!1sen!2sus"
+              width="600"
+              height="400"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto my-20 p-5">
+        <h2 className="text-4xl font-bold mb-5 text-center md:text-left">Follow Us</h2>
+        <div className="flex justify-center md:justify-start space-x-4">
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+            <FaFacebook className="h-8 w-8 text-primary hover:text-green-600" />
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+            <FaTwitter className="h-8 w-8 text-primary hover:text-green-600" />
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+            <FaInstagram className="h-8 w-8 text-primary hover:text-green-600" />
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+            <FaLinkedin className="h-8 w-8 text-primary hover:text-green-600" />
+          </a>
+        </div>
       </div>
     </div>
   );

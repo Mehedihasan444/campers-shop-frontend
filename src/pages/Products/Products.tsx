@@ -12,8 +12,7 @@ const Products = () => {
   const [viewType, setViewType] = useState("grid");
   const [queries, setQueries] = useState({ page: 1, limit: 10 });
   const { data = {}, isLoading } = useGetProductsQuery(queries);
-  const { data: products } = data;
-  const [count, setCount] = useState(products?.length ||0);
+  const { totalCount:count,products} = data.data|| {};
 
   const [currentPage, setCurrentPage] = useState(queries.page || 1);
   const [itemsPerPage, setItemsPerPage] = useState(queries.limit || 10);
@@ -111,7 +110,7 @@ const Products = () => {
          
         </div>
         <hr />
-        <div className={`mt-2 grid h-[50vh] ${viewType === "grid" ? "grid-cols-1  md:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"} gap-3 mb-8`}>
+        <div className={`mt-2 grid min-h-[50vh] ${viewType === "grid" ? "grid-cols-1  md:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"} gap-3 mb-8`}>
           {isLoading ? (
             <div className="flex justify-center items-center w-[85vw]">
               <h1 className="text-4xl font-semibold"> Loading...</h1>

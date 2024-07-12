@@ -36,29 +36,35 @@ export const baseApi = createApi({
       providesTags: ["product"],
     }),
     addProduct: builder.mutation({
-      query: (data) => ({
+      query: (data) => {
+        toast.success("Product added successfully");
+        return {
         url: "/products",
         method: "POST",
         body: data,
-      }),
+      }},
       invalidatesTags: ["product"],
     }),
     updateProduct: builder.mutation({
-      query: ({ id, data }) => ({
+      query: ({ id, data }) => {
+        toast.success("Product updated successfully");
+        return {
         url: `/products/${id}`,
         method: "PUT",
         body: data,
-      }),
+      }},
       invalidatesTags: ["product"],
     }),
     deleteProduct: builder.mutation({
-      query: (id) => ({
+      query: (id) => {
+        toast.success("Product deleted successfully");
+        return {
         url: `/products/${id}`,
         method: "DELETE",
-      }),
+      }},
       invalidatesTags: ["product"],
     }),
-    // Add more endpoints here...
+//  wishlist
     getWishlistProducts: builder.query({
       query: () => ({
         url: "/wishlist",

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const BestSelling = () => {
   const { data = {}, isLoading } = useGetProductsQuery({});
-  const { data: products } = data;
+  const { totalCount, products } = data.data|| {}
 
   return (
     <section className="bg-white py-5 sm:py-20 max-w-7xl mx-auto px-5 sm:px-0">
@@ -30,7 +30,9 @@ const BestSelling = () => {
         ) : (
           products?.slice(0,5).map((product) => (
             <Product_Card key={product._id} product={product}/>
-          )) ) }
+          )) )
+          
+          }
 
 </div>
 

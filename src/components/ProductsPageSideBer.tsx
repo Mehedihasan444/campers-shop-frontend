@@ -18,11 +18,16 @@ interface TProps {
 
 const ProductsPageSideBer = ({ queries, setQueries }: TProps) => {
   const [items, setItems] = useState([]);
+  const [priceRange, setPriceRange] = useState([50]);
+
+  const handlePriceChange = (value) => {
+    setPriceRange(value);
+  };
 
   useEffect(() => {
     fetch("http://localhost:5000/api/v1/products")
       .then((response) => response.json())
-      .then((data) => setItems(data?.data));
+      .then((data) => setItems(data?.data?.products));
   }, []);
   
   // Get unique categories and brands
@@ -67,10 +72,15 @@ const ProductsPageSideBer = ({ queries, setQueries }: TProps) => {
       </div>
 
       {/* Price range filter */}
+      <div>
       <div className="mb-4">
         <h3 className="text-sm font-semibold mb-2">Price Range</h3>
-        <PriceSlider />
+        <PriceSlider value={priceRange} onChange={handlePriceChange} />
       </div>
+      <div>
+        <p>Selected price range: 1 - {priceRange.join(" - ")}</p>
+      </div>
+    </div>
     </>
   );
 };

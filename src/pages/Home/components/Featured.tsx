@@ -1,11 +1,13 @@
 import Product_Card from "@/components/cards/Product_Card";
 import { Button } from "@/components/ui/button";
 import { useGetProductsQuery } from "@/redux/api/api";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Featured = () => {
-  const { data = {}, isLoading } = useGetProductsQuery({});
-  const { data: products } = data;
+  const [queries, setQueries] = useState({ page: 1, limit: 10 });
+  const { data={}, isLoading } = useGetProductsQuery(queries);
+  const { totalCount, products } = data.data|| {}
 
   return (
     <section className="bg-white py-20 max-w-7xl mx-auto px-5 sm:px-0">

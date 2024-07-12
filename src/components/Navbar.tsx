@@ -134,6 +134,21 @@ const Navbar = () => {
               </NavigationMenuLink>
             </NavLink>
           </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavLink to="/product-management"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "text-primary "
+                : ""
+            }
+            >
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Product Management
+              </NavigationMenuLink>
+            </NavLink>
+          </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
       <div className="flex items-center space-x-4">

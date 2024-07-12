@@ -14,8 +14,85 @@ import Feedback_Card from "@/components/cards/Feedback_Card";
 // import Feedback_Card from "../Cards/Feedback_Card";
 
 const Customers_Feedback = () => {
+
+const feedbacks=[  {
+  _id: 1,
+  rating: {
+    rating: 4.8,
+    total_rating: 112,
+  },
+  feedback: "Excellent Product!",
+  feedback_description:
+    "The tent is amazing! It withstood heavy rain and wind without any issues. The setup was easy, and it's very spacious. Highly recommended for all camping enthusiasts!",
+  author: {
+    img: "https://example.com/customer-image1.jpg",
+    name: "John Doe",
+    product_purchased: "4-Person Camping Tent",
+  },
+},
+{
+  _id: 2,
+  rating: {
+    rating: 4.6,
+    total_rating: 89,
+  },
+  feedback: "Very Comfortable",
+  feedback_description:
+    "The sleeping bag is very comfortable and kept me warm throughout the night. It's lightweight and easy to pack.",
+  author: {
+    img: "https://example.com/customer-image2.jpg",
+    name: "Jane Smith",
+    product_purchased: "Down Sleeping Bag",
+  },
+},
+{
+  _id: 3,
+  rating: {
+    rating: 4.9,
+    total_rating: 145,
+  },
+  feedback: "Sturdy and Reliable",
+  feedback_description:
+    "This camping stove is very sturdy and reliable. It boils water quickly and is very easy to use.",
+  author: {
+    img: "https://example.com/customer-image3.jpg",
+    name: "Alice Johnson",
+    product_purchased: "Portable Camping Stove",
+  },
+},
+{
+  _id: 4,
+  rating: {
+    rating: 4.7,
+    total_rating: 102,
+  },
+  feedback: "Great for Hiking",
+  feedback_description:
+    "These hiking boots are fantastic. They provide great support and traction on rough terrain. Highly recommend for hikers.",
+  author: {
+    img: "https://example.com/customer-image4.jpg",
+    name: "Michael Brown",
+    product_purchased: "Waterproof Hiking Boots",
+  },
+},
+{
+  _id: 5,
+  rating: {
+    rating: 4.5,
+    total_rating: 76,
+  },
+  feedback: "Very Bright",
+  feedback_description:
+    "The lantern is very bright and lasts a long time on a single charge. It's perfect for camping trips.",
+  author: {
+    img: "https://example.com/customer-image5.jpg",
+    name: "Emily Davis",
+    product_purchased: "LED Camping Lantern",
+  },
+},]
+
   return (
-    <div className="relative my-20 py-10 max-w-7xl mx-auto px-5 sm:px-0">
+    <div className="relative my-10 py-10 max-w-7xl mx-auto px-5 sm:px-0">
       <div className="absolute z-50 top-0 w-full">
         <h1 className=" text-2xl sm:text-3xl font-bold">Feedback From Customers</h1>
       </div>
@@ -38,46 +115,15 @@ const Customers_Feedback = () => {
         }}
         className="mySwiper "
       >
-        <SwiperSlide>
-          <div className="px-5">
-            <Feedback_Card />
+        {
+          feedbacks?.map((feedback)=> <SwiperSlide key={feedback._id}>
+          <div className="px-5" >
+            <Feedback_Card feedback={feedback}/>
           </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="px-5">
-            <Feedback_Card />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="px-5">
-            <Feedback_Card />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="px-5">
-            <Feedback_Card />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="px-5">
-            <Feedback_Card />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="px-5">
-            <Feedback_Card />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="px-5">
-            <Feedback_Card />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="mx-10">
-            <Feedback_Card />
-          </div>
-        </SwiperSlide>
+        </SwiperSlide>)
+        }
+       
+ 
       </Swiper>
     </div>
   );

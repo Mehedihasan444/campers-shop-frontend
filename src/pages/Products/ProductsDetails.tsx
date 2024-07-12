@@ -22,7 +22,7 @@ const ProductsDetails = () => {
 
   const navigate = useNavigate();
   const { data: productDetails } = data;
-  const { data: products } = allProducts;
+  const {totalCount, products } = allProducts.data|| {};
   return (
     <section className="mt-10">
       {isLoading ? (
