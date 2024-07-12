@@ -39,9 +39,9 @@ const FAQ = () => {
     },
   ];
   return (
-    <div className="max-w-7xl mx-auto h-[70vh]">
-      <h2 className="text-3xl font-bold mb-4">FAQ</h2>
-      <div className="flex justify-between gap-5">
+    <div className="max-w-7xl mx-auto sm:h-[70vh] px-5 sm:px-0">
+      <h2 className="text-2xl sm:text-3xl font-bold mb-4">FAQ</h2>
+      <div className="sm:flex justify-between sm:gap-5 ">
         <div className="flex-1">
 
         <Accordion type="single" collapsible className="">
@@ -74,7 +74,7 @@ const FAQ = () => {
         </AccordionItem> */}
         </Accordion>
         </div>
-        <div className="flex-1 flex items-center justify-center ">
+        <div className="flex-1 sm:flex items-center justify-center hidden ">
           <img
             src="https://i.ibb.co/3dCf7SF/FAQs-rafiki.png"
             alt=""

@@ -8,14 +8,14 @@ const BestSelling = () => {
   const { data: products } = data;
 
   return (
-    <section className="bg-white py-20 max-w-7xl mx-auto ">
-              <div className="text-center mt-4 flex justify-between items-center ">
-      <h2 className="text-3xl font-bold mb-4">
-        Best Selling/Recommended Products
+    <section className="bg-white py-5 sm:py-20 max-w-7xl mx-auto px-5 sm:px-0">
+              <div className=" mt-4 flex justify-between items-center ">
+      <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+        Best Selling Products
       </h2>
         <Link
           to="/products"
-          className=" text-white font-bold py-2 px-4 rounded"
+          className=" text-white font-bold sm:py-2 px-4 rounded"
         >
             <Button className="bg-primary hover:bg-black">View More</Button>
           

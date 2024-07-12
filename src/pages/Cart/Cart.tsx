@@ -48,7 +48,7 @@ const Cart = () => {
           <FaShoppingCart size={20} />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-screen w-[40vw] flex flex-col">
+      <DrawerContent className="h-screen lg:w-[40vw] flex flex-col">
         <div className="flex flex-col flex-grow">
           <DrawerHeader className="flex justify-between items-start">
             <div>

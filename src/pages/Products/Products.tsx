@@ -61,19 +61,19 @@ const Products = () => {
   };
 
   return (
-    <div className="flex min-h-screen">
-      <div className="w-1/4 p-4 bg-gray-100 hidden md:flex-col md:flex">
+    <div className="flex ">
+      <div className="sm:w-1/4 p-4 bg-gray-100 hidden md:flex-col md:flex m-5 rounded-md">
         <ProductsPageSideBer queries={queries} setQueries={setQueries} />
       </div>
-      <div className="md:w-3/4 p-4 mx-5 md:mx-0">
+      <div className="w-full md:w-3/4 p-4 mx-5 md:mx-0 relative">
         <div className="flex justify-between items-center md:gap-10">
-          <div className="flex justify-between items-center gap-5 mb-4 flex-1">
-            <h2 className="text-lg font-semibold">
+           <div className="hidden lg:flex justify-between items-center gap-5 mb-4 flex-1">
+            <h2 className="text-sm ">
               Products Found: {products?.length || 0}
             </h2>
           </div>
           <div className="flex justify-between items-center gap-5 flex-1">
-            <div className="flex justify-between items-center gap-5 mb-4">
+            <div className="sm:flex justify-between items-center gap-5 mb-4">
               <h3 className="text-sm font-semibold mb-2">Sort By:</h3>
               <div>
                 <select
@@ -90,7 +90,7 @@ const Products = () => {
                 </select>
               </div>
             </div>
-            <div className="flex justify-between items-center gap-5 mb-4">
+            <div className="sm:flex justify-between items-center gap-5 mb-4">
               <h3 className="text-sm font-semibold mb-2">View:</h3>
               <div className="flex space-x-4">
                 <button
@@ -108,9 +108,10 @@ const Products = () => {
               </div>
             </div>
           </div>
+         
         </div>
         <hr />
-        <div className={`mt-2 grid ${viewType === "grid" ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"} gap-3 mb-8`}>
+        <div className={`mt-2 grid h-[50vh] ${viewType === "grid" ? "grid-cols-1  md:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"} gap-3 mb-8`}>
           {isLoading ? (
             <div className="flex justify-center items-center w-[85vw]">
               <h1 className="text-4xl font-semibold"> Loading...</h1>
@@ -123,8 +124,8 @@ const Products = () => {
             products.map((product: TProduct) => <Product_Card_ListView product={product} key={product._id} />)
           )}
         </div>
-        <div className="flex justify-center sm:justify-end items-center pr-5">
-          <div className="py-10 text-center">
+        <div className="flex justify-center sm:justify-end items-center absolute bottom-5 right-5">
+          <div className=" text-center">
             <Button
               className=" mr-3 text-green-300"
               onClick={handlePreviousPage}
@@ -151,7 +152,7 @@ const Products = () => {
             <select
               value={itemsPerPage}
               onChange={handleItemsPerPage}
-              className="rounded-md ml-2 select input-bordered"
+              className="rounded-md ml-2  px-3 py-2 border focus:outline-none focus:ring focus:border-blue-300"
             >
               <option value="5">5</option>
               <option value="10">10</option>

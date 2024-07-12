@@ -8,13 +8,26 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
-import { Link } from "react-router-dom";
-import React from "react";
-import { FaHeart, FaSearch } from "react-icons/fa";
+import { Link, NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { FaBars, FaSearch } from "react-icons/fa";
 import Cart from "@/pages/Cart/Cart";
 import Wishlist from "@/pages/Wishlist/Wishlist";
+import { useGetProductsQuery } from "@/redux/api/api";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+
+  DrawerTrigger,
+} from "./ui/drawer";
+import { FaX } from "react-icons/fa6";
 
 const Navbar = () => {
+  const [queries, setQueries] = useState({ page: 1, limit: 10 });
+  const { data, isLoading } = useGetProductsQuery(queries);
   const productsCategories = [
     {
       title: "Tents",
@@ -47,7 +60,10 @@ const Navbar = () => {
       description: "Essential camping accessories and gadgets.",
     },
   ];
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setQueries({ ...queries, searchTerm: e.target.searchTerm.value });
+  };
   return (
     <header className="flex justify-between items-center p-4 bg-white shadow-md">
       <Link to="/">
@@ -60,19 +76,35 @@ const Navbar = () => {
           <span className="text-xl font-bold">Campers Shop</span>
         </div>
       </Link>
-      <NavigationMenu>
+      <NavigationMenu className="hidden lg:flex">
         <NavigationMenuList>
           <NavigationMenuItem>
-            <Link to="/">
+            <NavLink to="/"
+             className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "text-primary "
+                : ""
+            }
+            >
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Home
               </NavigationMenuLink>
-            </Link>
+            </NavLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="/products">
+            <NavLink to="/products"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "text-primary "
+                : ""
+            }
+            >
               <NavigationMenuTrigger>Products</NavigationMenuTrigger>
-            </Link>
+            </NavLink>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] text-primary">
                 {productsCategories.map((category) => (
@@ -88,25 +120,107 @@ const Navbar = () => {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="/about">
+            <NavLink to="/about"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "text-primary "
+                : ""
+            }
+            >
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 About Us
               </NavigationMenuLink>
-            </Link>
+            </NavLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
       <div className="flex items-center space-x-4">
-      <div className="relative ">
-        <input type="text" placeholder="Search here..." className="w-80 px-3 py-2 rounded-2xl border-2 border-primary"/>
-        <FaSearch className="cursor-pointer text-primary text-xl absolute top-3 right-3 "/>
-      </div>
+        <form className="relative hidden lg:flex" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Search here..."
+            className="w-80 px-3 py-2 rounded-2xl border-2 border-primary"
+            name="searchTerm"
+            id="searchTerm"
+          />
+          <button type="submit">
+            <FaSearch className="cursor-pointer text-primary text-xl absolute top-3 right-3 " />
+          </button>
+        </form>
         <Link to="" className="text-primary hover:text-gray-900 ">
           <Cart />
         </Link>
         <Link to="" className="text-primary hover:text-gray-900">
           <Wishlist />
         </Link>
+        <div className=" lg:hidden">
+          <Drawer direction="right">
+            <DrawerTrigger asChild>
+              <FaBars className="text-3xl text-primary cursor-pointer " />
+            </DrawerTrigger>
+            <DrawerContent className="h-screen lg:w-[40vw] flex flex-col">
+              <DrawerHeader className="">
+                <DrawerClose asChild className="text-right">
+                  <button className="p-5 rounded-full hover:bg-primary w-14 bg-transparent text-black -mt-5 hover:text-white text-xl">
+                    <FaX />
+                  </button>
+                </DrawerClose>
+                <div className="flex justify-center items-center">
+                    <form className="relative  lg:hidden mt-10" onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    placeholder="Search here..."
+                    className="w-80 px-3 py-2 rounded-2xl border-2 border-primary"
+                    name="searchTerm"
+                    id="searchTerm"
+                  />
+                  <button type="submit">
+                    <FaSearch className="cursor-pointer text-primary text-xl absolute top-3 right-5 " />
+                  </button>
+                </form>
+                </div>
+              
+              </DrawerHeader>
+              <ul className="w-full text-center text-xl space-y-7 mt-5">
+                <li className="">
+                  <NavLink to="/" 
+                  className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "text-white rounded  px-32 py-2 bg-primary"
+                : ""
+            }>Home</NavLink>
+                </li>
+                <li className="">
+                  <NavLink to="/products"
+                  className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "text-white rounded  px-32 py-2 bg-primary"
+                : ""
+            }>Products</NavLink>
+                </li>
+                <li className="">
+                  {" "}
+                  <NavLink to="/about"
+                  className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "text-white  bg-primary rounded  px-32 py-2"
+                : ""
+            }>About Us</NavLink>
+                </li>
+              </ul>
+
+              <DrawerFooter className="p-4"></DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        </div>
       </div>
     </header>
   );

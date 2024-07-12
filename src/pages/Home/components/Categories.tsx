@@ -35,9 +35,9 @@ const categories = [
 
 const Categories = () => {
   return (
-    <div className="container mx-auto p-4">
+    <div className=" mx-auto max-w-7xl ">
   <h2 className="text-3xl font-bold mb-4">Categories</h2>
-  <div className="grid grid-cols-4 gap-5 justify-center">
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 justify-center">
     {categories.map((category) => (
       <div key={category.id} className="p-4 rounded-md ">
         <div className="bg-white shadow-md rounded-md relative cursor-pointer group">

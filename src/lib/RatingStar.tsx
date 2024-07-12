@@ -1,6 +1,6 @@
 import { Rating } from "@smastrom/react-rating";
 import '@smastrom/react-rating/style.css'
-const RatingStar = ({ Rating_value }) => {
+const RatingStar = ({ Rating_value=3.5 }) => {
   
   return (
     <Rating

@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
@@ -44,16 +45,16 @@ const Banner = () => {
             <CarouselContent>
                 {banners.map((banner, index) => (
                     <CarouselItem key={index}>
-                        <div className="p-1">
+                        <div className="">
                         <Card className="relative h-screen w-screen">
                                 <img src={banner.image} alt={banner.title} className="w-full h-full object-cover" />
                                 <CardContent className="absolute  bottom-0 text-center left-0 right-0 top-0 bg-black bg-opacity-30 text-white p-6 flex flex-col justify-center items-center">
-                                    <h3 className="text-xl font-semibold mb-4">{banner.subtitle}</h3>
-                                    <h2 className="text-7xl font-semibold mb-2 max-w-5xl mx-auto">{banner.title}</h2>
-                                    <p className="text-lg mb-8">{banner.description}</p>
-                                    <button className={`${banner.buttonColor} text-white px-4 py-2 rounded`}>
+                                    <h3 className="sm:text-xl font-semibold mb-4">{banner.subtitle}</h3>
+                                    <h2 className="text-3xl lg:text-7xl font-semibold mb-2 max-w-5xl mx-auto">{banner.title}</h2>
+                                    <p className="sm:text-lg mb-8">{banner.description}</p>
+                                    <Button className={`${banner.buttonColor} text-white px-4 py-2 rounded`}>
                                         {banner.buttonText}
-                                    </button>
+                                    </Button>
                                 </CardContent>
                             </Card>
                             </div>
