@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
     const banners = [
@@ -52,9 +53,12 @@ const Banner = () => {
                                     <h3 className="sm:text-xl font-semibold mb-4">{banner.subtitle}</h3>
                                     <h2 className="text-3xl lg:text-7xl font-semibold mb-2 max-w-5xl mx-auto">{banner.title}</h2>
                                     <p className="sm:text-lg mb-8">{banner.description}</p>
+                                    <Link to="/products">
+                    
                                     <Button className={`${banner.buttonColor} text-white px-4 py-2 rounded`}>
                                         {banner.buttonText}
                                     </Button>
+                                    </Link>
                                 </CardContent>
                             </Card>
                             </div>

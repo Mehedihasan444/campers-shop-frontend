@@ -7,17 +7,21 @@ import Product_Card_ListView from "@/components/cards/Product_Card_ListView";
 import { TProduct } from "@/interface/TProduct";
 import Product_Card from "@/components/cards/Product_Card";
 import { Button } from "@/components/ui/button";
+import { useSearchParams } from "react-router-dom";
+
 
 const Products = () => {
   const [viewType, setViewType] = useState("grid");
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("searchTerm");
+  const category = searchParams.get("category");
   const [queries, setQueries] = useState({ page: 1, limit: 10 });
-  const { data = {}, isLoading } = useGetProductsQuery(queries);
-  const { totalCount:count,products} = data.data|| {};
-
+  const { data = {}, isLoading } = useGetProductsQuery(searchTerm?{ page: 1, limit: 10,searchTerm: searchTerm}:category?{ page: 1, limit: 10,category: category}:queries);
+  const { totalCount: count, products } = data.data || {};
   const [currentPage, setCurrentPage] = useState(queries.page || 1);
   const [itemsPerPage, setItemsPerPage] = useState(queries.limit || 10);
   const [numberOfPages, setNumberOfPages] = useState(1);
-
+ 
   useEffect(() => {
     if (count > 0) {
       const numOfPages = Math.ceil(count / itemsPerPage);
@@ -66,7 +70,7 @@ const Products = () => {
       </div>
       <div className="w-full md:w-3/4 p-4 mx-5 md:mx-0 relative">
         <div className="flex justify-between items-center md:gap-10">
-           <div className="hidden lg:flex justify-between items-center gap-5 mb-4 flex-1">
+          <div className="hidden lg:flex justify-between items-center gap-5 mb-4 flex-1">
             <h2 className="text-sm ">
               Products Found: {products?.length || 0}
             </h2>
@@ -77,7 +81,9 @@ const Products = () => {
               <div>
                 <select
                   value={queries.sort}
-                  onChange={(e) => setQueries({ ...queries, sort: e.target.value })}
+                  onChange={(e) =>
+                    setQueries({ ...queries, sort: e.target.value })
+                  }
                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                 >
                   <option value="" disabled selected>
@@ -94,33 +100,54 @@ const Products = () => {
               <div className="flex space-x-4">
                 <button
                   onClick={() => handleViewChange("grid")}
-                  className={`p-2 rounded-md ${viewType === "grid" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"}`}
+                  className={`p-2 rounded-md ${
+                    viewType === "grid"
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200 text-gray-700"
+                  }`}
                 >
                   <IoGrid />
                 </button>
                 <button
                   onClick={() => handleViewChange("list")}
-                  className={`p-2 rounded-md ${viewType === "list" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"}`}
+                  className={`p-2 rounded-md ${
+                    viewType === "list"
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200 text-gray-700"
+                  }`}
                 >
                   <FaThList />
                 </button>
               </div>
             </div>
           </div>
-         
         </div>
         <hr />
-        <div className={`mt-2 grid min-h-[50vh] ${viewType === "grid" ? "grid-cols-1  md:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"} gap-3 mb-8`}>
+        <div
+          className={`mt-2 grid min-h-[50vh] ${
+            viewType === "grid"
+              ? "grid-cols-1  md:grid-cols-2 lg:grid-cols-4"
+              : "grid-cols-1"
+          } gap-3 mb-8`}
+        >
           {isLoading ? (
             <div className="flex justify-center items-center w-[85vw]">
               <h1 className="text-4xl font-semibold"> Loading...</h1>
             </div>
           ) : viewType === "grid" ? (
-            !products?.length ? <h1 className="">Product not found</h1> :
-            products.map((product) => <Product_Card product={product} key={product._id} />)
+            !products?.length ? (
+              <h1 className="">Product not found</h1>
+            ) : (
+              products?.map((product) => (
+                <Product_Card product={product} key={product._id} />
+              ))
+            )
+          ) : !products?.length ? (
+            <h1 className="">Product not found</h1>
           ) : (
-            !products?.length ? <h1 className="">Product not found</h1> :
-            products.map((product: TProduct) => <Product_Card_ListView product={product} key={product._id} />)
+            products?.map((product: TProduct) => (
+              <Product_Card_ListView product={product} key={product._id} />
+            ))
           )}
         </div>
         <div className="flex justify-center sm:justify-end items-center absolute bottom-5 right-5">
@@ -134,7 +161,9 @@ const Products = () => {
             </Button>
             {pages?.map((page) => (
               <Button
-                className={`mr-2  ${currentPage === page + 1 ? "btn-disabled" : "text-green-500"}`}
+                className={`mr-2  ${
+                  currentPage === page + 1 ? "btn-disabled" : "text-green-500"
+                }`}
                 key={page}
                 onClick={() => handlePageClick(page)}
               >

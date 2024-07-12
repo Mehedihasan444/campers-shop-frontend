@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -34,11 +35,13 @@ const categories = [
 ];
 
 const Categories = () => {
+  const navigate = useNavigate();
+
   return (
     <div className=" mx-auto max-w-7xl ">
   <h2 className="text-3xl font-bold mb-4">Categories</h2>
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 justify-center">
-    {categories.map((category) => (
+    {categories?.map((category) => (
       <div key={category.id} className="p-4 rounded-md ">
         <div className="bg-white shadow-md rounded-md relative cursor-pointer group">
           <img
@@ -51,7 +54,7 @@ const Categories = () => {
               <h3 className="text-3xl mb-5 font-bold text-white text-center">
                 {category.name}
               </h3>
-              <Button className="bg-primary text-white hover:bg-green-700 font-semibold">
+              <Button className="bg-primary text-white hover:bg-green-700 font-semibold" onClick={()=>navigate(`/products?category=${category.name}`)}>
                 SHOP NOW
               </Button>
             </div>

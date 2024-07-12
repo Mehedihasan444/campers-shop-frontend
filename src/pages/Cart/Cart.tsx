@@ -41,6 +41,8 @@ const Cart = () => {
       .toFixed(2);
   };
 
+
+
   return (
     <Drawer direction="left">
       <DrawerTrigger asChild>

@@ -6,7 +6,7 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/v1",
   }),
-  tagTypes: ["product", "wishlist"],
+  tagTypes: ["product", "wishlist","order"],
 
   endpoints: (builder) => ({
     getProducts: builder.query({
@@ -64,7 +64,19 @@ export const baseApi = createApi({
       }},
       invalidatesTags: ["product"],
     }),
-//  wishlist
+    //orders: builder 
+    order: builder.mutation({
+      query: (data) => {
+        toast.success("Order placed successfully");
+        console.log(data)
+        return {
+        url: "/order",
+        method: "POST",
+        body: data,
+      }},
+      invalidatesTags: ["order"],
+    }),
+//  wishlist : builder
     getWishlistProducts: builder.query({
       query: () => ({
         url: "/wishlist",
@@ -102,4 +114,5 @@ export const {
   useAddWishlistProductMutation,
   useDeleteWishlistProductMutation,
   useGetWishlistProductsQuery,
+  useOrderMutation
 } = baseApi;

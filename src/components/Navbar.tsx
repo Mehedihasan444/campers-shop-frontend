@@ -8,26 +8,24 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
-import { Link, NavLink } from "react-router-dom";
-import React, { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import React from "react";
 import { FaBars, FaSearch } from "react-icons/fa";
 import Cart from "@/pages/Cart/Cart";
 import Wishlist from "@/pages/Wishlist/Wishlist";
-import { useGetProductsQuery } from "@/redux/api/api";
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
-
   DrawerTrigger,
 } from "./ui/drawer";
 import { FaX } from "react-icons/fa6";
 
 const Navbar = () => {
-  const [queries, setQueries] = useState({ page: 1, limit: 10 });
-  const { data, isLoading } = useGetProductsQuery(queries);
+
+  const navigate = useNavigate();
   const productsCategories = [
     {
       title: "Tents",
@@ -60,9 +58,12 @@ const Navbar = () => {
       description: "Essential camping accessories and gadgets.",
     },
   ];
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setQueries({ ...queries, searchTerm: e.target.searchTerm.value });
+    const searchTerm = e.target.searchTerm.value;
+    navigate(`/products?searchTerm=${searchTerm}`);
   };
   return (
     <header className="flex justify-between items-center p-4 bg-white shadow-md">
@@ -79,14 +80,11 @@ const Navbar = () => {
       <NavigationMenu className="hidden lg:flex">
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavLink to="/"
-             className={({ isActive, isPending }) =>
-              isPending
-                ? "pending"
-                : isActive
-                ? "text-primary "
-                : ""
-            }
+            <NavLink
+              to="/"
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "text-primary " : ""
+              }
             >
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Home
@@ -94,14 +92,11 @@ const Navbar = () => {
             </NavLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavLink to="/products"
-            className={({ isActive, isPending }) =>
-              isPending
-                ? "pending"
-                : isActive
-                ? "text-primary "
-                : ""
-            }
+            <NavLink
+              to="/products"
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "text-primary " : ""
+              }
             >
               <NavigationMenuTrigger>Products</NavigationMenuTrigger>
             </NavLink>
@@ -120,14 +115,11 @@ const Navbar = () => {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavLink to="/about"
-            className={({ isActive, isPending }) =>
-              isPending
-                ? "pending"
-                : isActive
-                ? "text-primary "
-                : ""
-            }
+            <NavLink
+              to="/about"
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "text-primary " : ""
+              }
             >
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 About Us
@@ -135,17 +127,14 @@ const Navbar = () => {
             </NavLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavLink to="/product-management"
-            className={({ isActive, isPending }) =>
-              isPending
-                ? "pending"
-                : isActive
-                ? "text-primary "
-                : ""
-            }
+            <NavLink
+              to="/product-management"
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "text-primary " : ""
+              }
             >
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Product Management
+                Product Management
               </NavigationMenuLink>
             </NavLink>
           </NavigationMenuItem>
@@ -183,52 +172,66 @@ const Navbar = () => {
                   </button>
                 </DrawerClose>
                 <div className="flex justify-center items-center">
-                    <form className="relative  lg:hidden mt-10" onSubmit={handleSubmit}>
-                  <input
-                    type="text"
-                    placeholder="Search here..."
-                    className="w-80 px-3 py-2 rounded-2xl border-2 border-primary"
-                    name="searchTerm"
-                    id="searchTerm"
-                  />
-                  <button type="submit">
-                    <FaSearch className="cursor-pointer text-primary text-xl absolute top-3 right-5 " />
-                  </button>
-                </form>
+                  <form
+                    className="relative  lg:hidden mt-10"
+                    onSubmit={handleSubmit}
+                  >
+                    <input
+                      type="text"
+                      placeholder="Search here..."
+                      className="w-80 px-3 py-2 rounded-2xl border-2 border-primary"
+                      name="searchTerm"
+                      id="searchTerm"
+                    />
+                    <button type="submit">
+                      <FaSearch className="cursor-pointer text-primary text-xl absolute top-3 right-5 " />
+                    </button>
+                  </form>
                 </div>
-              
               </DrawerHeader>
               <ul className="w-full text-center text-xl space-y-7 mt-5">
                 <li className="">
-                  <NavLink to="/" 
-                  className={({ isActive, isPending }) =>
-              isPending
-                ? "pending"
-                : isActive
-                ? "text-white rounded  px-32 py-2 bg-primary"
-                : ""
-            }>Home</NavLink>
+                  <NavLink
+                    to="/"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? "text-white rounded  px-32 py-2 bg-primary"
+                        : ""
+                    }
+                  >
+                    Home
+                  </NavLink>
                 </li>
                 <li className="">
-                  <NavLink to="/products"
-                  className={({ isActive, isPending }) =>
-              isPending
-                ? "pending"
-                : isActive
-                ? "text-white rounded  px-32 py-2 bg-primary"
-                : ""
-            }>Products</NavLink>
+                  <NavLink
+                    to="/products"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? "text-white rounded  px-32 py-2 bg-primary"
+                        : ""
+                    }
+                  >
+                    Products
+                  </NavLink>
                 </li>
                 <li className="">
                   {" "}
-                  <NavLink to="/about"
-                  className={({ isActive, isPending }) =>
-              isPending
-                ? "pending"
-                : isActive
-                ? "text-white  bg-primary rounded  px-32 py-2"
-                : ""
-            }>About Us</NavLink>
+                  <NavLink
+                    to="/about"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? "text-white  bg-primary rounded  px-32 py-2"
+                        : ""
+                    }
+                  >
+                    About Us
+                  </NavLink>
                 </li>
               </ul>
 
