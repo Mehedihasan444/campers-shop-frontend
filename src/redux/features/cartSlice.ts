@@ -48,10 +48,14 @@ export const cartSlice = createSlice({
         toast.info("Product quantity updated");
       }
     },
+    clearCart: (state) => {
+      state.products = [];
+      toast.info("Cart cleared");
+    },
   },
 });
 
-export const { addProduct, removeProduct, updateProductQuantity } = cartSlice.actions;
+export const { addProduct, removeProduct, updateProductQuantity ,clearCart} = cartSlice.actions;
 
 export default cartSlice.reducer;
 
