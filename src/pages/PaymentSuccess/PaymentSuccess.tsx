@@ -1,3 +1,4 @@
+import SuccessAnimation from "@/lib/SuccessAnimation";
 import { Link, useParams } from "react-router-dom";
 
 
@@ -5,6 +6,7 @@ const PaymentSuccess = () => {
     const {transactionId}=useParams()
     return (
         <div className="flex flex-col justify-center items-center h-screen">
+            <SuccessAnimation/>
             <h1 className="text-xl font-bold">Payment complete: {transactionId}</h1>
             <Link to="/" className="">
 

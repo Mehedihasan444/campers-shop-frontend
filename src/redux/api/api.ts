@@ -74,7 +74,7 @@ export const baseApi = createApi({
         method: "POST",
         body: data,
       }},
-      invalidatesTags: ["order"],
+      invalidatesTags: ["order","product"],
     }),
 //  wishlist : builder
     getWishlistProducts: builder.query({

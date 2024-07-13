@@ -5,7 +5,7 @@ import "./styles.css";
 const Product_Image = ({ images = [] }) => {
   return (
     <div className="custom-image-gallery">
-      <ImageGallery items={images} />
+      <ImageGallery items={images} thumbnailPosition="left" />
     </div>
   );
 };

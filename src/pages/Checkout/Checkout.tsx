@@ -73,12 +73,15 @@ const Checkout = () => {
     if (paymentMethod === "cashOnDelivery") {
       const orderData = {
         user: { ...userDetails, paymentMethod: "cashOnDelivery" },
-        items: cart?.map((item) => item._id),
+        items: cart?.map((item) =>{
+          return {id:item._id, purchasedQuantity:item.quantity}
+        }),
         total: Number(getTotal()),
       };
       try {
         await order(orderData);
-        navigate("/payment-success");
+        dispatch(clearCart())
+        navigate("/success");
       } catch (error) {
         toast.error("Error placing order.");
       }
@@ -124,12 +127,14 @@ const Checkout = () => {
               amount: Number(getTotal()),
               currency: "usd",
             },
-            items: cart?.map((item) => item._id),
+            items: cart?.map((item) =>{
+              return {id:item._id, purchasedQuantity:item.quantity}
+            }),
             total: Number(getTotal()),
           };
           await order(orderData);
-          await dispatch(clearCart())
-          navigate("/payment-success");
+         dispatch(clearCart())
+          navigate(`/payment-success/${transactionId}`);
         }
       }
       setIsLoading(false);
@@ -257,8 +262,12 @@ const Checkout = () => {
                 {/* <PaymentElement /> */}
               </div>
             )}
-            <Button className="btn px-10 btn-primary mt-5" type="submit" disabled={!stripe || !clientSecret}>
-              Pay
+            <Button className="btn px-10 btn-primary mt-5 " type="submit" disabled={!stripe || !clientSecret}>
+            {
+
+            isLoading?"Loading...":"Pay "
+            }
+              
             </Button>
             {transactionId && (
               <p className="text-green-600">Your transaction id: {transactionId}</p>

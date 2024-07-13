@@ -42,8 +42,11 @@ export const cartSlice = createSlice({
     updateProductQuantity: (state, action) => {
       const { productId, quantity } = action.payload;
       const product = state.products.find((item) => item._id === productId);
-
-      if (product) {
+      if ( quantity>product.quantity) {
+        
+        toast.info("Product stock limit over.");
+      }
+      if (product && quantity<=product.quantity ) {
         product.quantity = quantity;
         toast.info("Product quantity updated");
       }
@@ -60,44 +63,4 @@ export const { addProduct, removeProduct, updateProductQuantity ,clearCart} = ca
 export default cartSlice.reducer;
 
 
-// import { TProduct } from "@/interface/TProduct";
-// import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { toast } from "sonner";
 
-// type TInitialSate = {
-//   products: TProduct[];
-// };
-// const initialState:TInitialSate = {
-//   products: [],
-// };
-
-// export const cartSlice = createSlice({
-//   name: "cart",
-//   initialState,
-//   reducers: {  
-//     addProduct: (state, action: PayloadAction<TProduct>) => {
-//       state.products.push(action.payload);
-//       toast.success("Product added successfully in the cart");
-//     }, 
-//     removeProduct: (state, action) => {
-//       state.products = state.products.filter((product) => product._id !== action.payload);
-//     },
-//     clearCart: (state) => {
-//       state.products = [];
-//     },
-//     updateProductQuantity: (state, action: PayloadAction<{
-//       productId: string;
-//       quantity: number;
-//     }>) => {
-//       const { productId, quantity } = action.payload;
-//       const product = state.products.find((product) => product._id === productId);
-//       if (product) {
-//         product.quantity = quantity;
-//       }
-//     }
-//   },
-// });
-
-// export const { addProduct, removeProduct, clearCart, updateProductQuantity } = cartSlice.actions;
-
-// export default cartSlice.reducer;

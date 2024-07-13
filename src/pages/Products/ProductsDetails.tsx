@@ -42,10 +42,10 @@ const ProductsDetails = () => {
             />
           </div>
           <div className="space-y-5">
-            <p className="text-green-500">{productDetails?.category}</p>
+            <p className="text-green-500">#Category : {productDetails?.category}</p>
             <h1 className="text-5xl font-bold">{productDetails?.name}</h1>
             <h1 className="text-2xl text-green-600 font-bold">
-              Tk {productDetails?.price}
+              $ {productDetails?.price}
             </h1>
             <p
             className={`flex items-center gap-2 ${
@@ -118,7 +118,7 @@ const ProductsDetails = () => {
 
         <hr />
 </div>
-      <div className="max-w-7xl mx-auto px-10">
+      <div className="max-w-7xl mx-auto ">
         <div>
           <Product_Details_Tabs id={productDetails?._id} />
         </div>

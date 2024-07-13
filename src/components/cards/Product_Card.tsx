@@ -6,14 +6,11 @@ import RatingStar from "@/lib/RatingStar";
 import { useAddWishlistProductMutation } from "@/redux/api/api";
 import { useAppDispatch } from "@/redux/hook";
 import { addProduct } from "@/redux/features/cartSlice";
-
-
+import { Button } from "../ui/button";
 
 const Product_Card = ({ product }) => {
-  const [addWishlistProduct]=useAddWishlistProductMutation()
+  const [addWishlistProduct] = useAddWishlistProductMutation();
   const dispatch = useAppDispatch();
-
- 
 
   return (
     <div
@@ -58,34 +55,38 @@ const Product_Card = ({ product }) => {
             </div>
           </div>
           <div className="mb-2">
-            {
-              product?.discount_price?<>
-              <span className="text-gray-300 line-through">
-              ${product?.price}
-            </span>
-            <span className="ml-2 text-green-700">
-              ${product?.discount_price}
-            </span>
-              </>:<span className="ml-2 text-green-700">
-              ${product?.price}
-            </span>
-            }
-            
-            
+            {product?.discount_price ? (
+              <>
+                <span className="text-gray-300 line-through">
+                  ${product?.price}
+                </span>
+                <span className="ml-2 text-green-700">
+                  ${product?.discount_price}
+                </span>
+              </>
+            ) : (
+              <span className="ml-2 text-green-700">${product?.price}</span>
+            )}
           </div>
+          <div className="flex justify-between items-center">
+            
           <p
-            className={`flex items-center gap-2 ${
-              product?.stock != 0 ? "text-green-500" : "text-red-500"
+            className={`flex items-center gap-2 text-sm ${
+              product?.quantity != 0 ? "text-green-500" : "text-red-500"
             } `}
           >
             <LuPackage />
             <span className="">
-              {product?.stock == 0 ? "Out Of Stock" : "In Stock"}
+              {product?.quantity == 0 ? "Out Of Stock" : "In Stock"}
             </span>
+            {
+              product?.quantity!==0 ?<>({product?.quantity})</>:''
+            }
           </p>
-          {/* <button className="bg-[#EF233C] w-full uppercase text-white font-semibold py-2 px-4 rounded-md ">
-          <span>Add to Cart</span>
-        </button> */}
+          <Button variant={"link"} className="">
+          Details...
+        </Button>
+          </div>
         </div>
       </Link>
     </div>
