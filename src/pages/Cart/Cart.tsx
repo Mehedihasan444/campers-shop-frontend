@@ -18,20 +18,45 @@ import {
   removeProduct,
   updateProductQuantity,
 } from "@/redux/features/cartSlice";
+import { useGetProductQuery } from "@/redux/api/api";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const Cart = () => {
+  const [id, setId] = useState("668ee8091519cbaa7a57bf89");
   const cart = useSelector((state: RootState) => state.cart.products);
+  const { data = {} } = useGetProductQuery(id);
   const dispatch = useDispatch();
 
   const updateQuantity = (id: string, adjustment: number) => {
+    setId(id);
     const product = cart.find((item) => item._id === id);
     if (product) {
-      const newQuantity = product.quantity + adjustment;
-      if (newQuantity > 0) {
-        dispatch(
-          updateProductQuantity({ productId: id, quantity: newQuantity })
-        );
-      } 
+      if (product.quantity === data?.data.quantity) {
+        toast.info("Reach maximum stock limit.");
+        if (adjustment == -1) {
+          const newQuantity = product.quantity + adjustment;
+          if (newQuantity > 0) {
+            dispatch(
+              updateProductQuantity({ productId: id, quantity: newQuantity })
+            );
+          }
+        } else if (product.quantity < data?.data.quantity) {
+          const newQuantity = product.quantity + adjustment;
+          if (newQuantity > 0) {
+            dispatch(
+              updateProductQuantity({ productId: id, quantity: newQuantity })
+            );
+          }
+        }
+      } else {
+        const newQuantity = product.quantity + adjustment;
+        if (newQuantity > 0) {
+          dispatch(
+            updateProductQuantity({ productId: id, quantity: newQuantity })
+          );
+        }
+      }
     }
   };
 
@@ -40,8 +65,6 @@ const Cart = () => {
       ?.reduce((total, item) => total + item.price * item.quantity, 0)
       .toFixed(2);
   };
-
-
 
   return (
     <Drawer direction="left">

@@ -11,10 +11,12 @@ import "./style.css";
 // import required modules
 import { Pagination, Navigation } from "swiper/modules";
 import Feedback_Card from "@/components/cards/Feedback_Card";
+import { useGetReviewsQuery } from "@/redux/api/api";
 // import Feedback_Card from "../Cards/Feedback_Card";
 
 const Customers_Feedback = () => {
-
+const {data={},isLoading}=useGetReviewsQuery({})
+const {Reviews,totalCount}=data.data||{}
 const feedbacks=[  {
   _id: 1,
   rating: {
@@ -24,8 +26,8 @@ const feedbacks=[  {
   feedback: "Excellent Product!",
   feedback_description:
     "The tent is amazing! It withstood heavy rain and wind without any issues. The setup was easy, and it's very spacious. Highly recommended for all camping enthusiasts!",
-  author: {
-    img: "https://example.com/customer-image1.jpg",
+  product: {
+    image: "https://mgcfeni.edu.bd/midea/featuredimage/featuredimage2019-03-04-13-47-19_5c7d1e5732a77.jpg",
     name: "John Doe",
     product_purchased: "4-Person Camping Tent",
   },
@@ -39,8 +41,8 @@ const feedbacks=[  {
   feedback: "Very Comfortable",
   feedback_description:
     "The sleeping bag is very comfortable and kept me warm throughout the night. It's lightweight and easy to pack.",
-  author: {
-    img: "https://example.com/customer-image2.jpg",
+  product: {
+    image: "https://mgcfeni.edu.bd/midea/featuredimage/featuredimage2019-03-04-13-47-19_5c7d1e5732a77.jpg",
     name: "Jane Smith",
     product_purchased: "Down Sleeping Bag",
   },
@@ -54,8 +56,8 @@ const feedbacks=[  {
   feedback: "Sturdy and Reliable",
   feedback_description:
     "This camping stove is very sturdy and reliable. It boils water quickly and is very easy to use.",
-  author: {
-    img: "https://example.com/customer-image3.jpg",
+  product: {
+    image: "https://mgcfeni.edu.bd/midea/featuredimage/featuredimage2019-03-04-13-47-19_5c7d1e5732a77.jpg",
     name: "Alice Johnson",
     product_purchased: "Portable Camping Stove",
   },
@@ -69,8 +71,8 @@ const feedbacks=[  {
   feedback: "Great for Hiking",
   feedback_description:
     "These hiking boots are fantastic. They provide great support and traction on rough terrain. Highly recommend for hikers.",
-  author: {
-    img: "https://example.com/customer-image4.jpg",
+  product: {
+    image: "https://mgcfeni.edu.bd/midea/featuredimage/featuredimage2019-03-04-13-47-19_5c7d1e5732a77.jpg",
     name: "Michael Brown",
     product_purchased: "Waterproof Hiking Boots",
   },
@@ -84,8 +86,8 @@ const feedbacks=[  {
   feedback: "Very Bright",
   feedback_description:
     "The lantern is very bright and lasts a long time on a single charge. It's perfect for camping trips.",
-  author: {
-    img: "https://example.com/customer-image5.jpg",
+  product: {
+    image: "https://mgcfeni.edu.bd/midea/featuredimage/featuredimage2019-03-04-13-47-19_5c7d1e5732a77.jpg",
     name: "Emily Davis",
     product_purchased: "LED Camping Lantern",
   },

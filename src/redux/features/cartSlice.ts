@@ -42,11 +42,8 @@ export const cartSlice = createSlice({
     updateProductQuantity: (state, action) => {
       const { productId, quantity } = action.payload;
       const product = state.products.find((item) => item._id === productId);
-      if ( quantity>product.quantity) {
-        
-        toast.info("Product stock limit over.");
-      }
-      if (product && quantity<=product.quantity ) {
+
+      if (product ) {
         product.quantity = quantity;
         toast.info("Product quantity updated");
       }

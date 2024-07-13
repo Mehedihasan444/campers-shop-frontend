@@ -25,9 +25,7 @@ const Product_Card = ({ product }) => {
             alt=""
           />
         </div>
-        {/* <div className="absolute top-2 right-2 hover:text-red-500 hover:shadow-md  bg-slate-100 hover:bg-slate-200 p-2 rounded-full">
-          <IoMdHeartEmpty />
-        </div> */}
+
         <div className="absolute top-2 right-2 space-y-3">
           <div
             onClick={() => addWishlistProduct(product._id)}
@@ -35,12 +33,13 @@ const Product_Card = ({ product }) => {
           >
             <IoMdHeartEmpty />
           </div>
-          <div
+          <button
             onClick={() => dispatch(addProduct(product))}
+            disabled={product?.quantity == 0}
             className="cursor-pointer hover:text-primary hover:shadow-md  bg-slate-100 hover:bg-slate-200 p-2 rounded-full text-xl"
           >
             <IoCartOutline />
-          </div>
+          </button>
         </div>
       </div>
       <Link to={`/product-detail/${product._id}`}>
@@ -69,23 +68,20 @@ const Product_Card = ({ product }) => {
             )}
           </div>
           <div className="flex justify-between items-center">
-            
-          <p
-            className={`flex items-center gap-2 text-sm ${
-              product?.quantity != 0 ? "text-green-500" : "text-red-500"
-            } `}
-          >
-            <LuPackage />
-            <span className="">
-              {product?.quantity == 0 ? "Out Of Stock" : "In Stock"}
-            </span>
-            {
-              product?.quantity!==0 ?<>({product?.quantity})</>:''
-            }
-          </p>
-          <Button variant={"link"} className="">
-          Details...
-        </Button>
+            <p
+              className={`flex items-center gap-2 text-sm ${
+                product?.quantity != 0 ? "text-green-500" : "text-red-500"
+              } `}
+            >
+              <LuPackage />
+              <span className="">
+                {product?.quantity == 0 ? "Out Of Stock" : "In Stock"}
+              </span>
+              {product?.quantity !== 0 ? <>({product?.quantity})</> : ""}
+            </p>
+            <Button variant={"link"} className="">
+              Details...
+            </Button>
           </div>
         </div>
       </Link>

@@ -6,7 +6,7 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/v1",
   }),
-  tagTypes: ["product", "wishlist","order"],
+  tagTypes: ["product", "wishlist","order","review"],
 
   endpoints: (builder) => ({
     getProducts: builder.query({
@@ -27,7 +27,6 @@ export const baseApi = createApi({
       },
       providesTags: ["product"],
     }),
-    
     getProduct: builder.query({
       query: (id) => ({
         url: `/products/${id}`,
@@ -63,6 +62,61 @@ export const baseApi = createApi({
         method: "DELETE",
       }},
       invalidatesTags: ["product"],
+    }),
+    // review: builder
+    getReviews: builder.query({
+      query: (queries) => {
+        const cleanedQueries = Object.entries(queries).reduce((acc, [key, value]) => {
+          if (value !== '') {
+            acc[key] = value;
+          }
+          return acc;
+        }, {});
+    
+        const params = new URLSearchParams(cleanedQueries);
+    
+        return {
+          url: `/reviews?${params.toString()}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["product"],
+    }),
+    getReview: builder.query({
+      query: (id) => ({
+        url: `/reviews/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["review"],
+    }),
+    addReview: builder.mutation({
+      query: (data) => {
+        
+        return {
+        url: "/reviews",
+        method: "POST",
+        body: data,
+      }},
+      invalidatesTags: ["review"],
+    }),
+    updateReview: builder.mutation({
+      query: ({ id, data }) => {
+        toast.success("Review updated successfully");
+        return {
+        url: `/reviews/${id}`,
+        method: "PUT",
+        body: data,
+      }},
+      invalidatesTags: ["review"],
+    }),
+    deleteReview: builder.mutation({
+      query: (id) => {
+        toast.success("Review deleted successfully");
+        return {
+        url: `/reviews/${id}`,
+        method: "DELETE",
+      }},
+      invalidatesTags: ["review"],
     }),
     //orders: builder 
     order: builder.mutation({
@@ -114,5 +168,9 @@ export const {
   useAddWishlistProductMutation,
   useDeleteWishlistProductMutation,
   useGetWishlistProductsQuery,
-  useOrderMutation
+  useOrderMutation,
+  useAddReviewMutation,
+  useDeleteReviewMutation,
+  useGetReviewQuery,
+  useGetReviewsQuery
 } = baseApi;

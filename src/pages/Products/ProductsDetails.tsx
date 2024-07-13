@@ -49,12 +49,12 @@ const ProductsDetails = () => {
             </h1>
             <p
             className={`flex items-center gap-2 ${
-              productDetails?.stock != 0 ? "text-green-500" : "text-red-500"
+              productDetails?.quantity != 0 ? "text-green-500" : "text-red-500"
             } `}
           >
             <LuPackage />
             <span className="">
-              {productDetails?.stock == 0 ? "Out Of Stock" : "In Stock"}
+              {productDetails?.quantity == 0 ? "Out Of Stock" : "In Stock"}
             </span>
           </p>
             <p>{productDetails?.description}</p>
@@ -74,7 +74,8 @@ const ProductsDetails = () => {
               <div className="flex gap-5">
                 <button
                   onClick={() => dispatch(addProduct(productDetails))}
-                  className="bg-[#000000] text-white font-bold py-2 px-4 rounded-md"
+                  disabled={productDetails?.quantity == 0}
+                  className={`bg-[#000000] text-white font-bold py-2 px-4 rounded-md}`}
                 >
                   Add to cart
                 </button>
