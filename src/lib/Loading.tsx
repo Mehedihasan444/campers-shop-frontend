@@ -1,5 +1,4 @@
 
-import ClipLoader from "react-spinners/ClipLoader";
 import GridLoader from "react-spinners/GridLoader";
 
 
