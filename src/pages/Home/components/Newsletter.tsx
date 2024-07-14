@@ -2,7 +2,7 @@
 
 const Newsletter = () => {
   return (
-    <div className="bg-gray-100 py-12 my-10">
+    <div className="bg-gray-100 py-12 mt-10">
       <div className="max-w-4xl mx-auto px-4">
         <h2 className="text-2xl font-bold text-center mb-6">
           Join our newsletter for £10 off

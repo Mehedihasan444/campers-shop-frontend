@@ -16,8 +16,8 @@ const Home = () => {
       <Featured />
       <FAQ />
       <Customers_Feedback />
-      <Newsletter />
       <Brands />
+      <Newsletter />
     </div>
   );
 };

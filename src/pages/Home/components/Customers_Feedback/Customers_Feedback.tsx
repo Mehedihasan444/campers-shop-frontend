@@ -112,7 +112,7 @@ const feedbacks=[  {
 },]
 
   return (
-    <div className="relative my-10 py-10 max-w-7xl mx-auto px-5 sm:px-0">
+    <div className="relative my-10 py-10 max-w-7xl mx-auto px-5 lg:px-0">
       <div className="absolute z-50 top-0 w-full">
         <h1 className=" text-2xl sm:text-3xl font-bold">Feedback From Customers</h1>
       </div>
@@ -123,6 +123,10 @@ const feedbacks=[  {
         modules={[Pagination, Navigation]}
         breakpoints={{
           // when window width is >= 768px
+          430: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
           768: {
             slidesPerView: 2,
             spaceBetween: 40,

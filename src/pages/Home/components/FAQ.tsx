@@ -39,7 +39,7 @@ const FAQ = () => {
     },
   ];
   return (
-    <div className="max-w-7xl mx-auto sm:h-[70vh] px-5 sm:px-0">
+    <div className="max-w-7xl mx-auto sm:h-[70vh] px-5 lg:px-0">
       <h2 className="text-2xl sm:text-3xl font-bold mb-4">FAQ</h2>
       <div className="sm:flex justify-between sm:gap-5 ">
         <div className="flex-1">
@@ -47,31 +47,13 @@ const FAQ = () => {
         <Accordion type="single" collapsible className="">
           {faqs?.map((faq) => (
             <AccordionItem key={faq.id} value={`item-${faq.id}`}>
-              <AccordionTrigger className="text-primary">
+              <AccordionTrigger className="text-primary text-left">
                 {faq.question}
               </AccordionTrigger>
               <AccordionContent>{faq.answer}</AccordionContent>
             </AccordionItem>
           ))}
-          {/* <AccordionItem value="item-1">
-          <AccordionTrigger>Is it accessible?</AccordionTrigger>
-          <AccordionContent>
-            Yes. It adheres to the WAI-ARIA design pattern.
-          </AccordionContent>
-        </AccordionItem> */}
-          {/* <AccordionItem value="item-2">
-          <AccordionTrigger>Is it styled?</AccordionTrigger>
-          <AccordionContent>
-            Yes. It comes with default styles that matches the other
-            components&apos; aesthetic.
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-3">
-          <AccordionTrigger>Is it animated?</AccordionTrigger>
-          <AccordionContent>
-            Yes. It's animated by default, but you can disable it if you prefer.
-          </AccordionContent>
-        </AccordionItem> */}
+      
         </Accordion>
         </div>
         <div className="flex-1 sm:flex items-center justify-center hidden ">

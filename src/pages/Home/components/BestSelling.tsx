@@ -10,7 +10,7 @@ const BestSelling = () => {
   const {  products } = data.data|| {}
 
   return (
-    <section className="bg-white py-5 sm:py-20 max-w-7xl mx-auto px-5 sm:px-0 relative">
+    <section className="bg-white py-5 sm:py-20 max-w-7xl mx-auto px-5 lg:px-0 relative">
               <div className=" mt-4 flex justify-between items-center ">
       <h2 className="text-2xl sm:text-3xl font-bold mb-4">
         Best Selling Products

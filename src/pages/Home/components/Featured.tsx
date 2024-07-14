@@ -22,7 +22,7 @@ const Featured = () => {
   const randomProducts = products ? shuffleArray([...products]).slice(0, 5) : [];
 
   return (
-    <section className="bg-white py-20 max-w-7xl mx-auto px-5 sm:px-0 relative">
+    <section className="bg-white py-20 max-w-7xl mx-auto px-5 lg:px-0 relative">
       <div className="text-center mt-4 flex justify-between items-center">
         <h2 className="text-2xl sm:text-3xl font-bold mb-4">Featured Products</h2>
         <Link to="/products" className="text-white font-bold sm:py-2 px-4 rounded">
