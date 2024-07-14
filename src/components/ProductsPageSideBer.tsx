@@ -13,7 +13,7 @@ const ProductsPageSideBer = ({ queries, setQueries }:{queries:TQueries,setQuerie
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/products")
+    fetch("https://campers-shop-backend-five.vercel.app/api/v1/products")
       .then((response) => response.json())
       .then((data) => setItems(data?.data?.products));
   }, []);
