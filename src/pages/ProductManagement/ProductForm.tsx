@@ -13,15 +13,22 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { TProduct } from "@/interface/TProduct";
-import { useAddProductMutation, useUpdateProductMutation } from "@/redux/api/api";
+import {
+  useAddProductMutation,
+  useUpdateProductMutation,
+} from "@/redux/api/api";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { toast } from "sonner";
+import axios from "axios"
+// imagebb auth credentials
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const AddProductForm = ({ initialData }:{initialData:TProduct|null}) => {
+const AddProductForm = ({ initialData }: { initialData: TProduct | null }) => {
   const [addProduct] = useAddProductMutation();
   const [updateProduct] = useUpdateProductMutation();
   const [product, setProduct] = useState(
     initialData || {
-      _id:'',
       name: "",
       price: 0,
       quantity: 0,
@@ -41,32 +48,118 @@ const AddProductForm = ({ initialData }:{initialData:TProduct|null}) => {
       isComingSoon: false,
     }
   );
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const handleChange = (e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { id, value, type, checked } = e.target as HTMLInputElement;
     setProduct({
       ...product,
-      [id]: type === "input" ? checked : type === "number" ? Number(value) : value,
+      [id]:
+        type === "checkbox" ? checked : type === "number" ? Number(value) : value,
     });
   };
 
-  const handleSubmit = (e:FormEvent) => {
-    e.preventDefault();
-    if (initialData) {
-      updateProduct({ id: product._id, data: product });
-    } else {
-      addProduct(product);
-      console.log(product)
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
     }
   };
 
-  const handleFileChange = (e:ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file ) {
-      // Handle file upload logic here
-      setProduct({ ...product, image: URL.createObjectURL(file) });
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    let imageUrl = product.image;
+    if (selectedFile) {
+      const res = await axios.post(image_hosting_api,  { image:selectedFile }, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (res.data.success) {
+        imageUrl = res.data.data.display_url;
+      } else {
+        toast.error("Image upload failed");
+        return;
+      }
+    }
+
+    const formData = {
+      ...product,
+      image: imageUrl,
+    };
+
+    try {
+      let res;
+      if (initialData && "_id" in initialData) {
+        res = await updateProduct({ id: initialData._id, data: formData });
+      } else {
+        res = await addProduct(formData);
+      }
+
+      if (res.data.success) {
+        toast.success(`Product ${initialData ? "updated" : "added"} successfully`);
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("An error occurred while uploading the product");
     }
   };
+
+  // const handleChange = (
+  //   e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const { id, value, type, checked } = e.target as HTMLInputElement;
+  //   setProduct({
+  //     ...product,
+  //     [id]:
+  //       type === "input" ? checked : type === "number" ? Number(value) : value,
+  //   });
+  // };
+  // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (file) {
+  //     // Handle file upload logic here
+  //     setProduct({ ...product, image: URL.createObjectURL(file) });
+  //   }
+  // };
+  // const handleSubmit = async (e: FormEvent) => {
+  //   e.preventDefault();
+
+  //   if (product.image) {
+  //     const res = await axios.post(image_hosting_api, product.image, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+  //     if (res.data.success) {
+  //       setProduct({...product, image: res.data.data.display_url });
+  //     }
+  //   }
+  //   if (initialData && "_id" in initialData) {
+  //     const res = await updateProduct({ id: initialData._id, data: product });
+  //     if (res.data.success) {
+  //       toast.success("Product updated successfully");
+  //     } else {
+  //       toast.error("Something went wrong");
+  //     }
+  //   } else {
+  //     const res = await addProduct(product);
+  //     if (res.data.success) {
+  //       toast.success("Product added successfully");
+  //     } else {
+  //       toast.error("Something went wrong");
+  //     }
+  //     console.log(res);
+  //   }
+  // };
+
+
 
   return (
     <Dialog>
@@ -139,19 +232,23 @@ const AddProductForm = ({ initialData }:{initialData:TProduct|null}) => {
                 <Label htmlFor="image" className="text-right">
                   Image
                 </Label>
-                {!initialData&&<Input
-                  id="image"
-                  type="file"
-                  onChange={handleFileChange}
-                  className="col-span-3"
-                />}
-                {initialData&&<Input
-                  id="image"
-                  value={product.image}
-                  onChange={handleChange}
-                  className="col-span-3"
-                  required
-                />}
+                {!initialData && (
+                  <Input
+                    id="image"
+                    type="file"
+                    onChange={handleFileChange}
+                    className="col-span-3"
+                  />
+                )}
+                {initialData && (
+                  <Input
+                    id="image"
+                    value={product.image}
+                    onChange={handleChange}
+                    className="col-span-3"
+                    required
+                  />
+                )}
               </div>
             </div>
 
@@ -202,7 +299,7 @@ const AddProductForm = ({ initialData }:{initialData:TProduct|null}) => {
                     In Stock
                   </Label>
                   <input
-                  type="checkbox"
+                    type="checkbox"
                     id="inStock"
                     checked={product.inStock}
                     onChange={handleChange}
@@ -214,7 +311,7 @@ const AddProductForm = ({ initialData }:{initialData:TProduct|null}) => {
                     Featured
                   </Label>
                   <input
-                  type="checkbox"
+                    type="checkbox"
                     id="isFeatured"
                     checked={product.isFeatured}
                     onChange={handleChange}
@@ -226,7 +323,7 @@ const AddProductForm = ({ initialData }:{initialData:TProduct|null}) => {
                     Bestseller
                   </Label>
                   <input
-                  type="checkbox"
+                    type="checkbox"
                     id="isBestseller"
                     checked={product.isBestseller}
                     onChange={handleChange}
@@ -238,7 +335,7 @@ const AddProductForm = ({ initialData }:{initialData:TProduct|null}) => {
                     Popular
                   </Label>
                   <input
-                  type="checkbox"
+                    type="checkbox"
                     id="isPopular"
                     checked={product.isPopular}
                     onChange={handleChange}
@@ -250,7 +347,7 @@ const AddProductForm = ({ initialData }:{initialData:TProduct|null}) => {
                     Sold Out
                   </Label>
                   <input
-                  type="checkbox"
+                    type="checkbox"
                     id="isSoldOut"
                     checked={product.isSoldOut}
                     onChange={handleChange}
@@ -262,7 +359,7 @@ const AddProductForm = ({ initialData }:{initialData:TProduct|null}) => {
                     Discounted
                   </Label>
                   <input
-                  type="checkbox"
+                    type="checkbox"
                     id="isDiscounted"
                     checked={product.isDiscounted}
                     onChange={handleChange}
@@ -274,7 +371,7 @@ const AddProductForm = ({ initialData }:{initialData:TProduct|null}) => {
                     Out of Stock
                   </Label>
                   <input
-                  type="checkbox"
+                    type="checkbox"
                     id="isOutofstock"
                     checked={product.isOutofstock}
                     onChange={handleChange}
@@ -286,7 +383,7 @@ const AddProductForm = ({ initialData }:{initialData:TProduct|null}) => {
                     Coming Soon
                   </Label>
                   <input
-                  type="checkbox"
+                    type="checkbox"
                     id="isComingSoon"
                     checked={product.isComingSoon}
                     onChange={handleChange}

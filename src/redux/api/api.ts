@@ -10,7 +10,8 @@ interface Queries {
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://campers-shop-backend-five.vercel.app/api/v1",
+    // baseUrl: "https://campers-shop-backend-five.vercel.app/api/v1",
+    baseUrl: "http://localhost:5000/api/v1",
   }),
   tagTypes: ["product", "wishlist","order","review"],
 
@@ -42,7 +43,7 @@ export const baseApi = createApi({
     }),
     addProduct: builder.mutation({
       query: (data) => {
-        toast.success("Product added successfully");
+        
         return {
         url: "/products",
         method: "POST",
@@ -52,7 +53,7 @@ export const baseApi = createApi({
     }),
     updateProduct: builder.mutation({
       query: ({ id, data }) => {
-        toast.success("Product updated successfully");
+        
         return {
         url: `/products/${id}`,
         method: "PUT",

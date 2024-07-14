@@ -91,7 +91,7 @@ const ProductManagement = () => {
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center">
+                <TableCell colSpan={6} className="text-center min-h-0.5">
                   {/* <h1 className="text-xl font-bold">Loading...</h1> */}
                   <div className="flex justify-center items-center w-full absolute top-0 right-0 bottom-0 left-0">
               {/* <h1 className="text-4xl font-semibold"> Loading...</h1> */}
