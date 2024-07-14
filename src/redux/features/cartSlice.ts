@@ -1,19 +1,20 @@
+import { TProduct } from "@/interface/TProduct";
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 
-interface CartItem {
-  _id: string;
-  name: string;
-  price: number;
-  image: string;
-  quantity: number;
+// interface cartItem {
+//   _id: string;
+//   name: string;
+//   price: number;
+//   image: string;
+//   quantity: number;
+// }
+
+interface cartState {
+  products: TProduct[];
 }
 
-interface CartState {
-  products: CartItem[];
-}
-
-const initialState: CartState = {
+const initialState: cartState = {
   products: [],
 };
 

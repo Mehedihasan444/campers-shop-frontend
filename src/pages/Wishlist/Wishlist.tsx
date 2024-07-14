@@ -46,7 +46,7 @@ const Wishlist = () => {
           </DrawerHeader>
           <div className="p-4 pb-0 flex-grow overflow-auto">
             {isLoading?<div><h1 className="text-3xl font-bold ">Loading...</h1>
-            </div>:products?.map((item) => (
+            </div>:products?.map((item :{ _id: string; product: { name: string; price: number; image: string; }}) => (
               <div
                 key={item._id}
                 className="flex items-center justify-between py-2 border-b"

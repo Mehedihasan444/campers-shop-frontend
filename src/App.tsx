@@ -2,17 +2,18 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import ScrollToTop from "./lib/SrollToTop";
+import { useAppSelector } from "./redux/hook";
+
 
 function App() {
-  const cart = useSelector((state: RootState) => state.cart.products);
+  const cart = useAppSelector((state: RootState) => state.cart.products);
   useEffect(() => {
-    const handleBeforeUnload = (event) => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       if (cart.length > 0) {
-        const message =
-          "You have items in your cart. Do you really want to leave?";
+        const message = "You have items in your cart. Do you really want to leave?";
         event.preventDefault();
         event.returnValue = message;
         return message;
@@ -20,7 +21,6 @@ function App() {
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
-
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };

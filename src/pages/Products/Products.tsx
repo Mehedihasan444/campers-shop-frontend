@@ -1,5 +1,5 @@
 import ProductsPageSideBer from "@/components/ProductsPageSideBer";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { IoGrid } from "react-icons/io5";
 import { FaThList } from "react-icons/fa";
 import { useGetProductsQuery } from "@/redux/api/api";
@@ -8,6 +8,8 @@ import { TProduct } from "@/interface/TProduct";
 import Product_Card from "@/components/cards/Product_Card";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "react-router-dom";
+import { TQueries } from "@/interface/TQueries";
+import Loading from "@/lib/Loading";
 
 
 const Products = () => {
@@ -15,7 +17,7 @@ const Products = () => {
   const [searchParams] = useSearchParams();
   const searchTerm = searchParams.get("searchTerm");
   const category = searchParams.get("category");
-  const [queries, setQueries] = useState({ page: 1, limit: 10 });
+  const [queries, setQueries] = useState<TQueries>({ page: 1, limit: 10 });
   const { data = {}, isLoading } = useGetProductsQuery(searchTerm?{ page: 1, limit: 10,searchTerm: searchTerm}:category?{ page: 1, limit: 10,category: category}:queries);
   const { totalCount: count, products } = data.data || {};
   const [currentPage, setCurrentPage] = useState(queries.page || 1);
@@ -35,7 +37,7 @@ const Products = () => {
 
   const pages = [...Array(numberOfPages).keys()];
 
-  const handleItemsPerPage = (e) => {
+  const handleItemsPerPage = (e: ChangeEvent<HTMLSelectElement>) => {
     const val = parseInt(e.target.value);
     setItemsPerPage(val);
     setCurrentPage(1);
@@ -58,13 +60,13 @@ const Products = () => {
     }
   };
 
-  const handlePageClick = (page) => {
+  const handlePageClick = (page:number) => {
     setCurrentPage(page + 1);
     setQueries({ ...queries, page: page + 1 });
   };
 
   return (
-    <div className="flex ">
+    <div className="flex relative">
       <div className="sm:w-1/4 p-4 bg-gray-100 hidden md:flex-col md:flex m-5 rounded-md">
         <ProductsPageSideBer queries={queries} setQueries={setQueries} />
       </div>
@@ -80,7 +82,7 @@ const Products = () => {
               <h3 className="text-sm font-semibold mb-2">Sort By:</h3>
               <div>
                 <select
-                  value={queries.sort}
+                  value={queries?.sort}
                   onChange={(e) =>
                     setQueries({ ...queries, sort: e.target.value })
                   }
@@ -131,14 +133,18 @@ const Products = () => {
           } gap-3 mb-8`}
         >
           {isLoading ? (
-            <div className="flex justify-center items-center w-[85vw]">
-              <h1 className="text-4xl font-semibold"> Loading...</h1>
+            <div className="flex justify-center items-center w-full absolute top-0 right-0 bottom-0 left-0">
+              {/* <h1 className="text-4xl font-semibold"> Loading...</h1> */}
+              <div className="">
+
+              <Loading loading={isLoading}/>
+              </div>
             </div>
           ) : viewType === "grid" ? (
             !products?.length ? (
               <h1 className="">Product not found</h1>
             ) : (
-              products?.map((product) => (
+              products?.map((product:TProduct) => (
                 <Product_Card product={product} key={product._id} />
               ))
             )

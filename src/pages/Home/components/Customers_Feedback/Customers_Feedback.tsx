@@ -8,21 +8,24 @@ import "swiper/css/navigation";
 
 import "./style.css";
 
-// import required modules
 import { Pagination, Navigation } from "swiper/modules";
 import Feedback_Card from "@/components/cards/Feedback_Card";
-import { useGetReviewsQuery } from "@/redux/api/api";
-// import Feedback_Card from "../Cards/Feedback_Card";
+// import { useGetReviewsQuery } from "@/redux/api/api";
+
 
 const Customers_Feedback = () => {
-const {data={},isLoading}=useGetReviewsQuery({})
-const {Reviews,totalCount}=data.data||{}
+// const {data={},isLoading}=useGetReviewsQuery({})
+// const {Reviews,totalCount}=data.data||{}
 const feedbacks=[  {
-  _id: 1,
+  _id:"1",
+  createdAt:"02/5/2024",
+  productId: 1,
   rating: {
     rating: 4.8,
     total_rating: 112,
   },
+  user_name:"Name",
+    email:"user@gmail.com",
   feedback: "Excellent Product!",
   feedback_description:
     "The tent is amazing! It withstood heavy rain and wind without any issues. The setup was easy, and it's very spacious. Highly recommended for all camping enthusiasts!",
@@ -33,11 +36,15 @@ const feedbacks=[  {
   },
 },
 {
-  _id: 2,
+  _id:"2",
+  createdAt:"02/5/2024",
+  productId: 2,
   rating: {
     rating: 4.6,
     total_rating: 89,
   },
+  user_name:"Name",
+    email:"user@gmail.com",
   feedback: "Very Comfortable",
   feedback_description:
     "The sleeping bag is very comfortable and kept me warm throughout the night. It's lightweight and easy to pack.",
@@ -47,12 +54,15 @@ const feedbacks=[  {
     product_purchased: "Down Sleeping Bag",
   },
 },
-{
-  _id: 3,
+{ _id:"3",
+  createdAt:"02/5/2024",
+  productId: 3,
   rating: {
     rating: 4.9,
     total_rating: 145,
   },
+  user_name:"Name",
+    email:"user@gmail.com",
   feedback: "Sturdy and Reliable",
   feedback_description:
     "This camping stove is very sturdy and reliable. It boils water quickly and is very easy to use.",
@@ -63,11 +73,15 @@ const feedbacks=[  {
   },
 },
 {
-  _id: 4,
+  _id:"4",
+  createdAt:"02/5/2024",
+  productId: 4,
   rating: {
     rating: 4.7,
     total_rating: 102,
   },
+  user_name:"Name",
+    email:"user@gmail.com",
   feedback: "Great for Hiking",
   feedback_description:
     "These hiking boots are fantastic. They provide great support and traction on rough terrain. Highly recommend for hikers.",
@@ -78,11 +92,15 @@ const feedbacks=[  {
   },
 },
 {
-  _id: 5,
+  _id:"5",
+  createdAt:"02/5/2024",
+  productId: 5,
   rating: {
     rating: 4.5,
     total_rating: 76,
   },
+  user_name:"Name",
+    email:"user@gmail.com",
   feedback: "Very Bright",
   feedback_description:
     "The lantern is very bright and lasts a long time on a single charge. It's perfect for camping trips.",
@@ -118,7 +136,7 @@ const feedbacks=[  {
         className="mySwiper "
       >
         {
-          feedbacks?.map((feedback)=> <SwiperSlide key={feedback._id}>
+          feedbacks?.map((feedback)=> <SwiperSlide key={feedback.productId}>
           <div className="px-5" >
             <Feedback_Card feedback={feedback}/>
           </div>

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+
 import {
   Dialog,
   DialogTrigger,
@@ -12,14 +12,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { TProduct } from "@/interface/TProduct";
 import { useAddProductMutation, useUpdateProductMutation } from "@/redux/api/api";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
-const AddProductForm = ({ initialData }) => {
+const AddProductForm = ({ initialData }:{initialData:TProduct|null}) => {
   const [addProduct] = useAddProductMutation();
   const [updateProduct] = useUpdateProductMutation();
   const [product, setProduct] = useState(
     initialData || {
+      _id:'',
       name: "",
       price: 0,
       quantity: 0,
@@ -40,15 +42,15 @@ const AddProductForm = ({ initialData }) => {
     }
   );
 
-  const handleChange = (e) => {
-    const { id, value, type, checked } = e.target;
+  const handleChange = (e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value, type, checked } = e.target as HTMLInputElement;
     setProduct({
       ...product,
-      [id]: type === "checkbox" ? checked : type === "number" ? Number(value) : value,
+      [id]: type === "input" ? checked : type === "number" ? Number(value) : value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:FormEvent) => {
     e.preventDefault();
     if (initialData) {
       updateProduct({ id: product._id, data: product });
@@ -58,9 +60,9 @@ const AddProductForm = ({ initialData }) => {
     }
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+  const handleFileChange = (e:ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file ) {
       // Handle file upload logic here
       setProduct({ ...product, image: URL.createObjectURL(file) });
     }
@@ -199,7 +201,8 @@ const AddProductForm = ({ initialData }) => {
                   <Label htmlFor="inStock" className="text-right">
                     In Stock
                   </Label>
-                  <Checkbox
+                  <input
+                  type="checkbox"
                     id="inStock"
                     checked={product.inStock}
                     onChange={handleChange}
@@ -210,7 +213,8 @@ const AddProductForm = ({ initialData }) => {
                   <Label htmlFor="isFeatured" className="text-right">
                     Featured
                   </Label>
-                  <Checkbox
+                  <input
+                  type="checkbox"
                     id="isFeatured"
                     checked={product.isFeatured}
                     onChange={handleChange}
@@ -221,7 +225,8 @@ const AddProductForm = ({ initialData }) => {
                   <Label htmlFor="isBestseller" className="text-right">
                     Bestseller
                   </Label>
-                  <Checkbox
+                  <input
+                  type="checkbox"
                     id="isBestseller"
                     checked={product.isBestseller}
                     onChange={handleChange}
@@ -232,7 +237,8 @@ const AddProductForm = ({ initialData }) => {
                   <Label htmlFor="isPopular" className="text-right">
                     Popular
                   </Label>
-                  <Checkbox
+                  <input
+                  type="checkbox"
                     id="isPopular"
                     checked={product.isPopular}
                     onChange={handleChange}
@@ -243,7 +249,8 @@ const AddProductForm = ({ initialData }) => {
                   <Label htmlFor="isSoldOut" className="text-right">
                     Sold Out
                   </Label>
-                  <Checkbox
+                  <input
+                  type="checkbox"
                     id="isSoldOut"
                     checked={product.isSoldOut}
                     onChange={handleChange}
@@ -254,7 +261,8 @@ const AddProductForm = ({ initialData }) => {
                   <Label htmlFor="isDiscounted" className="text-right">
                     Discounted
                   </Label>
-                  <Checkbox
+                  <input
+                  type="checkbox"
                     id="isDiscounted"
                     checked={product.isDiscounted}
                     onChange={handleChange}
@@ -265,7 +273,8 @@ const AddProductForm = ({ initialData }) => {
                   <Label htmlFor="isOutofstock" className="text-right">
                     Out of Stock
                   </Label>
-                  <Checkbox
+                  <input
+                  type="checkbox"
                     id="isOutofstock"
                     checked={product.isOutofstock}
                     onChange={handleChange}
@@ -276,7 +285,8 @@ const AddProductForm = ({ initialData }) => {
                   <Label htmlFor="isComingSoon" className="text-right">
                     Coming Soon
                   </Label>
-                  <Checkbox
+                  <input
+                  type="checkbox"
                     id="isComingSoon"
                     checked={product.isComingSoon}
                     onChange={handleChange}

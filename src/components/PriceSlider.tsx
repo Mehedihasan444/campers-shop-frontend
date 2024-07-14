@@ -2,20 +2,14 @@ import { cn } from "@/lib/utils";
 import { Slider } from "./ui/slider";
 import { useEffect, useState, useRef } from "react";
 
-type SliderProps = React.ComponentProps<typeof Slider>;
-type PriceSliderProps = SliderProps & {
+
+type PriceSliderProps = {
   value: number[];
   onChange: (value: number[]) => void;
 };
-
-const PriceSlider = ({
-  className,
-  value,
-  onChange,
-  ...props
-}: PriceSliderProps) => {
+const PriceSlider = ({value,onChange}: PriceSliderProps) => {
   const [thumbPosition, setThumbPosition] = useState(0);
-  const sliderRef = useRef(null);
+  const sliderRef = useRef<HTMLDivElement>(null); // Adjust type based on your actual DOM element type
 
   const handleValueChange = (value: number[]) => {
     onChange(value);
@@ -46,8 +40,8 @@ const PriceSlider = ({
         min={1}
         max={1000000}
         step={10}
-        className={cn("w-[100%]", className)}
-        {...props}
+        className={cn("w-[100%]")}
+
       />
     </div>
   );

@@ -15,15 +15,15 @@ const stripePromise = loadStripe(
   "pk_test_51OQvquHy1aWBtTZzWht1KaJsz5xOeBC0wSIxY9UUmdKdVucXHKeu7MUGpCaB6keZpDuJGW8SvK7W4qlb8hP8SouL00LMjTvLaF"
 );
 
-const options = {
-  mode: "payment",
-  amount: 1099,
-  currency: "usd",
-  // Fully customizable with appearance API.
-  appearance: {
-    /*...*/
-  },
-};
+// const options = {
+//   mode: "payment",
+//   amount: 1099,
+//   currency: "usd",
+//   // Fully customizable with appearance API.
+//   appearance: {
+//     /*...*/
+//   },
+// };
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -50,7 +50,9 @@ const routes = createBrowserRouter([
   {
     path: "/checkout",
     element: (
-      <Elements stripe={stripePromise} options={options}>
+      <Elements stripe={stripePromise}
+      //  options={options}
+       >
         <Checkout />
       </Elements>
     ),

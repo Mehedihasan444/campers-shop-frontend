@@ -1,6 +1,7 @@
+import { TFeedback } from "@/interface/TFeedback";
 import RatingStar from "@/lib/RatingStar";
 
-const Feedback_Card = ({feedback:data}) => {
+const Feedback_Card = ({feedback:data}:{feedback:TFeedback}) => {
 
 
   return (
@@ -8,13 +9,13 @@ const Feedback_Card = ({feedback:data}) => {
       <h3 className="font-bold text-3xl text-left">{data?.feedback}</h3>
       <div className="flex flex-row items-center gap-3">
         <span className="">
-          <RatingStar rating={data?.rating?.rating} />
+          <RatingStar Rating_value={data?.rating?.rating} />
         </span>
         <span className="font-bold text-amber-500">
           {data?.rating?.rating}
         </span>
       </div>
-      <p className="text-left">{data?.feedback_description}</p>
+      <p className="text-left w-[498px]">{data?.feedback_description}</p>
       <div className="flex flex-row justify-between items-center gap-5 pt-2">
         <div className="flex flex-row items-center justify-between gap-3">
           <div className="flex flex-row justify-center items-center w-12 h-12">

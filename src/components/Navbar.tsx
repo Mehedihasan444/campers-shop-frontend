@@ -9,7 +9,7 @@ import {
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import React from "react";
+import React, { FormEvent } from "react";
 import { FaBars, FaSearch } from "react-icons/fa";
 import Cart from "@/pages/Cart/Cart";
 import Wishlist from "@/pages/Wishlist/Wishlist";
@@ -60,9 +60,15 @@ const Navbar = () => {
   ];
 
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e: FormEvent) => {
+  //   e.preventDefault();
+  //   const searchTerm = e.target.searchTerm.value;
+  //   navigate(`/products?searchTerm=${searchTerm}`);
+  // };
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const searchTerm = e.target.searchTerm.value;
+    const formData = new FormData(e.currentTarget);
+    const searchTerm = formData.get("searchTerm") as string;
     navigate(`/products?searchTerm=${searchTerm}`);
   };
   return (

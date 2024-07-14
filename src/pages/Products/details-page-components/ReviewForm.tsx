@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { useAddReviewMutation } from "@/redux/api/api";
@@ -8,13 +8,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-const ReviewForm = ({ id = "" }) => {
+const ReviewForm = ({ id }:{id:string}) => {
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
   const [email, setEmail] = useState("");
   const [addReview] = useAddReviewMutation();
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:FormEvent) => {
     e.preventDefault();
 
     if (!name ||!email ||!comment || rating === 0) {
@@ -115,7 +115,7 @@ const ReviewForm = ({ id = "" }) => {
             placeholder="Write a comment..."
             onChange={(e) => setComment(e.target.value)}
             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-            rows="4"
+            rows={4}
             required
           ></Textarea>
         </div>

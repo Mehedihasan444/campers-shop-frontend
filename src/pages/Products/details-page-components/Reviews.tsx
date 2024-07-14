@@ -1,17 +1,13 @@
-import { useParams } from "react-router-dom";
+import { TFeedback } from "@/interface/TFeedback";
 import Review from "./Review";
 import ReviewForm from "./ReviewForm";
-import {  useEffect, useState } from "react";
 import RatingStar from "@/lib/RatingStar";
+import { useGetReviewsQuery } from "@/redux/api/api";
 
-const Reviews = ({ id }) => {
-  const [products, setProducts] = useState([]);
+const Reviews = ({ id }:{id:string}) => {
+const {data}=useGetReviewsQuery(id)
+const {Reviews}=data.data||{}
 
-  // useEffect(() => {
-  //   byId(id).then((res) => {
-  //     setProducts(res[1]);
-  //   });
-  // }, [byId, id]);
 
   return (
     <div className="container mx-auto py-8">
@@ -28,7 +24,7 @@ const Reviews = ({ id }) => {
       </div>
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-4">User Reviews </h2>
-        {products?.map((review) => (
+        {Reviews?.map((review:TFeedback) => (
           <Review key={review._id} review={review} />
         ))}
       </div>

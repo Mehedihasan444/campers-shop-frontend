@@ -10,7 +10,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import { FaShoppingCart, FaTrash } from "react-icons/fa";
 import { FaCircleMinus, FaCirclePlus, FaX } from "react-icons/fa6";
 import { Link } from "react-router-dom";
@@ -21,12 +21,13 @@ import {
 import { useGetProductQuery } from "@/redux/api/api";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 
 const Cart = () => {
   const [id, setId] = useState("668ee8091519cbaa7a57bf89");
-  const cart = useSelector((state: RootState) => state.cart.products);
+  const cart = useAppSelector((state: RootState) => state.cart.products);
   const { data = {} } = useGetProductQuery(id);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const updateQuantity = (id: string, adjustment: number) => {
     setId(id);

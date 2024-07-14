@@ -2,7 +2,7 @@
 import Reviews from "./Reviews";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const Product_Details_Tabs = ({ id }) => {
+const Product_Details_Tabs = ({ id }:{id:string}) => {
   return (
     <Tabs defaultValue="description" className="mt-16 ">
       <TabsList className="grid w-full grid-cols-2">

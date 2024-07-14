@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import ProductForm from "./ProductForm";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +14,8 @@ import {
 import {  useGetProductsQuery } from "@/redux/api/api";
 
 import ConfirmationModal from "@/lib/ConfirmationModal";
+import { TProduct } from "@/interface/TProduct";
+import Loading from "@/lib/Loading";
 
 const ProductManagement = () => {
   const [queries, setQueries] = useState({ page: 1, limit: 10 });
@@ -31,7 +33,7 @@ const ProductManagement = () => {
     }
   }, [total, itemsPerPage, data, queries]);
 
-  const handleItemsPerPageChange = (e) => {
+  const handleItemsPerPageChange = (e:ChangeEvent<HTMLSelectElement>) => {
     const newLimit = parseInt(e.target.value);
     setItemsPerPage(newLimit);
     setCurrentPage(1);
@@ -54,19 +56,19 @@ const ProductManagement = () => {
     }
   };
 
-  const handlePageClick = (page) => {
+  const handlePageClick = (page:number) => {
     setCurrentPage(page + 1);
     setQueries({ ...queries, page: page + 1 });
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 ">
       <h1 className="text-2xl font-bold mb-4">Product Management</h1>
       <div className="mb-4 flex justify-end ">
         <ProductForm initialData={null} />
       </div>
       <div>
-        <Table>
+        <Table className="relative">
           <TableCaption>A list of your recent products.</TableCaption>
           <TableHeader>
             <TableRow className="">
@@ -90,11 +92,18 @@ const ProductManagement = () => {
             {isLoading ? (
               <TableRow>
                 <TableCell colSpan={6} className="text-center">
-                  <h1 className="text-xl font-bold">Loading...</h1>
+                  {/* <h1 className="text-xl font-bold">Loading...</h1> */}
+                  <div className="flex justify-center items-center w-full absolute top-0 right-0 bottom-0 left-0">
+              {/* <h1 className="text-4xl font-semibold"> Loading...</h1> */}
+              <div className="">
+
+              <Loading loading={isLoading}/>
+              </div>
+            </div>
                 </TableCell>
               </TableRow>
             ) : (
-              products?.map((product) => (
+              products?.map((product:TProduct) => (
                 <TableRow key={product._id}>
                   <TableCell className="font-medium">
                     <img

@@ -1,9 +1,15 @@
-import {FaFacebook,FaInstagram,FaPinterest,FaTwitter,} from "react-icons/fa6";
+import { TMember } from "@/interface/TMember";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaPinterest,
+  FaTwitter,
+} from "react-icons/fa6";
 
-const Team_Member_Card = ({ member }) => {
+
+const Team_Member_Card = ({ member }:{member:TMember}) => {
   const { name, role, image } = member;
 
-  
   return (
     <div>
       <div className=" flex justify-center items-center">

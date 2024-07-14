@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { toast } from "sonner";
 
+
+interface Queries {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any; // Use the appropriate type instead of `any` if you know it
+}
+
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
@@ -11,7 +17,7 @@ export const baseApi = createApi({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: (queries) => {
-        const cleanedQueries = Object.entries(queries).reduce((acc, [key, value]) => {
+        const cleanedQueries = Object.entries(queries).reduce<Queries>((acc, [key, value]) => {
           if (value !== '') {
             acc[key] = value;
           }
@@ -66,7 +72,7 @@ export const baseApi = createApi({
     // review: builder
     getReviews: builder.query({
       query: (queries) => {
-        const cleanedQueries = Object.entries(queries).reduce((acc, [key, value]) => {
+        const cleanedQueries = Object.entries(queries).reduce<Queries>((acc, [key, value]) => {
           if (value !== '') {
             acc[key] = value;
           }
@@ -140,7 +146,7 @@ export const baseApi = createApi({
     }),
     addWishlistProduct: builder.mutation({
       query: (productId) => {
-        toast.success("Product added successfully in the cart");
+       
         return {
           url: `/wishlist`,
           method: "POST",

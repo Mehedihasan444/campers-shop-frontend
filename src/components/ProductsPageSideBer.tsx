@@ -1,26 +1,14 @@
+import { TProduct } from "@/interface/TProduct";
 import PriceSlider from "./PriceSlider";
 import { useEffect, useState } from "react";
+import { TQueries } from "@/interface/TQueries";
 
-interface TQueries {
-  searchTerm?: string;
-  limit?: number;
-  page?: number;
-  sortBy?: string;
-  filter?: string;
-  category?: string;
-  brand?: string;
-}
 
-interface TProps {
-  queries: TQueries;
-  setQueries: React.Dispatch<React.SetStateAction<TQueries>>;
-}
+const ProductsPageSideBer = ({ queries, setQueries }:{queries:TQueries,setQueries:React.Dispatch<React.SetStateAction<TQueries>>}) => {
+  const [items, setItems] = useState<Array< TProduct>>([]);
+  const [priceRange, setPriceRange] = useState<number[]>([50]);
 
-const ProductsPageSideBer = ({ queries, setQueries }: TProps) => {
-  const [items, setItems] = useState([]);
-  const [priceRange, setPriceRange] = useState([50]);
-
-  const handlePriceChange = (value) => {
+  const handlePriceChange = (value:number[]) => {
     setPriceRange(value);
   };
 

@@ -7,10 +7,20 @@ import { useAddWishlistProductMutation } from "@/redux/api/api";
 import { useAppDispatch } from "@/redux/hook";
 import { addProduct } from "@/redux/features/cartSlice";
 import { Button } from "../ui/button";
+import { TProduct } from "@/interface/TProduct";
+import { toast } from "sonner";
 
-const Product_Card = ({ product }) => {
+const Product_Card = ({ product }: { product: TProduct }) => {
   const [addWishlistProduct] = useAddWishlistProductMutation();
   const dispatch = useAppDispatch();
+  const addWishlist = async (id: string) => {
+    const res = await addWishlistProduct(id);
+    if (res.data.success) {
+      toast.success(`${res.data.data.message}`);
+    } else {
+      toast.error(`Something went wrong`);
+    }
+  };
 
   return (
     <div
@@ -28,7 +38,7 @@ const Product_Card = ({ product }) => {
 
         <div className="absolute top-2 right-2 space-y-3">
           <div
-            onClick={() => addWishlistProduct(product._id)}
+            onClick={() => addWishlist(product._id)}
             className="cursor-pointer hover:text-primary hover:shadow-md  bg-slate-100 hover:bg-slate-200 p-2 rounded-full text-xl"
           >
             <IoMdHeartEmpty />
@@ -44,17 +54,19 @@ const Product_Card = ({ product }) => {
       </div>
       <Link to={`/product-detail/${product._id}`}>
         <div className="p-4">
-          <h3 className="text-lg font-semibold mb-2">{product?.name}</h3>
+          <h3 className="text-lg font-semibold mb-2">
+            {product?.name.length > 20
+              ? `${product?.name.substring(0, 20)}...`
+              : product?.name}
+          </h3>
           <div className="flex items-center mb-2">
             <div className="flex gap-3">
               <RatingStar Rating_value={product?.rating} />
-              <span className="font-semibold text-sm">
-                {product?.reviews} reviews
-              </span>
+              <span className="font-semibold text-sm">{0} reviews</span>
             </div>
           </div>
           <div className="mb-2">
-            {product?.discount_price ? (
+            {/* {product?.discount_price ? (
               <>
                 <span className="text-gray-300 line-through">
                   ${product?.price}
@@ -63,9 +75,9 @@ const Product_Card = ({ product }) => {
                   ${product?.discount_price}
                 </span>
               </>
-            ) : (
-              <span className="ml-2 text-green-700">${product?.price}</span>
-            )}
+            ) : ( */}
+            <span className="ml-2 text-green-700">${product?.price}</span>
+            {/* )} */}
           </div>
           <div className="flex justify-between items-center">
             <p

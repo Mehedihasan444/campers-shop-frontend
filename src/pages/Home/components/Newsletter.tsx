@@ -19,17 +19,17 @@ const Newsletter = () => {
               placeholder="Enter your email address"
               className="bg-white border border-gray-300 rounded-l py-2 px-4 w-full"
             />
-            <button className="bg-red-500 text-white px-6 py-2 rounded-r">
+            <button className="bg-green-500 text-white px-6 py-2 rounded-r">
               Subscribe
             </button>
           </form>
           <p className="text-xs text-gray-600 mt-2">
             By subscribing you agree to our{' '}
-            <a href="#" className="text-red-500">
+            <a href="#" className="text-green-500">
               Terms & Conditions
             </a>{' '}
             and{' '}
-            <a href="#" className="text-red-500">
+            <a href="#" className="text-green-500">
               Privacy & Cookies Policy
             </a>
             .

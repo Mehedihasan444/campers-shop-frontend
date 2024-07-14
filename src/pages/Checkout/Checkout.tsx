@@ -3,18 +3,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RootState } from "@/redux/store";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+// import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useStripe, useElements, CardElement, PaymentElement } from "@stripe/react-stripe-js";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useOrderMutation } from "@/redux/api/api";
 import { toast } from "sonner";
 import { clearCart } from "@/redux/features/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+// Assume setMessage is defined somewhere in your component
 
 const Checkout = () => {
   const [order] = useOrderMutation();
-  const cart = useSelector((state: RootState) => state.cart.products);
-  const dispatch = useDispatch();
+  const cart = useAppSelector((state: RootState) => state.cart.products);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
@@ -47,10 +49,11 @@ const Checkout = () => {
         setClientSecret(data.clientSecret);
         setStripePaymentId(data.stripePaymentId);
       })
-      .catch((error) => toast.error("Failed to create payment intent"));
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .catch(() => toast.error("Failed to create payment intent"));
   }, [cart]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setUserDetails({
       ...userDetails,
@@ -58,11 +61,11 @@ const Checkout = () => {
     });
   };
 
-  const handlePaymentMethodChange = (e) => {
+  const handlePaymentMethodChange = (e:ChangeEvent<HTMLInputElement>) => {
     setPaymentMethod(e.target.value);
   };
 
-  const handlePlaceOrder = async (event) => {
+  const handlePlaceOrder = async (event:FormEvent) => {
     event.preventDefault();
 
     if (!userDetails.name || !userDetails.email || !userDetails.phone || !userDetails.address) {
@@ -106,14 +109,14 @@ const Checkout = () => {
       });
 
       if (error) {
-        setMessage(error.message);
+        setMessage(error.message?? "An error occurred");
       } else {
         const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
           payment_method: paymentMethod.id,
         });
 
         if (confirmError) {
-          setMessage(confirmError.message);
+          setMessage(confirmError.message?? "An error occurred");
         } else if (paymentIntent.status === "succeeded") {
           setTransactionId(paymentIntent.id);
           const orderData = {
