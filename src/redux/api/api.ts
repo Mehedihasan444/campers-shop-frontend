@@ -10,8 +10,8 @@ interface Queries {
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://campers-shop-backend-five.vercel.app/api/v1",
-    // baseUrl: "http://localhost:5000/api/v1",
+    // baseUrl: "https://campers-shop-backend-five.vercel.app/api/v1",
+    baseUrl: "http://localhost:5000/api/v1",
   }),
   tagTypes: ["product", "wishlist","order","review"],
 

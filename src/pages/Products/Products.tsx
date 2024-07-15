@@ -104,7 +104,7 @@ const Products = () => {
                   onClick={() => handleViewChange("grid")}
                   className={`p-2 rounded-md ${
                     viewType === "grid"
-                      ? "bg-blue-500 text-white"
+                      ? "bg-green-900 text-white"
                       : "bg-gray-200 text-gray-700"
                   }`}
                 >
@@ -114,7 +114,7 @@ const Products = () => {
                   onClick={() => handleViewChange("list")}
                   className={`p-2 rounded-md ${
                     viewType === "list"
-                      ? "bg-blue-500 text-white"
+                      ? "bg-green-900 text-white"
                       : "bg-gray-200 text-gray-700"
                   }`}
                 >

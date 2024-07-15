@@ -111,54 +111,6 @@ const AddProductForm = ({ initialData }: { initialData: TProduct | null }) => {
     }
   };
 
-  // const handleChange = (
-  //   e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   const { id, value, type, checked } = e.target as HTMLInputElement;
-  //   setProduct({
-  //     ...product,
-  //     [id]:
-  //       type === "input" ? checked : type === "number" ? Number(value) : value,
-  //   });
-  // };
-  // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files?.[0];
-  //   if (file) {
-  //     // Handle file upload logic here
-  //     setProduct({ ...product, image: URL.createObjectURL(file) });
-  //   }
-  // };
-  // const handleSubmit = async (e: FormEvent) => {
-  //   e.preventDefault();
-
-  //   if (product.image) {
-  //     const res = await axios.post(image_hosting_api, product.image, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     });
-  //     if (res.data.success) {
-  //       setProduct({...product, image: res.data.data.display_url });
-  //     }
-  //   }
-  //   if (initialData && "_id" in initialData) {
-  //     const res = await updateProduct({ id: initialData._id, data: product });
-  //     if (res.data.success) {
-  //       toast.success("Product updated successfully");
-  //     } else {
-  //       toast.error("Something went wrong");
-  //     }
-  //   } else {
-  //     const res = await addProduct(product);
-  //     if (res.data.success) {
-  //       toast.success("Product added successfully");
-  //     } else {
-  //       toast.error("Something went wrong");
-  //     }
-  //     console.log(res);
-  //   }
-  // };
-
 
 
   return (
@@ -236,6 +188,7 @@ const AddProductForm = ({ initialData }: { initialData: TProduct | null }) => {
                   <Input
                     id="image"
                     type="file"
+                    multiple
                     onChange={handleFileChange}
                     className="col-span-3"
                   />

@@ -11,6 +11,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import Success from "@/pages/Success/Success";
+import Test from "@/pages/Test";
 const stripePromise = loadStripe(
   "pk_test_51OQvquHy1aWBtTZzWht1KaJsz5xOeBC0wSIxY9UUmdKdVucXHKeu7MUGpCaB6keZpDuJGW8SvK7W4qlb8hP8SouL00LMjTvLaF"
 );
@@ -72,6 +73,10 @@ const routes = createBrowserRouter([
   {
     path: "/payment-failed",
     element: <PaymentFailed />,
+  },
+  {
+    path: "/test",
+    element: <Test></Test>,
   },
 ]);
 
