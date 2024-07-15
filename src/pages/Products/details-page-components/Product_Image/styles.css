@@ -1,14 +1,14 @@
-
- .image-gallery-slide{
+/* 
+  .image-gallery-slide{
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     
   }
   .custom-image-gallery .image-gallery-slide img {
-    object-fit: contain; /* Ensure the images fit within the specified dimensions */
-    height: 100%; /* Ensure the image takes up the full height */
-    width: auto; /* Maintain aspect ratio */
+    object-fit: contain; 
+    height: 100%; 
+    width: auto; 
   }
   
   .image-gallery-thumbnail-image{
@@ -18,4 +18,4 @@
   .image-gallery-thumbnail {
     width: auto !important;
   }
-  
+   */

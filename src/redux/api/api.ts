@@ -10,8 +10,8 @@ interface Queries {
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://campers-shop-backend-five.vercel.app/api/v1",
-    baseUrl: "http://localhost:5000/api/v1",
+    baseUrl: "https://campers-shop-backend-five.vercel.app/api/v1",
+    // baseUrl: "http://localhost:5000/api/v1",
   }),
   tagTypes: ["product", "wishlist","order","review"],
 
@@ -71,22 +71,14 @@ export const baseApi = createApi({
     }),
     // review: builder
     getReviews: builder.query({
-      query: (queries) => {
-        const cleanedQueries = Object.entries(queries).reduce<Queries>((acc, [key, value]) => {
-          if (value !== '') {
-            acc[key] = value;
-          }
-          return acc;
-        }, {});
-    
-        const params = new URLSearchParams(cleanedQueries);
+      query: (id) => {
     
         return {
-          url: `/reviews?${params.toString()}`,
+          url: `/reviews/${id}`,
           method: "GET",
         };
       },
-      providesTags: ["product"],
+      providesTags: ["review"],
     }),
     getReview: builder.query({
       query: (id) => ({

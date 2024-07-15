@@ -107,7 +107,7 @@ const ProductManagement = () => {
                 <TableRow key={product._id}>
                   <TableCell className="font-medium">
                     <img
-                      src={product.image}
+                      src={product.image[0]}
                       alt={product.name}
                       className="w-16 h-16 object-cover"
                     />

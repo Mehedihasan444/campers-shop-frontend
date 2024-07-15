@@ -97,7 +97,7 @@ const Cart = () => {
                   <div className="">
                     <img
                       className="h-12 w-12 object-cover rounded-sm"
-                      src={item.image}
+                      src={item.image[0]}
                       alt={item.name}
                     />
                   </div>

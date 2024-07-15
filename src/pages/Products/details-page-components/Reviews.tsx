@@ -4,10 +4,17 @@ import ReviewForm from "./ReviewForm";
 import RatingStar from "@/lib/RatingStar";
 import { useGetReviewsQuery } from "@/redux/api/api";
 
-const Reviews = ({ id }:{id:string}) => {
-const {data}=useGetReviewsQuery(id)
-const {Reviews}=data.data||{}
+const Reviews = ({ id }: { id: string }) => {
+  const { data={}, error, isLoading } = useGetReviewsQuery(id);
+const Reviews=data.data||[];
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading reviews.</div>;
+  }
 
   return (
     <div className="container mx-auto py-8">

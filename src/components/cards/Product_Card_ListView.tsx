@@ -19,7 +19,7 @@ const Product_Card_ListView = ({ product }:{product:TProduct}) => {
     >
       <div className="md:relative group flex-1">
         <div className="w-full md:h-[280px] flex justify-center items-center    bg-cover bg-center transition-transform duration-300 transform group-hover:scale-105">
-          <img className=" md:h-[280px]" src={product?.image} alt="" />
+          <img className=" md:h-[280px]" src={product?.image[0]} alt="" />
         </div>
         <div className="md:absolute top-2 right-2 space-y-3">
           <div

@@ -31,7 +31,7 @@ const Product_Card = ({ product }: { product: TProduct }) => {
         <div className="w-full h-40  flex justify-center items-center   bg-cover bg-center ">
           <img
             className="w-44 h-44 object-contain transform transition-transform duration-300 ease-in-out hover:scale-105"
-            src={product?.image}
+            src={product?.image[0]}
             alt=""
           />
         </div>

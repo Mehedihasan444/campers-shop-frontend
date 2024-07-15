@@ -22,26 +22,26 @@ const ProductsDetails = () => {
   const dispatch = useAppDispatch();
   const { data: productDetails } = data;
   const { products } = allProducts.data || {};
+  
+  const images = productDetails?.image?.map((image: string) => ({
+    original: image,
+    thumbnail: image,
+  }))|| [];
   return (
     <section className="mt-10 relative">
       {isLoading ? (
-          <div className="flex justify-center items-center w-full absolute top-0 right-0 bottom-0 left-0">
+        <div className="flex justify-center items-center w-full absolute top-0 right-0 bottom-0 left-0">
           {/* <h1 className="text-4xl font-semibold"> Loading...</h1> */}
           <div className="">
-
-          <Loading loading={isLoading}/>
+            <Loading loading={isLoading} />
           </div>
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-5 max-w-7xl mx-auto mb-10">
           <div>
             <Product_Image
-              items={[
-                {
-                  original: productDetails?.image,
-                  thumbnail: productDetails?.image,
-                },
-              ]}
+         
+              items={images }
             />
           </div>
           <div className="space-y-5">

@@ -4,7 +4,7 @@ export interface TProduct {
   quantity: number;
   description: string;
   category: string;
-  image: string;
+  image: string[];
   rating: number;
   _id: string;
   inStock: boolean;
