@@ -80,7 +80,7 @@ const Navbar = () => {
             alt="Campers Shop Logo"
             className="h-16 w-16 object-cover"
           />
-          <span className="text-xl font-bold">Campers Shop</span>
+          <span className="hidden sm:flex sm:text-2xl font-bold"><span className="text-green-500">CAMPERS</span> SHOP</span>
         </div>
       </Link>
       <NavigationMenu className="hidden lg:flex">

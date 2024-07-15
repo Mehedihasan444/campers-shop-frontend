@@ -427,6 +427,7 @@ const AddProductForm = ({ initialData }: { initialData: TProduct | null }) => {
     const files = e.target.files;
     if (files) {
       setSelectedFiles(Array.from(files));
+      console.log("h",selectedFiles)
     }
   };
 
@@ -437,7 +438,7 @@ const AddProductForm = ({ initialData }: { initialData: TProduct | null }) => {
     for (const file of selectedFiles) {
       const formData = new FormData();
       formData.append("image", file);
-
+console.log(formData)
       try {
         const res = await axios.post(imageHostingApi, formData, {
           headers: {
@@ -469,6 +470,7 @@ const AddProductForm = ({ initialData }: { initialData: TProduct | null }) => {
         res = await updateProduct({ id: initialData._id, data: formData });
       } else {
         res = await addProduct(formData);
+        console.log(res)
       }
 
       if (res.data.success) {
