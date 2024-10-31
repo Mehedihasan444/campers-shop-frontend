@@ -1,4 +1,4 @@
-"use client";
+
 
 import { ChevronRight, LayoutDashboard, type LucideIcon } from "lucide-react";
 

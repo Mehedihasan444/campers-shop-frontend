@@ -9,7 +9,7 @@ import {
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import React, { FormEvent, useContext, useEffect, useState } from "react";
+import React, { FormEvent, useContext } from "react";
 import { FaBars, FaSearch } from "react-icons/fa";
 import Cart from "@/pages/Cart/Cart";
 import Wishlist from "@/pages/Wishlist/Wishlist";
@@ -76,25 +76,6 @@ const Navbar = () => {
   }
 
   const { user, logout } = authContext;
-  const [isUserActive, setIsUserActive] = useState(!!user);
-
-  useEffect(() => {
-    // Function to check if user still exists
-    const checkUser = () => {
-      setIsUserActive(!!authContext.user);
-    };
-
-    // Initial check after a few seconds
-    const interval = setInterval(() => {
-      checkUser();
-      if (!authContext.user) {
-        clearInterval(interval);  // Stop the interval if the user is not found
-      }
-    }, 5000); // Check every 5 seconds
-
-    return () => clearInterval(interval); // Cleanup on component unmount
-  }, [authContext]);
-
 
   // handle search
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -169,32 +150,30 @@ const Navbar = () => {
               <span className="text-xs">Register</span>
             </Link>
           </div>
-            {
-              isUserActive&&
-          <div className="">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Avatar>
-                  <AvatarImage src={user?.profilePhoto} alt={user?.name} />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="mr-5">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                {/* <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem>Team</DropdownMenuItem> */}
-                <DropdownMenuItem
-                  onClick={logout}
-                  className="flex justify-between"
-                >
-                  LogOut <LogOut />
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-            }
+          {user && (
+            <div className="">
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Avatar>
+                    <AvatarImage src={user?.profilePhoto} alt={user?.name} />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="mr-5">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+
+                  <DropdownMenuItem
+                    onClick={logout}
+                    className="flex justify-between"
+                  >
+                    LogOut <LogOut />
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          )}
         </div>
       </header>
       <header className="flex justify-between items-center p-4 bg-white shadow-md">
@@ -259,18 +238,20 @@ const Navbar = () => {
                 </NavigationMenuLink>
               </NavLink>
             </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavLink
-                to={`/dashboard/${"USER"}`}
-                className={({ isActive, isPending }) =>
-                  isPending ? "pending" : isActive ? "text-primary " : ""
-                }
-              >
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Dashboard
-                </NavigationMenuLink>
-              </NavLink>
-            </NavigationMenuItem>
+            {user && (
+              <NavigationMenuItem>
+                <NavLink
+                  to={`/dashboard/${user?.role}`}
+                  className={({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "text-primary " : ""
+                  }
+                >
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Dashboard
+                  </NavigationMenuLink>
+                </NavLink>
+              </NavigationMenuItem>
+            )}
           </NavigationMenuList>
         </NavigationMenu>
         <div className="flex items-center space-x-4">

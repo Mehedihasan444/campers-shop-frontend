@@ -19,9 +19,47 @@ import WishlistPage from "@/pages/Wishlist/WishlistPage";
 import OrderHistory from "@/pages/Order-History/OrderHistory";
 import TrackOrder from "@/pages/Track-Order/TrackOrder";
 import DashboardHomePage from "@/Dashboard/Dashboard-Home-Page";
+import ProtectedRoute from "./ProtectedRoute";
+
+// stripe secret key
 const stripePromise = loadStripe(
   "pk_test_51OQvquHy1aWBtTZzWht1KaJsz5xOeBC0wSIxY9UUmdKdVucXHKeu7MUGpCaB6keZpDuJGW8SvK7W4qlb8hP8SouL00LMjTvLaF"
 );
+
+const buyerRoutes = [
+  {
+    path: "/dashboard/buyer",
+    element: <DashboardHomePage />,
+  },
+  {
+    path: `/dashboard/buyer/all-products`,
+    element: <ProductManagement />,
+  },
+  {
+    path: `/dashboard/buyer/orders-history`,
+    element: <OrderHistory />,
+  },
+  {
+    path: `/dashboard/buyer/track-order`,
+    element: <TrackOrder />,
+  },
+  {
+    path: `/dashboard/buyer/wishlist`,
+    element: <WishlistPage />,
+  },
+];
+
+const adminRoutes = [
+  {
+    path: "/dashboard/admin",
+    element: <DashboardHomePage />,
+  }]
+const sellerRoutes = [
+  {
+    path: "/dashboard/seller",
+    element: <DashboardHomePage />,
+  }]
+
 
 const routes = createBrowserRouter([
   {
@@ -47,6 +85,30 @@ const routes = createBrowserRouter([
     ],
   },
   {
+    path: `/dashboard/buyer`,
+    element: <ProtectedRoute allowedRoles={["BUYER"]}>
+      <Dashboard  />
+    </ProtectedRoute> ,
+    errorElement:<h1>Error</h1>,
+    children:buyerRoutes,
+  },
+  {
+    path: `/dashboard/admin`,
+    element: <ProtectedRoute allowedRoles={["ADMIN"]}>
+      <Dashboard  />
+    </ProtectedRoute> ,
+     errorElement:<h1>Error</h1>,
+    children: adminRoutes,
+  },
+  {
+    path: `/dashboard/seller`,
+    element: <ProtectedRoute allowedRoles={["SELLER"]}>
+      <Dashboard  />
+    </ProtectedRoute> ,
+     errorElement:<h1>Error</h1>,
+    children: sellerRoutes,
+  },
+  {
     path: "/checkout",
     element: (
       <Elements stripe={stripePromise}>
@@ -54,33 +116,7 @@ const routes = createBrowserRouter([
       </Elements>
     ),
   },
-  {
-    path: `/dashboard/${"USER"}`,
-    element: <Dashboard role={"USER"} />
-    ,
-    children: [
-      {
-        path: `/dashboard/${"USER"}`,
-        element: <DashboardHomePage />,
-      },
-      {
-        path: `/dashboard/${"USER"}/all-products`,
-        element: <ProductManagement />,
-      },
-      {
-        path: `/dashboard/${"USER"}/orders-history`,
-        element: <OrderHistory />,
-      },
-      {
-        path: `/dashboard/${"USER"}/track-order`,
-        element: <TrackOrder />,
-      },
-      {
-        path: `/dashboard/${"USER"}/wishlist`,
-        element: <WishlistPage />,
-      },
-    ],
-  },
+
   {
     path: "/payment-success",
     element: <PaymentSuccess />,

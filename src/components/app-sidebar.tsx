@@ -20,15 +20,25 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "./ui/sidebar";
+import { AuthContext } from "@/AuthProvider/AuthProvider";
+
+
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const authContext = React.useContext(AuthContext);
+
+  if (!authContext) {
+    throw new Error("AuthContext must be used within an AuthProvider");
+  }
+  const { user } = authContext;
 
 // This is sample data.
 
 const data = {
   user: {
-    name: "john_doe",
-    email: "john@example.com",
-    avatar: "/avatars/johndoe.jpg",
-    role: "ADMIN",
+    name: user?.name as string,
+    email: user?.email as string,
+    avatar: user?.profilePhoto as string,
+    role: user?.role as string,
   },
   teams: [
     {
@@ -47,41 +57,18 @@ const data = {
         items: [
           {
             title: "All Products",
-            url: `/dashboard/${"USER"}/all-products`,
+            url: `/dashboard/${user?.role}/all-products`,
           },
           {
             title: "New Arrivals",
-            url:  `/dashboard/${"USER"}/new-arrivals`,
+            url: `/dashboard/${user?.role}/new-arrivals`,
           },
           {
             title: "Best Sellers",
-            url:  `/dashboard/${"USER"}/best-sellers`,
+            url: `/dashboard/${user?.role}/best-sellers`,
           },
         ],
       },
-      // {
-      //   title: "Categories",
-      //   url: "#",
-      //   icon: List,
-      //   items: [
-      //     {
-      //       title: "Tents",
-      //       url: "#",
-      //     },
-      //     {
-      //       title: "Backpacks",
-      //       url: "#",
-      //     },
-      //     {
-      //       title: "Camping Gear",
-      //       url: "#",
-      //     },
-      //     {
-      //       title: "Accessories",
-      //       url: "#",
-      //     },
-      //   ],
-      // },
       {
         title: "Orders",
         url: "#",
@@ -89,15 +76,15 @@ const data = {
         items: [
           {
             title: "Order History",
-            url:  `/dashboard/${"USER"}/orders-history`,
+            url: `/dashboard/${user?.role}/orders-history`,
           },
           {
             title: "Track Order",
-            url:  `/dashboard/${"USER"}/track-order`,
+            url: `/dashboard/${user?.role}/track-order`,
           },
           {
             title: "Wishlist",
-            url:  `/dashboard/${"USER"}/wishlist`,
+            url: `/dashboard/${user?.role}/wishlist`,
           },
         ],
       },
@@ -118,20 +105,14 @@ const data = {
             title: "Payment Methods",
             url: "#",
           },
-          {
-            title: "Logout",
-            url: "#",
-          },
+          // {
+          //   title: "Logout",
+          //   url: "#",
+          // },
         ],
       },
     ],
     seller: [
-      // {
-      //   title: "Dashboard",
-      //   url: "#",
-      //   icon: LayoutDashboard,
-      //   isActive: true,
-      // },
       {
         title: "Products",
         url: "#",
@@ -191,12 +172,6 @@ const data = {
       },
     ],
     admin: [
-      // {
-      //   title: "Dashboard",
-      //   url: "#",
-      //   icon: LayoutDashboard,
-      //   isActive: true,
-      // },
       {
         title: "User Management",
         url: "#",
@@ -259,18 +234,15 @@ const data = {
 };
 
 
-let user="BUYER"
-// let user = "SELLER";
-// let user = "ADMIN";
-let items: any = [];
-if (user === "BUYER") {
-  items = data.navMain.buyer;
-} else if (user === "SELLER") {
-  items = data.navMain.seller;
-} else if (user === "ADMIN") {
-  items = data.navMain.admin;
-}
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const role = user?.role;
+  let items: any = [];
+  if (role === "BUYER") {
+    items = data.navMain.buyer;
+  } else if (role === "SELLER") {
+    items = data.navMain.seller;
+  } else if (role === "ADMIN") {
+    items = data.navMain.admin;
+  }
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -280,7 +252,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={items} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={data?.user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

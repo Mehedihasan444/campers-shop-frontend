@@ -2,9 +2,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Outlet } from "react-router-dom";
 
-const Dashboard = ({ role }: { role: string }) => {
-  console.log(role);
-
+const Dashboard = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
