@@ -10,10 +10,10 @@ interface Queries {
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://campers-shop-backend-five.vercel.app/api/v1",
-    // baseUrl: "http://localhost:5000/api/v1",
+    // baseUrl: "https://campers-shop-backend-five.vercel.app/api/v1",
+    baseUrl: "http://localhost:5000/api/v1",
   }),
-  tagTypes: ["product", "wishlist","order","review"],
+  tagTypes: ["product", "wishlist","order","review","user"],
 
   endpoints: (builder) => ({
     getProducts: builder.query({
@@ -128,6 +128,31 @@ export const baseApi = createApi({
       }},
       invalidatesTags: ["order","product"],
     }),
+    getOrders: builder.query({
+      query: (queries) => {
+        const cleanedQueries = Object.entries(queries).reduce<Queries>((acc, [key, value]) => {
+          if (value !== '') {
+            acc[key] = value;
+          }
+          return acc;
+        }, {});
+    
+        const params = new URLSearchParams(cleanedQueries);
+    
+        return {
+          url: `/orders?${params.toString()}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["order"],
+    }),
+    getOrder: builder.query({
+      query: (id) => ({
+        url: `/orders/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["order"],
+    }),
 //  wishlist : builder
     getWishlistProducts: builder.query({
       query: () => ({
@@ -154,6 +179,21 @@ export const baseApi = createApi({
       }),
       invalidatesTags: ["wishlist"],
     }),
+    // authentication
+    registerUser: builder.mutation({
+      query: (data) => ({
+        url: "/auth/register",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    loginUser: builder.mutation({
+      query: (data) => ({
+        url: "/auth/login",
+        method: "POST",
+        body: data,
+      }),
+    })
   }),
 });
 
@@ -167,8 +207,13 @@ export const {
   useDeleteWishlistProductMutation,
   useGetWishlistProductsQuery,
   useOrderMutation,
+  useGetOrdersQuery,
+  useGetOrderQuery,
   useAddReviewMutation,
   useDeleteReviewMutation,
   useGetReviewQuery,
-  useGetReviewsQuery
+  useGetReviewsQuery,
+  useRegisterUserMutation,
+  useLoginUserMutation
+
 } = baseApi;

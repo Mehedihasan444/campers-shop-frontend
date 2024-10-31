@@ -10,6 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useDeleteProductMutation } from "@/redux/api/api";
+import { Trash } from "lucide-react";
 import { toast } from "sonner";
 
 interface ConfirmationModalProps {
@@ -29,7 +30,7 @@ const ConfirmationModal = ({ message, id }: ConfirmationModalProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button  >Delete</Button>
+        <Button  ><Trash/></Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

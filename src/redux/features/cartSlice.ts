@@ -2,13 +2,6 @@ import { TProduct } from "@/interface/TProduct";
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 
-// interface cartItem {
-//   _id: string;
-//   name: string;
-//   price: number;
-//   image: string;
-//   quantity: number;
-// }
 
 interface cartState {
   products: TProduct[];

@@ -12,19 +12,17 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import Success from "@/pages/Success/Success";
 import Test from "@/pages/Test";
+import { Login } from "@/pages/Authentication/Login";
+import { Register } from "@/pages/Authentication/Register";
+import Dashboard from "@/Dashboard/Dashboard";
+import WishlistPage from "@/pages/Wishlist/WishlistPage";
+import OrderHistory from "@/pages/Order-History/OrderHistory";
+import TrackOrder from "@/pages/Track-Order/TrackOrder";
+import DashboardHomePage from "@/Dashboard/Dashboard-Home-Page";
 const stripePromise = loadStripe(
   "pk_test_51OQvquHy1aWBtTZzWht1KaJsz5xOeBC0wSIxY9UUmdKdVucXHKeu7MUGpCaB6keZpDuJGW8SvK7W4qlb8hP8SouL00LMjTvLaF"
 );
 
-// const options = {
-//   mode: "payment",
-//   amount: 1099,
-//   currency: "usd",
-//   // Fully customizable with appearance API.
-//   appearance: {
-//     /*...*/
-//   },
-// };
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -51,16 +49,37 @@ const routes = createBrowserRouter([
   {
     path: "/checkout",
     element: (
-      <Elements stripe={stripePromise}
-      //  options={options}
-       >
+      <Elements stripe={stripePromise}>
         <Checkout />
       </Elements>
     ),
   },
   {
-    path: "/product-management",
-    element: <ProductManagement />,
+    path: `/dashboard/${"USER"}`,
+    element: <Dashboard role={"USER"} />
+    ,
+    children: [
+      {
+        path: `/dashboard/${"USER"}`,
+        element: <DashboardHomePage />,
+      },
+      {
+        path: `/dashboard/${"USER"}/all-products`,
+        element: <ProductManagement />,
+      },
+      {
+        path: `/dashboard/${"USER"}/orders-history`,
+        element: <OrderHistory />,
+      },
+      {
+        path: `/dashboard/${"USER"}/track-order`,
+        element: <TrackOrder />,
+      },
+      {
+        path: `/dashboard/${"USER"}/wishlist`,
+        element: <WishlistPage />,
+      },
+    ],
   },
   {
     path: "/payment-success",
@@ -73,6 +92,14 @@ const routes = createBrowserRouter([
   {
     path: "/payment-failed",
     element: <PaymentFailed />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/sign-up",
+    element: <Register />,
   },
   {
     path: "/test",
