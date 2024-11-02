@@ -8,9 +8,9 @@ const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: (queries) => {
-        if (queries.searchTerm === "") {
-          delete queries.searchTerm;
-        }
+        // if (queries.searchTerm === "") {
+        //   delete queries.searchTerm;
+        // }
         const cleanedQueries = Object.entries(queries).reduce<IQueries>(
           (acc, [key, value]) => {
             if (value !== "") {

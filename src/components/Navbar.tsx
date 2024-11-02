@@ -9,7 +9,7 @@ import {
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBars, FaSearch } from "react-icons/fa";
 import Cart from "@/pages/Cart/Cart";
 import Wishlist from "@/pages/Wishlist/Wishlist";
@@ -80,21 +80,37 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state: RootState) => state?.auth?.user);
-  const [search, setSearch] = useState<string>();
-
-  const searchTerm = useDebounce(search);
-  const { data = {}, isLoading } = useGetProductsQuery({ searchTerm });
+  const [search, setSearch] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<TProduct[]>([]);
+  const debouncedSearch = useDebounce(search);
+  const searchTerm = search ? debouncedSearch : "";
+  const { data = {}, isLoading } = useGetProductsQuery(
+    { searchTerm },
+    { skip: !searchTerm }
+  );
   const { products } = data.data || {};
+
+  useEffect(() => {
+    if (products && searchTerm) {
+      setSearchResults(products);
+    } else {
+      setSearchResults([]);
+    }
+  }, [products, searchTerm]);
 
   // handle search
   const handleSeeAll = () => {
-    navigate(`/products?searchTerm=${searchTerm}`);
+    if (searchTerm) {
+      navigate(
+        `/products?searchTerm=${searchTerm.trim().split(" ").join("+")}`
+      );
+    }
   };
 
   return (
     <div className="">
       <header className=" flex  flex-col-reverse sm:flex-row items-center justify-end gap-5 bg-primary p-4">
-        {/* free space */}
+        {/* become seller and support */}
         <div className="sm:flex-1 flex gap-5 items-center">
           <div className="cursor-pointer hover:opacity-80 text-white">
             <Link
@@ -135,51 +151,43 @@ const Navbar = () => {
             </button>
           </div>
           {/* search results */}
-{products?.length > 0&&<div className="absolute top-12 space-y-2 min-w-96 w-full  p-4 rounded-md z-50 bg-white">
-            {isLoading ? (
-              <p>Loading...</p>
-            ) : (
-              <>
-                {products?.length > 0 ? (
-                  <>
-                    {products?.map((product: TProduct) => (
-                      <Link
-                        key={product._id}
-                        to={`/product/${product._id}`}
-                        className="flex flex-col gap-2  text-black hover:text-primary border rounded-md hover:shadow w-full"
-                      >
-                        <div className="flex gap-3 ">
-                          <div className="">
-                            <img
-                              alt={product?.name}
-                              src={product?.image[0]}
-                              className="object-cover h-20 w-20"
-                            />
-                          </div>
-                          <div className="">
-                            <h3>{product.name}</h3>
-                            {/* <p>{product.description}</p> */}
-                            <span className="text-sm text-gray-400">
-                              ${product.price}
-                            </span>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                    <Button
-                      onClick={handleSeeAll}
-                      className="  w-full"
+          {searchResults?.length > 0 && (
+            <div className="absolute top-12 space-y-2 min-w-96 w-full  p-4 rounded-md z-50 bg-white">
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : (
+                <>
+                  {searchResults?.slice(0, 5)?.map((product: TProduct) => (
+                    <Link
+                      key={product._id}
+                      to={`/product/${product._id}`}
+                      className="flex flex-col gap-2  text-black hover:text-primary border rounded-md hover:shadow w-full"
                     >
-                      See All
-                    </Button>
-                  </>
-                ) : (
-                  ""
-                )}
-              </>
-            )}
-          </div>}
-          
+                      <div className="flex gap-3 ">
+                        <div className="">
+                          <img
+                            alt={product?.name}
+                            src={product?.image[0]}
+                            className="object-cover h-20 w-20"
+                          />
+                        </div>
+                        <div className="">
+                          <h3>{product.name}</h3>
+                          {/* <p>{product.description}</p> */}
+                          <span className="text-sm text-gray-400">
+                            ${product.price}
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                  <Button onClick={handleSeeAll} className="  w-full">
+                    See All
+                  </Button>
+                </>
+              )}
+            </div>
+          )}
         </div>
         {/* authentication */}
         <div className="flex flex-1 justify-end gap-5">
