@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/redux/api/baseApi";
 
-// import { baseApi } from "@/redux/api/baseApi";
 interface IQueries {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any; // Use the appropriate type instead of `any` if you know it
-  }
+  [key: string]: any;
+}
 const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: (queries) => {
+        if (queries.searchTerm === "") {
+          delete queries.searchTerm;
+        }
         const cleanedQueries = Object.entries(queries).reduce<IQueries>(
           (acc, [key, value]) => {
             if (value !== "") {
