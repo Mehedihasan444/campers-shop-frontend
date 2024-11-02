@@ -12,8 +12,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useRegisterUserMutation } from "@/redux/api/api";
 import { toast } from "sonner";
+import { useRegisterUserMutation } from "@/redux/features/auth/authApi";
+import { useAppDispatch } from "@/redux/hook";
+import { signIn } from "@/redux/features/auth/authSlice";
 
 // form data validation
 const registerValidationSchema = z
@@ -41,6 +43,8 @@ export function Register() {
   });
   const [registerUser] = useRegisterUserMutation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const userData = {
       ...data,
@@ -52,8 +56,9 @@ export function Register() {
     if (res?.data?.success) {
       toast.success(res?.data?.message);
       //setting access and refresh token to local storage
-      localStorage.setItem("access-token", res?.data?.data?.accessToken);
-      localStorage.setItem("refresh-token", res?.data?.data?.refreshToken);
+      const accessToken = res?.data?.data?.accessToken;
+      const refreshToken = res?.data?.data?.refreshToken;
+      dispatch(signIn({ accessToken, refreshToken }));
       navigate("/");
     }
   };

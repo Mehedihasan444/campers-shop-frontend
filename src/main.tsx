@@ -6,15 +6,15 @@ import routes from "./routes/routes";
 import { Toaster } from "sonner";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-import { AuthProvider } from "./AuthProvider/AuthProvider";
+// import { AuthProvider } from "./AuthProvider/AuthProvider";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <AuthProvider>
+    {/* <AuthProvider> */}
       <Provider store={store}>
         <Toaster />
         <RouterProvider router={routes} />
       </Provider>
-    </AuthProvider>
+    {/* </AuthProvider> */}
   </React.StrictMode>
 );

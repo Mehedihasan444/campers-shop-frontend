@@ -3,10 +3,10 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import RatingStar from "@/lib/RatingStar";
-import { useAddWishlistProductMutation } from "@/redux/api/api";
 import { useAppDispatch } from "@/redux/hook";
-import { addProduct } from "@/redux/features/cartSlice";
+import { addProduct } from "@/redux/features/cart/cartSlice";
 import { TProduct } from "@/interface/TProduct";
+import { useAddWishlistProductMutation } from "@/redux/features/wishlist/wishlistApi";
 
 const Product_Card_ListView = ({ product }:{product:TProduct}) => {
   const [addWishlistProduct] = useAddWishlistProductMutation();

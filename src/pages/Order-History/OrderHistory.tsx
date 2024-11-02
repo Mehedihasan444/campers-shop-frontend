@@ -2,7 +2,7 @@
 
 
 import { Button } from "@/components/ui/button";
-import { useGetOrdersQuery } from "@/redux/api/api";
+import { useGetOrdersQuery } from "@/redux/features/order/orderApi";
 import { FaEye } from "react-icons/fa";
 
 const OrderHistory = () => {

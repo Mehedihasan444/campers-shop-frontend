@@ -3,16 +3,17 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import RatingStar from "@/lib/RatingStar";
-import { useAddWishlistProductMutation } from "@/redux/api/api";
 import { useAppDispatch } from "@/redux/hook";
-import { addProduct } from "@/redux/features/cartSlice";
+import { addProduct } from "@/redux/features/cart/cartSlice";
 import { Button } from "../ui/button";
 import { TProduct } from "@/interface/TProduct";
 import { toast } from "sonner";
+import { useAddWishlistProductMutation } from "@/redux/features/wishlist/wishlistApi";
 
 const Product_Card = ({ product }: { product: TProduct }) => {
   const [addWishlistProduct] = useAddWishlistProductMutation();
   const dispatch = useAppDispatch();
+
   const addWishlist = async (id: string) => {
     const res = await addWishlistProduct(id);
     if (res.data.success) {
@@ -21,7 +22,7 @@ const Product_Card = ({ product }: { product: TProduct }) => {
       toast.error(`Something went wrong`);
     }
   };
-
+console.log(product,"pp")
   return (
     <div
       className="bg-white rounded-lg overflow-hidden "

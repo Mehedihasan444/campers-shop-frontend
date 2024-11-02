@@ -2,7 +2,7 @@ import Product_Card from "@/components/cards/Product_Card";
 import { Button } from "@/components/ui/button";
 import { TProduct } from "@/interface/TProduct";
 import Loading from "@/lib/Loading";
-import { useGetProductsQuery } from "@/redux/api/api";
+import { useGetProductsQuery } from "@/redux/features/product/productApi";
 import { Link } from "react-router-dom";
 
 const Featured = () => {

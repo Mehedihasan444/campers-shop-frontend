@@ -12,15 +12,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { TProduct } from "@/interface/TProduct";
-import {
-  useAddProductMutation,
-  useUpdateProductMutation,
-} from "@/redux/api/api";
+
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "sonner";
 import axios from "axios";
 import { FaX } from "react-icons/fa6";
 import { Edit, PlusCircle } from "lucide-react";
+import { useAddProductMutation, useUpdateProductMutation } from "@/redux/features/product/productApi";
 
 const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const imageHostingApi = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;

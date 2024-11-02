@@ -11,11 +11,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetProductsQuery } from "@/redux/api/api";
 
 import ConfirmationModal from "@/lib/ConfirmationModal";
 import { TProduct } from "@/interface/TProduct";
 import Loading from "@/lib/Loading";
+import { useGetProductsQuery } from "@/redux/features/product/productApi";
 
 const ProductManagement = () => {
   const [queries, setQueries] = useState({ page: 1, limit: 10 });

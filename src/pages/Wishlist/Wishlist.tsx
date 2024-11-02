@@ -8,10 +8,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import {
-  useDeleteWishlistProductMutation,
-  useGetWishlistProductsQuery,
-} from "@/redux/api/api";
+import { useDeleteWishlistProductMutation, useGetWishlistProductsQuery } from "@/redux/features/wishlist/wishlistApi";
+
 import { FaHeart, FaTrash } from "react-icons/fa";
 import { FaX } from "react-icons/fa6";
 // import { toast } from "sonner";

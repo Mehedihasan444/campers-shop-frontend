@@ -7,10 +7,10 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-import { useOrderMutation } from "@/redux/api/api";
 import { toast } from "sonner";
-import { clearCart } from "@/redux/features/cartSlice";
+import { clearCart } from "@/redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { useOrderMutation } from "@/redux/features/order/orderApi";
 // Assume setMessage is defined somewhere in your component
 
 const Checkout = () => {

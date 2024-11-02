@@ -4,8 +4,7 @@ import instagram from "../../assets/instagram.png";
 import twitter from "../../assets/twitter.png";
 import pinterast from "../../assets/social.png";
 import { Link, useParams } from "react-router-dom";
-import { addProduct } from "@/redux/features/cartSlice";
-import { useGetProductQuery, useGetProductsQuery } from "@/redux/api/api";
+import { addProduct } from "@/redux/features/cart/cartSlice";
 import Product_Image from "./details-page-components/Product_Image/Product_Image";
 import Product_Details_Tabs from "./details-page-components/Product_Details_Tabs";
 import { useAppDispatch } from "@/redux/hook";
@@ -14,24 +13,33 @@ import { Button } from "@/components/ui/button";
 import { LuPackage } from "react-icons/lu";
 import { TProduct } from "@/interface/TProduct";
 import Loading from "@/lib/Loading";
+import {
+  useGetProductQuery,
+  useGetProductsQuery,
+} from "@/redux/features/product/productApi";
 
 const ProductsDetails = () => {
   const { id } = useParams();
-  const { data = {}, isLoading } = useGetProductQuery(id);
-  const { data: allProducts = {} } = useGetProductsQuery({});
   const dispatch = useAppDispatch();
+  const { data = {}, isLoading } = useGetProductQuery(id);
   const { data: productDetails } = data;
+  const { data: allProducts = {} } = useGetProductsQuery({
+    page: 1,
+    limit: 5,
+    category: productDetails?.category,
+  });
   const { products } = allProducts.data || {};
-  
-  const images = productDetails?.image?.map((image: string) => ({
-    original: image,
-    thumbnail: image,
-  }))|| [];
+
+  const images =
+    productDetails?.image?.map((image: string) => ({
+      original: image,
+      thumbnail: image,
+    })) || [];
+
   return (
     <section className="mt-10 relative">
       {isLoading ? (
         <div className="flex justify-center items-center w-full absolute top-0 right-0 bottom-0 left-0">
-          {/* <h1 className="text-4xl font-semibold"> Loading...</h1> */}
           <div className="">
             <Loading loading={isLoading} />
           </div>
@@ -39,10 +47,7 @@ const ProductsDetails = () => {
       ) : (
         <div className="grid grid-cols-2 gap-5 max-w-7xl mx-auto mb-10">
           <div>
-            <Product_Image
-         
-              items={images }
-            />
+            <Product_Image items={images} />
           </div>
           <div className="space-y-5">
             <p className="text-green-500">

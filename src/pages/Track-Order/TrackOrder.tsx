@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useGetOrderQuery } from "@/redux/api/api";
 import { Input } from "@/components/ui/input";
+import { useGetOrderQuery } from "@/redux/features/order/orderApi";
 
 const TrackOrder = () => {
     const [orderId, setOrderId] = useState<string>(""); // state for the input value

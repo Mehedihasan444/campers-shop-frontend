@@ -3,8 +3,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu } from "./ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar";
 import { Separator } from "./ui/separator";
-import { AuthContext } from "@/AuthProvider/AuthProvider";
-import React from "react";
+import { useAppDispatch } from "@/redux/hook";
+import { logout } from "@/redux/features/auth/authSlice";
 
 export function NavUser({
   user,
@@ -15,14 +15,9 @@ export function NavUser({
     avatar: string;
   };
 }) {
-  const authContext = React.useContext(AuthContext);
-
-  if (!authContext) {
-    throw new Error("AuthContext must be used within an AuthProvider");
-  }
-  const { logout } = authContext;
+  const dispatch = useAppDispatch();
   const handleLogout = () => {
-    logout();
+    dispatch(logout());
     window.location.href = "/";
   };
   return (

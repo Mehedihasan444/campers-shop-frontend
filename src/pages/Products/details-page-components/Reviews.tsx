@@ -2,7 +2,7 @@ import { TFeedback } from "@/interface/TFeedback";
 import Review from "./Review";
 import ReviewForm from "./ReviewForm";
 import RatingStar from "@/lib/RatingStar";
-import { useGetReviewsQuery } from "@/redux/api/api";
+import { useGetReviewsQuery } from "@/redux/features/review/reviewApi";
 
 const Reviews = ({ id }: { id: string }) => {
   const { data={}, error, isLoading } = useGetReviewsQuery(id);

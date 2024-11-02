@@ -17,14 +17,14 @@ import { Link } from "react-router-dom";
 import {
   removeProduct,
   updateProductQuantity,
-} from "@/redux/features/cartSlice";
-import { useGetProductQuery } from "@/redux/api/api";
+} from "@/redux/features/cart/cartSlice";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { useGetProductQuery } from "@/redux/features/product/productApi";
 
 const Cart = () => {
-  const [id, setId] = useState("668ee8091519cbaa7a57bf89");
+  const [id, setId] = useState<string>("668ee8091519cbaa7a57bf89");
   const cart = useAppSelector((state: RootState) => state.cart.products);
   const { data = {} } = useGetProductQuery(id);
   const dispatch = useAppDispatch();

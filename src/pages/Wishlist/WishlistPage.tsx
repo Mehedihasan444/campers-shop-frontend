@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useDeleteWishlistProductMutation, useGetWishlistProductsQuery } from "@/redux/api/api";
+import { useDeleteWishlistProductMutation, useGetWishlistProductsQuery } from "@/redux/features/wishlist/wishlistApi";
 import { FaHeart, FaTrash } from "react-icons/fa";
 
 const WishlistPage = () => {

@@ -1,12 +1,12 @@
 import { FormEvent, useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
-import { useAddReviewMutation } from "@/redux/api/api";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useAddReviewMutation } from "@/redux/features/review/reviewApi";
 
 const ReviewForm = ({ id }:{id:string}) => {
   const [name, setName] = useState("");

@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useDeleteProductMutation } from "@/redux/api/api";
+import { useDeleteProductMutation } from "@/redux/features/product/productApi";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
 

@@ -2,7 +2,6 @@ import ProductsPageSideBer from "@/components/ProductsPageSideBer";
 import { ChangeEvent, useEffect, useState } from "react";
 import { IoGrid } from "react-icons/io5";
 import { FaThList } from "react-icons/fa";
-import { useGetProductsQuery } from "@/redux/api/api";
 import Product_Card_ListView from "@/components/cards/Product_Card_ListView";
 import { TProduct } from "@/interface/TProduct";
 import Product_Card from "@/components/cards/Product_Card";
@@ -10,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useSearchParams } from "react-router-dom";
 import { TQueries } from "@/interface/TQueries";
 import Loading from "@/lib/Loading";
+import { useGetProductsQuery } from "@/redux/features/product/productApi";
 
 
 const Products = () => {

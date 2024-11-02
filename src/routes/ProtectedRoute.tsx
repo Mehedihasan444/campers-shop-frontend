@@ -1,6 +1,7 @@
-import { ReactNode, useContext } from "react";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "@/AuthProvider/AuthProvider";
 
 type TProtectedRoute = {
   children: ReactNode;
@@ -8,11 +9,8 @@ type TProtectedRoute = {
 };
 
 const ProtectedRoute = ({ children, allowedRoles }: TProtectedRoute) => {
-  const authContext = useContext(AuthContext);
-  if (!authContext) {
-    throw new Error("AuthContext must be used within an AuthProvider");
-  }
-  const { user, logout } = authContext;
+const user = useAppSelector((state) => state.auth.user);
+const dispatch=useAppDispatch()
   const role = user?.role;
   const token = localStorage.getItem("access-token");
 
@@ -21,7 +19,7 @@ const ProtectedRoute = ({ children, allowedRoles }: TProtectedRoute) => {
   }
   if (!role || !allowedRoles.includes(role)) {
     // Redirect to home or an unauthorized page if the role is not allowed
-    logout();
+    dispatch(logout());
     return <Navigate to="/" replace={true} />;
   }
 

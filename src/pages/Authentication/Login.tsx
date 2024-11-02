@@ -1,8 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useLoginUserMutation } from "@/redux/api/api";
+import { useLoginUserMutation } from "@/redux/features/auth/authApi";
+import { signIn } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/hook";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -27,19 +35,21 @@ export function Login() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const redirect = searchParams.get("redirect") || "/";
-
+  const dispatch = useAppDispatch();
   // Login mutation and states
   const [loginUser, { isLoading, isSuccess }] = useLoginUserMutation();
 
   // Form submission handler
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-   const res= await loginUser(data);
-    console.log(res)
+    const res = await loginUser(data);
+    console.log(res);
     if (res?.data?.success) {
       toast.success(res?.data?.message);
       //setting access and refresh token to local storage
-      localStorage.setItem("access-token", res?.data?.data?.accessToken);
-      localStorage.setItem("refresh-token", res?.data?.data?.refreshToken);
+      const accessToken = res?.data?.data?.accessToken;
+      const refreshToken = res?.data?.data?.refreshToken;
+      dispatch(signIn({ accessToken, refreshToken }));
+
       // navigate("/");
     }
   };
@@ -80,7 +90,10 @@ export function Login() {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <Link to="#" className="ml-auto inline-block text-sm underline">
+                  <Link
+                    to="#"
+                    className="ml-auto inline-block text-sm underline"
+                  >
                     Forgot your password?
                   </Link>
                 </div>

@@ -9,7 +9,7 @@ import {
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import React, { FormEvent, useContext } from "react";
+import React, { useState } from "react";
 import { FaBars, FaSearch } from "react-icons/fa";
 import Cart from "@/pages/Cart/Cart";
 import Wishlist from "@/pages/Wishlist/Wishlist";
@@ -23,7 +23,7 @@ import {
 } from "./ui/drawer";
 import { FaX } from "react-icons/fa6";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { LogIn, LogOut, Search, Store, User } from "lucide-react";
+import { LogIn, LogOut, Search, Store, User, UserCircle } from "lucide-react";
 import { Input } from "./ui/input";
 import { MdOutlineSupportAgent } from "react-icons/md";
 import {
@@ -34,54 +34,60 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { AuthContext } from "@/AuthProvider/AuthProvider";
+import { TProduct } from "@/interface/TProduct";
+import useDebounce from "@/hooks/debounce.hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { RootState } from "@/redux/store";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useGetProductsQuery } from "@/redux/features/product/productApi";
+import { Button } from "./ui/button";
+
+// static categories
+const productsCategories = [
+  {
+    title: "Tents",
+    href: "/products/tents",
+    description: "Find the perfect tent for your next adventure.",
+  },
+  {
+    title: "Sleeping Bags",
+    href: "/products/sleeping-bags",
+    description: "Stay warm and comfortable at night.",
+  },
+  {
+    title: "Backpacks",
+    href: "/products/backpacks",
+    description: "Durable and spacious backpacks for all your gear.",
+  },
+  {
+    title: "Cooking Gear",
+    href: "/products/cooking-gear",
+    description: "Everything you need for campfire cooking.",
+  },
+  {
+    title: "Clothing",
+    href: "/products/clothing",
+    description: "Outdoor clothing for all weather conditions.",
+  },
+  {
+    title: "Accessories",
+    href: "/products/accessories",
+    description: "Essential camping accessories and gadgets.",
+  },
+];
+
 const Navbar = () => {
   const navigate = useNavigate();
-  const productsCategories = [
-    {
-      title: "Tents",
-      href: "/products/tents",
-      description: "Find the perfect tent for your next adventure.",
-    },
-    {
-      title: "Sleeping Bags",
-      href: "/products/sleeping-bags",
-      description: "Stay warm and comfortable at night.",
-    },
-    {
-      title: "Backpacks",
-      href: "/products/backpacks",
-      description: "Durable and spacious backpacks for all your gear.",
-    },
-    {
-      title: "Cooking Gear",
-      href: "/products/cooking-gear",
-      description: "Everything you need for campfire cooking.",
-    },
-    {
-      title: "Clothing",
-      href: "/products/clothing",
-      description: "Outdoor clothing for all weather conditions.",
-    },
-    {
-      title: "Accessories",
-      href: "/products/accessories",
-      description: "Essential camping accessories and gadgets.",
-    },
-  ];
-  const authContext = useContext(AuthContext);
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state: RootState) => state?.auth?.user);
+  const [search, setSearch] = useState<string>();
 
-  if (!authContext) {
-    throw new Error("AuthContext must be used within an AuthProvider");
-  }
-
-  const { user, logout } = authContext;
+  const searchTerm = useDebounce(search);
+  const { data = {}, isLoading } = useGetProductsQuery({ searchTerm });
+  const { products } = data.data || {};
 
   // handle search
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const searchTerm = formData.get("searchTerm") as string;
+  const handleSeeAll = () => {
     navigate(`/products?searchTerm=${searchTerm}`);
   };
 
@@ -114,21 +120,66 @@ const Navbar = () => {
           </div>
         </div>
         {/* search bar */}
-        <div className="flex-1">
-          <form className="relative flex  items-center" onSubmit={handleSubmit}>
+        <div className="flex-1 relative">
+          <div className="relative flex  items-center">
             <Input
               type="text"
               placeholder="Search here..."
               className="min-w-96 w-full rounded-2xl border-2 border-primary"
               name="searchTerm"
               id="searchTerm"
+              onChange={(e) => setSearch(e.target.value)}
             />
-            <button type="submit">
+            <button>
               <Search className="cursor-pointer text-primary text-xl absolute top-2 right-3 " />
             </button>
-          </form>
+          </div>
           {/* search results */}
-          {<div></div>}
+{products?.length > 0&&<div className="absolute top-12 space-y-2 min-w-96 w-full  p-4 rounded-md z-50 bg-white">
+            {isLoading ? (
+              <p>Loading...</p>
+            ) : (
+              <>
+                {products?.length > 0 ? (
+                  <>
+                    {products?.map((product: TProduct) => (
+                      <Link
+                        key={product._id}
+                        to={`/product/${product._id}`}
+                        className="flex flex-col gap-2  text-black hover:text-primary border rounded-md hover:shadow w-full"
+                      >
+                        <div className="flex gap-3 ">
+                          <div className="">
+                            <img
+                              alt={product?.name}
+                              src={product?.image[0]}
+                              className="object-cover h-20 w-20"
+                            />
+                          </div>
+                          <div className="">
+                            <h3>{product.name}</h3>
+                            {/* <p>{product.description}</p> */}
+                            <span className="text-sm text-gray-400">
+                              ${product.price}
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                    <Button
+                      onClick={handleSeeAll}
+                      className="  w-full"
+                    >
+                      See All
+                    </Button>
+                  </>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </div>}
+          
         </div>
         {/* authentication */}
         <div className="flex flex-1 justify-end gap-5">
@@ -160,12 +211,23 @@ const Navbar = () => {
                   </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="mr-5">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuLabel>
+                    My Account
+                    <div className="">
+                      {/* <span className="block text-xs">{user?.name}</span> */}
+                      <span className="block text-xs text-primary">
+                        {user?.email}
+                      </span>
+                    </div>
+                  </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem className="flex justify-between">
+                    Profile
+                    <UserCircle />
+                  </DropdownMenuItem>
 
                   <DropdownMenuItem
-                    onClick={logout}
+                    onClick={() => dispatch(logout())}
                     className="flex justify-between"
                   >
                     LogOut <LogOut />
@@ -286,21 +348,19 @@ const Navbar = () => {
                     </button>
                   </DrawerClose>
                   <div className="flex justify-center items-center">
-                    <form
-                      className="relative  lg:hidden mt-10"
-                      onSubmit={handleSubmit}
-                    >
+                    <div className="relative  lg:hidden mt-10">
                       <input
                         type="text"
                         placeholder="Search here..."
                         className="w-80 px-3 py-2 rounded-2xl border-2 border-primary"
                         name="searchTerm"
                         id="searchTerm"
+                        onChange={(e) => setSearch(e.target.value)}
                       />
-                      <button type="submit">
+                      <button>
                         <FaSearch className="cursor-pointer text-primary text-xl absolute top-3 right-5 " />
                       </button>
-                    </form>
+                    </div>
                   </div>
                 </DrawerHeader>
                 <ul className="w-full text-center text-xl space-y-7 mt-5">
@@ -347,16 +407,22 @@ const Navbar = () => {
                       About Us
                     </NavLink>
                   </li>
-                  <li className="">
-                    <NavLink
-                      to={`/dashboard/${"USER"}`}
-                      className={({ isActive, isPending }) =>
-                        isPending ? "pending" : isActive ? "text-primary " : ""
-                      }
-                    >
-                      Dashboard
-                    </NavLink>
-                  </li>
+                  {user && (
+                    <li className="">
+                      <NavLink
+                        to={`/dashboard/${"USER"}`}
+                        className={({ isActive, isPending }) =>
+                          isPending
+                            ? "pending"
+                            : isActive
+                            ? "text-primary "
+                            : ""
+                        }
+                      >
+                        Dashboard
+                      </NavLink>
+                    </li>
+                  )}
                 </ul>
 
                 <DrawerFooter className="p-4"></DrawerFooter>
