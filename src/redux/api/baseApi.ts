@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-// import { store } from "../store"; 
-// import { logout } from "../features/auth/authSlice";
+import { logout } from "../features/auth/authSlice";
 
 // A wrapper around fetchBaseQuery to handle JWT expiration
 const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
@@ -26,7 +25,7 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
 
     if (errorData?.message === "jwt expired") {
       // Logout the user and clear the token
-      //  store.dispatch(logout());
+      api.dispatch(logout());
 
       // Optionally redirect to login page
       window.location.href = "/login";
@@ -38,8 +37,8 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
 
 export const baseApi = createApi({
   reducerPath: "baseApi",
-  // baseQuery: baseQueryWithReauth, 
-  baseQuery: baseQueryWithReauth ,
+  // baseQuery: baseQueryWithReauth,
+  baseQuery: baseQueryWithReauth,
   tagTypes: [
     "product",
     "wishlist",

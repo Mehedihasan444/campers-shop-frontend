@@ -46,32 +46,32 @@ import { Button } from "./ui/button";
 const productsCategories = [
   {
     title: "Tents",
-    href: "/products/tents",
+    href: "tents",
     description: "Find the perfect tent for your next adventure.",
   },
   {
     title: "Sleeping Bags",
-    href: "/products/sleeping-bags",
+    href: "sleeping-bags",
     description: "Stay warm and comfortable at night.",
   },
   {
     title: "Backpacks",
-    href: "/products/backpacks",
+    href: "backpacks",
     description: "Durable and spacious backpacks for all your gear.",
   },
   {
     title: "Cooking Gear",
-    href: "/products/cooking-gear",
+    href: "cooking-gear",
     description: "Everything you need for campfire cooking.",
   },
   {
     title: "Clothing",
-    href: "/products/clothing",
+    href: "clothing",
     description: "Outdoor clothing for all weather conditions.",
   },
   {
     title: "Accessories",
-    href: "/products/accessories",
+    href: "accessories",
     description: "Essential camping accessories and gadgets.",
   },
 ];
@@ -114,7 +114,7 @@ const Navbar = () => {
         <div className="sm:flex-1 flex gap-5 items-center">
           <div className="cursor-pointer hover:opacity-80 text-white">
             <Link
-              to="/login"
+              to="/become-a-seller"
               className="flex flex-col justify-center items-center"
             >
               <Store />
@@ -288,7 +288,7 @@ const Navbar = () => {
                     <ListItem
                       key={category.title}
                       title={category.title}
-                      href={category.href}
+                      href={`products?category=${category.href}`}
                     >
                       {category.description}
                     </ListItem>
@@ -418,7 +418,7 @@ const Navbar = () => {
                   {user && (
                     <li className="">
                       <NavLink
-                        to={`/dashboard/${"USER"}`}
+                        to={`/dashboard/${user?.role}`}
                         className={({ isActive, isPending }) =>
                           isPending
                             ? "pending"

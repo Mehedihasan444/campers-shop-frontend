@@ -9,11 +9,10 @@ type TProtectedRoute = {
 };
 
 const ProtectedRoute = ({ children, allowedRoles }: TProtectedRoute) => {
-const user = useAppSelector((state) => state.auth.user);
-const dispatch=useAppDispatch()
+  const user = useAppSelector((state) => state.auth.user);
+  const token = useAppSelector((state) => state.auth.access_token);
+  const dispatch = useAppDispatch();
   const role = user?.role;
-  const token = localStorage.getItem("access-token");
-
   if (!token) {
     return <Navigate to="/login" replace={true} />;
   }

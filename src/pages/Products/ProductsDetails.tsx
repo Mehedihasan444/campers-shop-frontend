@@ -3,7 +3,7 @@ import linkedin from "../../assets/linkedin.png";
 import instagram from "../../assets/instagram.png";
 import twitter from "../../assets/twitter.png";
 import pinterast from "../../assets/social.png";
-import { Link, useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import { addProduct } from "@/redux/features/cart/cartSlice";
 import Product_Image from "./details-page-components/Product_Image/Product_Image";
 import Product_Details_Tabs from "./details-page-components/Product_Details_Tabs";
@@ -17,9 +17,12 @@ import {
   useGetProductQuery,
   useGetProductsQuery,
 } from "@/redux/features/product/productApi";
+import { FaMinus, FaPlus } from "react-icons/fa";
+import { Store } from "lucide-react";
 
 const ProductsDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { data = {}, isLoading } = useGetProductQuery(id);
   const { data: productDetails } = data;
@@ -36,6 +39,14 @@ const ProductsDetails = () => {
       thumbnail: image,
     })) || [];
 
+  // !fake data
+  const store = {
+    name: "John's Store",
+    rating: 89,
+    totalSales: 120,
+    profileImage: "https://via.placeholder.com/150",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  };
   return (
     <section className="mt-10 relative">
       {isLoading ? (
@@ -46,7 +57,7 @@ const ProductsDetails = () => {
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-5 max-w-7xl mx-auto mb-10">
-          <div>
+          <div className="w-full h-full">
             <Product_Image items={images} />
           </div>
           <div className="space-y-5">
@@ -72,7 +83,7 @@ const ProductsDetails = () => {
             <p>{productDetails?.description}</p>
             <hr />
             <div className="flex gap-5">
-              {/* <div className="flex justify-center items-center gap-5 p-2 rounded-lg border-2">
+              <div className="flex justify-center items-center gap-5 p-2 rounded-lg border-2">
                 <FaMinus
                   className="cursor-pointer"
                   //   onClick={handleDecrease}
@@ -82,14 +93,17 @@ const ProductsDetails = () => {
                   className="cursor-pointer"
                   //    onClick={handleIncrease}
                 />
-              </div> */}
+              </div>
               <div className="flex gap-5">
                 <button
                   onClick={() => dispatch(addProduct(productDetails))}
                   disabled={productDetails?.quantity == 0}
-                  className={`bg-[#000000] text-white font-bold py-2 px-4 rounded-md}`}
+                  className={`bg-[#000000] text-white font-bold py-2 px-4  hover:text-black hover:bg-white transition duration-300  border border-black`}
                 >
                   Add to cart
+                </button>
+                <button className="border text-primary hover:text-white  border-primary font-bold py-2 px-4  hover:bg-primary transition duration-300">
+                  Add to Wishlist
                 </button>
               </div>
             </div>
@@ -134,12 +148,60 @@ const ProductsDetails = () => {
           <Product_Details_Tabs id={productDetails?._id} />
         </div>
 
+        {/* New Sold By Section */}
+        <div className="bg-gray-50 flex items-center gap-4 mt-5 p-4 shadow-sm  border rounded-md">
+          <div className="flex-1">
+            <div className="flex justify-between gap-5 items-center">
+              <div className="flex gap-2">
+                <div className="flex items-center justify-center">
+                  <Store size={50} className="text-primary" />
+                </div>
+                <div className="pb-2">
+                  <p className="text-sm text-gray-500">Sold by</p>
+                  <h2 className="text-2xl font-bold">{store?.name}</h2>
+                </div>
+              </div>
+              <div className="">
+                <button
+                  onClick={() =>
+                    navigate(`/store/${productDetails?.seller?.id}`)
+                  }
+                  className="uppercase hover:underline px-4 py-2 font-semibold text-green-800 rounded hover:text-green-700"
+                >
+                  Go To Store
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 items-center ">
+              <div className="border flex justify-center items-center flex-col">
+                <h4 className="text-sm">Ship on Time</h4>
+                <span className="font-semibold text-2xl text-center">
+                  {store?.rating}%
+                </span>
+              </div>
+              <div className="border flex justify-center items-center flex-col">
+                <h4 className="text-sm">Positive Seller Ratings</h4>
+                <span className="font-semibold text-2xl text-center">
+                  {store?.rating}%
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="my-10 space-y-4">
           <div className="flex justify-between items-center">
             <h1 className="font-semibold text-2xl">Related Products </h1>
-            <Link to="/products">
-              <Button className="">See More</Button>
-            </Link>
+            {/* <Link to="/products"> */}
+              <Button
+                className=""
+                onClick={() =>
+                  navigate(`/products?category=${productDetails?.category}`)
+                }
+              >
+                See More
+              </Button>
+            {/* </Link> */}
           </div>
           <hr />
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">

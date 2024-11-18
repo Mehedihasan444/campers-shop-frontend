@@ -20,6 +20,9 @@ import OrderHistory from "@/pages/Order-History/OrderHistory";
 import TrackOrder from "@/pages/Track-Order/TrackOrder";
 import DashboardHomePage from "@/Dashboard/Dashboard-Home-Page";
 import ProtectedRoute from "./ProtectedRoute";
+import Store from "@/pages/Store/Store";
+import Become_A_Seller from "@/pages/Become_A_Seller/Become_A_Seller";
+import Error from "@/components/Error";
 
 // stripe secret key
 const stripePromise = loadStripe(
@@ -53,18 +56,20 @@ const adminRoutes = [
   {
     path: "/dashboard/admin",
     element: <DashboardHomePage />,
-  }]
+  },
+];
 const sellerRoutes = [
   {
     path: "/dashboard/seller",
     element: <DashboardHomePage />,
-  }]
-
+  },
+];
 
 const routes = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <Error />,
     children: [
       {
         path: "/",
@@ -82,30 +87,40 @@ const routes = createBrowserRouter([
         path: "about",
         element: <About />,
       },
+      {
+        path: "store/:id",
+        element: <Store />,
+      },
     ],
   },
   {
     path: `/dashboard/buyer`,
-    element: <ProtectedRoute allowedRoles={["BUYER"]}>
-      <Dashboard  />
-    </ProtectedRoute> ,
-    errorElement:<h1>Error</h1>,
-    children:buyerRoutes,
+    element: (
+      <ProtectedRoute allowedRoles={["BUYER"]}>
+        <Dashboard />
+      </ProtectedRoute>
+    ),
+    errorElement: <Error />,
+    children: buyerRoutes,
   },
   {
     path: `/dashboard/admin`,
-    element: <ProtectedRoute allowedRoles={["ADMIN"]}>
-      <Dashboard  />
-    </ProtectedRoute> ,
-     errorElement:<h1>Error</h1>,
+    element: (
+      <ProtectedRoute allowedRoles={["ADMIN"]}>
+        <Dashboard />
+      </ProtectedRoute>
+    ),
+    errorElement: <Error />,
     children: adminRoutes,
   },
   {
     path: `/dashboard/seller`,
-    element: <ProtectedRoute allowedRoles={["SELLER"]}>
-      <Dashboard  />
-    </ProtectedRoute> ,
-     errorElement:<h1>Error</h1>,
+    element: (
+      <ProtectedRoute allowedRoles={["SELLER"]}>
+        <Dashboard />
+      </ProtectedRoute>
+    ),
+    errorElement: <Error />,
     children: sellerRoutes,
   },
   {
@@ -136,6 +151,14 @@ const routes = createBrowserRouter([
   {
     path: "/sign-up",
     element: <Register />,
+  },
+  {
+    path: "/become-a-seller",
+    element: (
+      <ProtectedRoute allowedRoles={["BUYER"]}>
+        <Become_A_Seller />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/test",

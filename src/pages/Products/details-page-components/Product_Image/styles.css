@@ -2,8 +2,7 @@
   .image-gallery-slide{
     display: flex !important;
     align-items: center !important;
-    justify-content: center !important;
-    
+    justify-content: center !important
   }
   .custom-image-gallery .image-gallery-slide img {
     object-fit: contain; 
@@ -17,5 +16,16 @@
   }
   .image-gallery-thumbnail {
     width: auto !important;
+  } */
+  
+
+   .custom-image-gallery {
+    width: 100%;
+    height: 100%;
   }
-   */
+  
+  .custom-image-gallery .image-gallery-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the entire area */
+  }

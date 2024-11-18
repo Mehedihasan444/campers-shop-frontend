@@ -42,13 +42,13 @@ export function Login() {
   // Form submission handler
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const res = await loginUser(data);
-    console.log(res);
+
     if (res?.data?.success) {
       toast.success(res?.data?.message);
       //setting access and refresh token to local storage
-      const accessToken = res?.data?.data?.accessToken;
-      const refreshToken = res?.data?.data?.refreshToken;
-      dispatch(signIn({ accessToken, refreshToken }));
+      const access_token = res?.data?.data?.accessToken;
+      const refresh_token = res?.data?.data?.refreshToken;
+      dispatch(signIn({ access_token, refresh_token }));
 
       // navigate("/");
     }

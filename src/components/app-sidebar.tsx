@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
-import { TeamSwitcher } from "./team-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -27,7 +26,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const user = useAppSelector((state: RootState) => state?.auth?.user);
 
   // This is sample data.
-
   const data = {
     user: {
       name: user?.name as string,
@@ -240,7 +238,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <div className="mt-5">
+          <h2 className="text-center font-bold text-2xl uppercase w-full text-primary">
+            Campers Shop
+          </h2>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={items} />

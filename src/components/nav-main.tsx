@@ -17,6 +17,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "./ui/sidebar";
+import { useAppSelector } from "@/redux/hook";
 
 export function NavMain({
   items,
@@ -32,13 +33,15 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const userInfo = useAppSelector((state) => state.auth.user);
+const role= userInfo?.role;
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
 
       <SidebarMenuSubButton asChild>
-        <a href={`/dashboard/${"USER"}`}>
+        <a href={`/dashboard/${role}`}>
           <LayoutDashboard />
           <span>{"Dashboard"}</span>
         </a>
