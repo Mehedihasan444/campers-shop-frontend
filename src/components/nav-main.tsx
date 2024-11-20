@@ -1,7 +1,5 @@
-
-
 import { ChevronRight, LayoutDashboard, type LucideIcon } from "lucide-react";
-
+import { GrDocumentUser } from "react-icons/gr";
 import {
   Collapsible,
   CollapsibleContent,
@@ -34,18 +32,27 @@ export function NavMain({
   }[];
 }) {
   const userInfo = useAppSelector((state) => state.auth.user);
-const role= userInfo?.role;
+  const role = userInfo?.role;
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
-
-      <SidebarMenuSubButton asChild>
-        <a href={`/dashboard/${role}`}>
-          <LayoutDashboard />
-          <span>{"Dashboard"}</span>
-        </a>
-      </SidebarMenuSubButton>
+        <SidebarMenuSubButton asChild>
+          <a href={`/dashboard/${role?.toLocaleLowerCase()}`}>
+            <LayoutDashboard />
+            <span>{"Dashboard"}</span>
+          </a>
+        </SidebarMenuSubButton>
+        {role === "ADMIN" && (
+          <SidebarMenuSubButton asChild>
+            <a
+              href={`/dashboard/${role?.toLocaleLowerCase()}/become-a-seller-requests`}
+            >
+              <GrDocumentUser />
+              <span>{"Become a Seller Request"}</span>
+            </a>
+          </SidebarMenuSubButton>
+        )}
       </SidebarMenu>
 
       <SidebarMenu>

@@ -21,7 +21,9 @@ import {
 } from "./ui/sidebar";
 import { useAppSelector } from "@/redux/hook";
 import { RootState } from "@/redux/store";
-
+import { AiOutlineProduct } from "react-icons/ai";
+import { MdOutlineCategory } from "react-icons/md";
+import { MdOutlineStore } from "react-icons/md";
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const user = useAppSelector((state: RootState) => state?.auth?.user);
 
@@ -49,16 +51,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           isActive: true,
           items: [
             {
-              title: "All Products",
-              url: `/dashboard/${user?.role}/all-products`,
-            },
-            {
               title: "New Arrivals",
-              url: `/dashboard/${user?.role}/new-arrivals`,
+              url: `/dashboard/${user?.role.toLowerCase()}/new-arrivals`,
             },
             {
               title: "Best Sellers",
-              url: `/dashboard/${user?.role}/best-sellers`,
+              url: `/dashboard/${user?.role.toLowerCase()}/best-sellers`,
             },
           ],
         },
@@ -69,15 +67,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           items: [
             {
               title: "Order History",
-              url: `/dashboard/${user?.role}/orders-history`,
+              url: `/dashboard/${user?.role.toLowerCase()}/orders-history`,
             },
             {
               title: "Track Order",
-              url: `/dashboard/${user?.role}/track-order`,
+              url: `/dashboard/${user?.role.toLowerCase()}/track-order`,
             },
             {
               title: "Wishlist",
-              url: `/dashboard/${user?.role}/wishlist`,
+              url: `/dashboard/${user?.role.toLowerCase()}/wishlist`,
             },
           ],
         },
@@ -113,11 +111,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           items: [
             {
               title: "Manage Products",
-              url: "#",
-            },
-            {
-              title: "Add New Product",
-              url: "#",
+              url: `/dashboard/${user?.role.toLowerCase()}/all-products`,
             },
             {
               title: "Inventory",
@@ -172,15 +166,48 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           items: [
             {
               title: "Manage Buyers",
-              url: "#",
+              url: `/dashboard/${user?.role.toLowerCase()}/all-buyers`,
             },
             {
               title: "Manage Sellers",
-              url: "#",
+              url: `/dashboard/${user?.role.toLowerCase()}/all-sellers`,
             },
             {
               title: "Admin Roles",
-              url: "#",
+              url: `/dashboard/${user?.role.toLowerCase()}/all-admins`,
+            },
+          ],
+        },
+        {
+          title: "Product Management",
+          url: "#",
+          icon: AiOutlineProduct,
+          items: [
+            {
+              title: "Manage Products",
+              url: `/dashboard/${user?.role.toLowerCase()}/all-products`,
+            },
+          ],
+        },
+        {
+          title: "Category Management",
+          url: "#",
+          icon: MdOutlineCategory,
+          items: [
+            {
+              title: "Manage Categories",
+              url: `/dashboard/${user?.role.toLowerCase()}/all-categories`,
+            },
+          ],
+        },
+        {
+          title: "Store Management",
+          url: "#",
+          icon: MdOutlineStore,
+          items: [
+            {
+              title: "Manage Stores",
+              url: `/dashboard/${user?.role.toLowerCase()}/all-stores`,
             },
           ],
         },
@@ -203,6 +230,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             },
           ],
         },
+
         {
           title: "Reports",
           url: "#",

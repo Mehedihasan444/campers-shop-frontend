@@ -51,14 +51,13 @@ export function Register() {
       profilePhoto:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     };
-
     const res = await registerUser(userData);
     if (res?.data?.success) {
       toast.success(res?.data?.message);
       //setting access and refresh token to local storage
-      const accessToken = res?.data?.data?.accessToken;
-      const refreshToken = res?.data?.data?.refreshToken;
-      dispatch(signIn({ accessToken, refreshToken }));
+      const access_token = res?.data?.data?.accessToken;
+      const refresh_token = res?.data?.data?.refreshToken;
+      dispatch(signIn({ access_token, refresh_token }));
       navigate("/");
     }
   };

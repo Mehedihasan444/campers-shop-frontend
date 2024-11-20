@@ -22,7 +22,7 @@ const Product_Card = ({ product }: { product: TProduct }) => {
       toast.error(`Something went wrong`);
     }
   };
-console.log(product,"pp")
+
   return (
     <div
       className="bg-white rounded-lg overflow-hidden "

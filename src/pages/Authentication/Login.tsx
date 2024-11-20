@@ -45,10 +45,11 @@ export function Login() {
 
     if (res?.data?.success) {
       toast.success(res?.data?.message);
+      console.log(res.data)
       //setting access and refresh token to local storage
       const access_token = res?.data?.data?.accessToken;
       const refresh_token = res?.data?.data?.refreshToken;
-      dispatch(signIn({ access_token, refresh_token }));
+      await dispatch(signIn({ access_token, refresh_token }));
 
       // navigate("/");
     }

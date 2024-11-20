@@ -23,6 +23,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Store from "@/pages/Store/Store";
 import Become_A_Seller from "@/pages/Become_A_Seller/Become_A_Seller";
 import Error from "@/components/Error";
+import Become_A_Seller_Requests from "@/pages/Become_A_Seller_Requests/Become_A_Seller_Requests";
 
 // stripe secret key
 const stripePromise = loadStripe(
@@ -34,10 +35,7 @@ const buyerRoutes = [
     path: "/dashboard/buyer",
     element: <DashboardHomePage />,
   },
-  {
-    path: `/dashboard/buyer/all-products`,
-    element: <ProductManagement />,
-  },
+
   {
     path: `/dashboard/buyer/orders-history`,
     element: <OrderHistory />,
@@ -57,11 +55,23 @@ const adminRoutes = [
     path: "/dashboard/admin",
     element: <DashboardHomePage />,
   },
+  {
+    path: `/dashboard/admin/all-products`,
+    element: <ProductManagement />,
+  },
+  {
+    path: `/dashboard/admin/become-a-seller-requests`,
+    element: <Become_A_Seller_Requests />,
+  },
 ];
 const sellerRoutes = [
   {
     path: "/dashboard/seller",
     element: <DashboardHomePage />,
+  },
+  {
+    path: `/dashboard/seller/all-products`,
+    element: <ProductManagement />,
   },
 ];
 
@@ -92,6 +102,14 @@ const routes = createBrowserRouter([
         element: <Store />,
       },
     ],
+  },
+  {
+    path: "/become-a-seller",
+    element: (
+      <ProtectedRoute allowedRoles={["BUYER"]}>
+        <Become_A_Seller />
+      </ProtectedRoute>
+    ),
   },
   {
     path: `/dashboard/buyer`,
@@ -126,23 +144,37 @@ const routes = createBrowserRouter([
   {
     path: "/checkout",
     element: (
-      <Elements stripe={stripePromise}>
-        <Checkout />
-      </Elements>
+      <ProtectedRoute allowedRoles={["BUYER"]}>
+        <Elements stripe={stripePromise}>
+          <Checkout />
+        </Elements>
+      </ProtectedRoute>
     ),
   },
 
   {
     path: "/payment-success",
-    element: <PaymentSuccess />,
+    element: (
+      <ProtectedRoute allowedRoles={["BUYER"]}>
+        <PaymentSuccess />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/success",
-    element: <Success />,
+    element: (
+      <ProtectedRoute allowedRoles={["BUYER"]}>
+        <Success />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/payment-failed",
-    element: <PaymentFailed />,
+    element: (
+      <ProtectedRoute allowedRoles={["BUYER"]}>
+        <PaymentFailed />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/login",
@@ -152,14 +184,7 @@ const routes = createBrowserRouter([
     path: "/sign-up",
     element: <Register />,
   },
-  {
-    path: "/become-a-seller",
-    element: (
-      <ProtectedRoute allowedRoles={["BUYER"]}>
-        <Become_A_Seller />
-      </ProtectedRoute>
-    ),
-  },
+
   {
     path: "/test",
     element: <Test></Test>,
