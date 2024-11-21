@@ -1,30 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/redux/api/baseApi";
 
-interface IQueries {
-  [key: string]: any;
-}
 const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: (queries) => {
-        // if (queries.searchTerm === "") {
-        //   delete queries.searchTerm;
-        // }
-        const cleanedQueries = Object.entries(queries).reduce<IQueries>(
-          (acc, [key, value]) => {
-            if (value !== "") {
-              acc[key] = value;
-            }
-            return acc;
-          },
-          {}
-        );
-
-        const params = new URLSearchParams(cleanedQueries);
+      query: ({ page, limit,searchTerm ,sortBy}) => {
+        let queryString = "/products?";
+        if (page) {
+          queryString += `page=${page}&`;
+        }
+        if (limit) {
+          queryString += `limit=${limit}&`;
+        }
+        if (sortBy) {
+          queryString += `sortBy=${sortBy}&`;
+        }
+        if (searchTerm) {
+          queryString += `searchTerm=${searchTerm}`;
+        }
 
         return {
-          url: `/products?${params.toString()}`,
+          url: queryString,
           method: "GET",
         };
       },

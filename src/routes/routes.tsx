@@ -24,6 +24,7 @@ import Store from "@/pages/Store/Store";
 import Become_A_Seller from "@/pages/Become_A_Seller/Become_A_Seller";
 import Error from "@/components/Error";
 import Become_A_Seller_Requests from "@/pages/Become_A_Seller_Requests/Become_A_Seller_Requests";
+import UserManagement from "@/pages/UserManagement/UserManagement";
 
 // stripe secret key
 const stripePromise = loadStripe(
@@ -63,6 +64,18 @@ const adminRoutes = [
     path: `/dashboard/admin/become-a-seller-requests`,
     element: <Become_A_Seller_Requests />,
   },
+  {
+    path: `/dashboard/admin/all-users`,
+    element: <UserManagement  />,
+  },
+  // {
+  //   path: `/dashboard/admin/all-admins`,
+  //   element: <UserManagement userType={"ADMIN"} />,
+  // },
+  // {
+  //   path: `/dashboard/admin/all-sellers`,
+  //   element: <UserManagement userType={"SELLER"} />,
+  // },
 ];
 const sellerRoutes = [
   {

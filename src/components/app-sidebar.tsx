@@ -165,17 +165,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           icon: Users,
           items: [
             {
-              title: "Manage Buyers",
-              url: `/dashboard/${user?.role.toLowerCase()}/all-buyers`,
-            },
-            {
-              title: "Manage Sellers",
-              url: `/dashboard/${user?.role.toLowerCase()}/all-sellers`,
-            },
-            {
-              title: "Admin Roles",
-              url: `/dashboard/${user?.role.toLowerCase()}/all-admins`,
-            },
+              title: "Manage Users",
+              url: `/dashboard/${user?.role.toLowerCase()}/all-users`,
+            }
+     
           ],
         },
         {
