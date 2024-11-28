@@ -42,7 +42,7 @@ const StoreManagement = () => {
     setPage(newPage);
   };
 
-  console.log(stores);
+
   return (
     <div className="max-w-7xl mx-auto p-5">
       <div className="flex flex-wrap justify-between items-center gap-5 mb-4">

@@ -3,10 +3,25 @@ import { baseApi } from "@/redux/api/baseApi";
 const storeApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllStore: builder.query({
-      query: () => ({
-        url: "/store",
-        method: "GET",
-      }),
+      query: ({ page, limit, searchTerm, sortBy }) => {
+        let queryString = "/store?";
+        if (page) {
+          queryString += `page=${page}&`;
+        }
+        if (limit) {
+          queryString += `limit=${limit}&`;
+        }
+        if (sortBy) {
+          queryString += `sortBy=${sortBy}&`;
+        }
+        if (searchTerm) {
+          queryString += `searchTerm=${searchTerm}`;
+        }
+        return {
+          url: queryString,
+          method: "GET",
+        };
+      },
       providesTags: ["store"],
     }),
     getStore: builder.query({
