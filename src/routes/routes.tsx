@@ -26,6 +26,7 @@ import Error from "@/components/Error";
 import Become_A_Seller_Requests from "@/pages/Become_A_Seller_Requests/Become_A_Seller_Requests";
 import UserManagement from "@/pages/UserManagement/UserManagement";
 import CategoryManagement from "@/pages/CategoryManagement/CategoryManagement";
+import StoreManagement from "@/pages/StoreManagement/StoreManagement";
 
 // stripe secret key
 const stripePromise = loadStripe(
@@ -72,6 +73,10 @@ const adminRoutes = [
   {
     path: `/dashboard/admin/all-categories`,
     element: <CategoryManagement  />,
+  },
+  {
+    path: `/dashboard/admin/all-stores`,
+    element: <StoreManagement  />,
   },
 ];
 const sellerRoutes = [

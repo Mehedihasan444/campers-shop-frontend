@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { useDeleteCategoryMutation } from "@/redux/features/category/categoryApi";
 import { useDeleteProductMutation } from "@/redux/features/product/productApi";
+import { useDeleteStoreMutation } from "@/redux/features/store/storeApi";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
 
@@ -23,6 +24,7 @@ interface ConfirmationModalProps {
 const ConfirmationModal = ({ message, id, item }: ConfirmationModalProps) => {
   const [deleteProduct] = useDeleteProductMutation();
   const [deleteCategory] = useDeleteCategoryMutation();
+  const [deleteStore] = useDeleteStoreMutation();
 
   const handleDelete = async () => {
     try {
@@ -33,6 +35,12 @@ const ConfirmationModal = ({ message, id, item }: ConfirmationModalProps) => {
         }
       } else if (item === "Category") {
         const res = await deleteCategory(id);
+        if (res.data.success) {
+          toast.success(`${item} deleted successfully.`);
+        }
+      }
+      else if (item === "Store") {
+        const res = await deleteStore(id);
         if (res.data.success) {
           toast.success(`${item} deleted successfully.`);
         }
@@ -56,7 +64,6 @@ const ConfirmationModal = ({ message, id, item }: ConfirmationModalProps) => {
         </DialogHeader>
 
         <DialogFooter>
-          {/* <Button type="submit">Save changes</Button> */}
           <Button onClick={handleDelete} variant={"destructive"}>Yes</Button>
           <DialogClose asChild>
             <Button variant={"outline"}>No</Button>
