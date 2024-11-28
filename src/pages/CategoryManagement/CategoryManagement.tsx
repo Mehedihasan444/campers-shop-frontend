@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ProductForm from "./ProductForm";
+// import CategoryForm from "./CategoryForm";
 import {
   Table,
   TableBody,
@@ -20,12 +20,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ConfirmationModal from "@/lib/ConfirmationModal";
-import { TProduct } from "@/interface/TProduct";
-import { useGetProductsQuery } from "@/redux/features/product/productApi";
 import PaginationComponent from "@/lib/PaginationComponent";
 import { Input } from "@/components/ui/input";
+import { useGetAllCategoryQuery } from "@/redux/features/category/categoryApi";
+import CategoryForm from "./CategoryForm";
+import { TCategory } from "@/interface/TCategory";
 
-const ProductManagement = () => {
+const CategoryManagement = () => {
   const [searchTerm, setSearchTerm] = useState<string>();
   const [selectedSortBy, setSelectedSortBy] = useState<string>();
   const [page, setPage] = useState(1);
@@ -34,8 +35,13 @@ const ProductManagement = () => {
     data = {},
     isLoading,
     error,
-  } = useGetProductsQuery({ page, limit, searchTerm, sortBy: selectedSortBy });
-  const { totalCount, products } = data.data || {};
+  } = useGetAllCategoryQuery({
+    page,
+    limit,
+    searchTerm,
+    sortBy: selectedSortBy,
+  });
+  const { totalCount, categories } = data.data || {};
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -45,7 +51,7 @@ const ProductManagement = () => {
     <div className="max-w-7xl mx-auto p-5">
       <div className="flex flex-wrap justify-between items-center gap-5 mb-4">
         <h1 className="text-2xl font-bold mb-4 border-l-4  border-primary pl-2">
-          Product Management
+          Category Management
         </h1>
         <div className="">
           <Input
@@ -57,8 +63,8 @@ const ProductManagement = () => {
           />
         </div>
         <Select
-        defaultValue={selectedSortBy}
-        onValueChange={(value) => setSelectedSortBy(value)}
+          defaultValue={selectedSortBy}
+          onValueChange={(value) => setSelectedSortBy(value)}
         >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder={"Sort By"} />
@@ -68,12 +74,10 @@ const ProductManagement = () => {
               <SelectLabel>Sort By</SelectLabel>
               <SelectItem value="-createdAt">Latest</SelectItem>
               <SelectItem value="createdAt">Oldest</SelectItem>
-              <SelectItem value="price">Low to High</SelectItem>
-              <SelectItem value="-price">High to Low</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
-        <ProductForm initialData={null} />
+        <CategoryForm initialData={null} />
       </div>
       <div>
         {isLoading ? (
@@ -83,54 +87,48 @@ const ProductManagement = () => {
         ) : (
           <Table className="bg-neutral-50">
             <TableCaption>A list of your recent products.</TableCaption>
-            <TableHeader>
+            <TableHeader >
               <TableRow className="">
-                <TableHead className="w-[100px] text-primary font-bold">
+                <TableHead className="w-[100px] text-primary text-center font-bold">
                   Image
                 </TableHead>
-                <TableHead className="text-primary font-bold">Name</TableHead>
-                <TableHead className="text-primary font-bold">Price</TableHead>
-                <TableHead className="text-right text-primary font-bold">
-                  Category
+                <TableHead className=" text-primary text-center font-bold">
+                  Name
                 </TableHead>
-                <TableHead className="text-right text-primary font-bold">
-                  Quantity
+                <TableHead className=" text-primary text-center font-bold">
+                  No. of Products
                 </TableHead>
-                <TableHead className="text-right text-primary font-bold">
+                <TableHead className=" text-primary text-center font-bold">
                   CreatedAt
                 </TableHead>
-                <TableHead className="text-right text-primary font-bold">
+                <TableHead className=" text-primary text-center font-bold">
                   Actions
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {products?.map((product: TProduct) => (
-                <TableRow key={product._id}>
+              {categories?.map((category: TCategory) => (
+                <TableRow key={category._id} className="text-center">
                   <TableCell className="font-medium">
                     <img
-                      src={product.image[0]}
-                      alt={product.name}
+                      src={category.image}
+                      alt={category.name}
                       className="w-16 h-16 object-cover"
                     />
                   </TableCell>
-                  <TableCell>{product.name}</TableCell>
-                  <TableCell>{product.price}</TableCell>
-                  <TableCell className="text-right">
-                    {product.category}
+                  <TableCell>{category.name}</TableCell>
+                  <TableCell className="text-center">
+                    {category.productCount}
                   </TableCell>
-                  <TableCell className="text-right">
-                    {product.quantity}
+                  <TableCell className="text-center">
+                    {category.createdAt ? new Date(category.createdAt).toLocaleDateString() : "N/A"}
                   </TableCell>
-                  <TableCell className="text-right">
-                    {new Date(product.createdAt).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell className="text-right space-x-2">
-                    <ProductForm initialData={product} />
+                  <TableCell className="text-center space-x-2">
+                    <CategoryForm initialData={category} />
                     <ConfirmationModal
-                      message="Are you sure you want to delete this product?"
-                      id={product._id}
-                      item="Product"
+                      message="Are you sure you want to delete this category?"
+                      id={category._id || ""}
+                      item="Category"
                     />
                   </TableCell>
                 </TableRow>
@@ -158,4 +156,4 @@ const ProductManagement = () => {
   );
 };
 
-export default ProductManagement;
+export default CategoryManagement;

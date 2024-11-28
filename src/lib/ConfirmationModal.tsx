@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useDeleteCategoryMutation } from "@/redux/features/category/categoryApi";
 import { useDeleteProductMutation } from "@/redux/features/product/productApi";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
@@ -16,21 +17,37 @@ import { toast } from "sonner";
 interface ConfirmationModalProps {
   id: string;
   message: string;
+  item: string;
 }
 
-const ConfirmationModal = ({ message, id }: ConfirmationModalProps) => {
+const ConfirmationModal = ({ message, id, item }: ConfirmationModalProps) => {
   const [deleteProduct] = useDeleteProductMutation();
+  const [deleteCategory] = useDeleteCategoryMutation();
 
   const handleDelete = async () => {
-    const res = await deleteProduct(id);
-    if (res.data.success) {
-      toast.success("Product deleted successfully.");
+    try {
+      if (item === "Product") {
+        const res = await deleteProduct(id);
+        if (res.data.success) {
+          toast.success(`${item} deleted successfully.`);
+        }
+      } else if (item === "Category") {
+        const res = await deleteCategory(id);
+        if (res.data.success) {
+          toast.success(`${item} deleted successfully.`);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong. Please try again.");
     }
   };
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button  ><Trash/></Button>
+        <Button>
+          <Trash />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -40,11 +57,9 @@ const ConfirmationModal = ({ message, id }: ConfirmationModalProps) => {
 
         <DialogFooter>
           {/* <Button type="submit">Save changes</Button> */}
-          <Button onClick={handleDelete}>
-            Yes
-          </Button>
+          <Button onClick={handleDelete} variant={"destructive"}>Yes</Button>
           <DialogClose asChild>
-            <Button>No</Button>
+            <Button variant={"outline"}>No</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>

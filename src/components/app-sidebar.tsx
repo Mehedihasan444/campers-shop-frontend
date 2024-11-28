@@ -16,7 +16,10 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuSubButton,
   SidebarRail,
 } from "./ui/sidebar";
 import { useAppSelector } from "@/redux/hook";
@@ -24,6 +27,7 @@ import { RootState } from "@/redux/store";
 import { AiOutlineProduct } from "react-icons/ai";
 import { MdOutlineCategory } from "react-icons/md";
 import { MdOutlineStore } from "react-icons/md";
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const user = useAppSelector((state: RootState) => state?.auth?.user);
 
@@ -167,8 +171,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {
               title: "Manage Users",
               url: `/dashboard/${user?.role.toLowerCase()}/all-users`,
-            }
-     
+            },
           ],
         },
         {
@@ -259,11 +262,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <div className="mt-5">
-          <h2 className="text-center font-bold text-2xl uppercase w-full text-primary">
-            Campers Shop
-          </h2>
-        </div>
+        <SidebarGroup>
+          <SidebarMenu>
+            <SidebarMenuSubButton asChild>
+              <a href="/">
+                <img
+                  src="https://i.ibb.co/5K6tYH3/campers-shop-logo.jpg"
+                  alt="logo"
+                  className="w-8 h-auto"
+                />
+                <span className="text-center font-bold text-xl uppercase w-full text-primary">
+                  Campers Shop
+                </span>
+              </a>
+            </SidebarMenuSubButton>
+          </SidebarMenu>
+        </SidebarGroup>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={items} />
